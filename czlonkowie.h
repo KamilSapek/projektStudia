@@ -1,7 +1,3 @@
-//
-// Created by Kamil on 29/11/2024.
-//
-
 #ifndef CZLONKOWIE_H
 #define CZLONKOWIE_H
 
