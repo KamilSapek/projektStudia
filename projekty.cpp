@@ -1,10 +1,10 @@
 #include "projekty.h"
 
-void dodajZadanie() {
+void dodajProjekt() {
 
 }
 
-void usunZadanie() {
+void usunProjekt() {
 
 }
 

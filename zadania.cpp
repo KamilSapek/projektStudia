@@ -8,7 +8,7 @@ void usunZadanie() {
 
 }
 
-void raport() {
+void raportZadania() {
 
 }
 

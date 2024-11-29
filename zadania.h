@@ -3,9 +3,10 @@
 
 
 
-class zadania {
-
-};
+void dodajZadanie();
+void usunZadanie();
+void raportZadanie();
+void edytujZadanie();
 
 
 

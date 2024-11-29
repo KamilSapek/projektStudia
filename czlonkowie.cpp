@@ -5,8 +5,8 @@ class czlonkowie {
     int ID;
     std::pmr::string imie,
     nazwisko,
-    przypisaneZadania[],
-    historiaZadan[];
+    przypisaneZadania[5],
+    historiaZadan[5];
 };
 
 void dodajCzlonka() {
@@ -17,7 +17,7 @@ void usunCzlonka() {
 
 }
 
-void raport() {
+void raportCzlonkowie() {
 
 }
 

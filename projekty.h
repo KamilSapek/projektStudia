@@ -3,8 +3,8 @@
 
 
 
-void dodajZadanie();
-void usunZadanie();
+void dodajProjekt();
+void usunProjekt();
 void raport();
 
 

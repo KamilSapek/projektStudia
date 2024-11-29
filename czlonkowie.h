@@ -4,7 +4,7 @@
 
 void dodajCzlonka();
 void usunCzlonka();
-void raport();
+void raportCzlonkowie();
 void edytujCzlonka();
 
 
