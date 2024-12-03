@@ -28,6 +28,15 @@ vector<int> utworzWektor(string dane, char rozdzielnik) {
     return zwor;
 }
 
+string odczytajWektor(vector<int> wektor, const char rozdzielnik) {
+    string zwrot;
+    for (int i = 0; i < wektor.size(); i++) {
+        zwrot += wektor.at(i) + rozdzielnik;
+    }
+    zwrot.pop_back();
+    return zwrot;
+}
+
 void odczytajZadania(const char* nazwa) {
     strukturaZadania struktura;
     cout << nazwa << endl;
@@ -75,6 +84,30 @@ void odczytajZadania(const char* nazwa) {
     for (auto i: struktura.przewidywanyKoniec)
         for (auto j: i)
             cout << j << endl;
+}
+
+void zapiszZadania(const char* nazwa) {
+    strukturaZadania struktura;
+    ofstream plik(nazwa, ios::app);
+    string linia;
+    for (int i = 0; i < struktura.ID.size(); i++) {
+        linia += struktura.ID[i] + ";";
+        linia += struktura.nazwa[i] + ";";
+        linia += struktura.opis[i] + ";";
+        linia += struktura.priorytet[i] + ";";
+        linia += odczytajWektor(struktura.przypisaneOsoby[i], *",") + ";";
+        linia += odczytajWektor(struktura.dataRozpoczecia[i], *".") + ";";
+        linia += odczytajWektor(struktura.przewidywanyKoniec[i], *".") + ";";
+        linia += struktura.status[i] + ";";
+        linia += odczytajWektor(struktura.zaleznosci[i], *",") + ";";
+        linia += struktura.procentRealizacji[i] + "\n";
+        plik << linia;
+    }
+    if (!plik.is_open()) {
+        cout << "Nie mozna otworzyc pliku" << endl;
+    } else {
+
+    }
 }
 
 void dodajZadanie() {
