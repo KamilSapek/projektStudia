@@ -22,7 +22,8 @@ int main(int argc, char* argv[]) {
     } else if (argc < 3) {
         cout << "Nie podales jakiegos parametru" << endl;
     } else {
-        odczytajZadania("..\\informacje\\zadania.txt");
+        odczytajZadania(argv[znajdzWartoscParametru(argc, argv, "-z")]);
+        zapiszZadania(argv[znajdzWartoscParametru(argc, argv, "-z")]);
     }
     return 0;
 }

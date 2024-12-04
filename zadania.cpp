@@ -105,6 +105,7 @@ void zapiszZadania(const char* nazwa) {
             linia += odczytajWektor(struktura.zaleznosci[i], *",") + ";";
             linia += struktura.procentRealizacji[i] + "\n";
             plik << linia;
+            linia = "";
         }
     }
 }

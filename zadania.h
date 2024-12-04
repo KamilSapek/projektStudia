@@ -9,6 +9,7 @@ void usunZadanie();
 void raportZadanie();
 void edytujZadanie();
 void odczytajZadania(const char* nazwa);
+void zapiszZadania(const char* nazwa);
 
 
 #endif //ZADANIA_H
