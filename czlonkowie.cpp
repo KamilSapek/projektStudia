@@ -6,13 +6,7 @@
 #include <fstream>
 using namespace std;
 
-struct strukturaCzlonkowie {
-    vector<int> ID;
-    vector<string> imie, nazwisko;
-    vector<vector<int>> przypisaneZadania, historiaZadan;
-};
-
-vector<int> utworzWektor(string dane, char rozdzielnik) {
+vector<int> utworzWektorC(string dane, char rozdzielnik) {
     dane += rozdzielnik;
     vector<int> zwor;
     string test;
@@ -27,39 +21,40 @@ vector<int> utworzWektor(string dane, char rozdzielnik) {
     return zwor;
 }
 
-string odczytajWektor(vector<int> wektor, const char rozdzielnik) {
+string odczytajWektorC(vector<int> wektor, const char rozdzielnik) {
     string zwrot;
     for (int i = 0; i < wektor.size(); i++) {
-        zwrot += wektor.at(i) + rozdzielnik;
+        zwrot += to_string(wektor.at(i)) + rozdzielnik;
     }
     zwrot.pop_back();
     return zwrot;
 }
 
-void odczytajCzlonkowie(const char* nazwa) {
-    strukturaCzlonkowie struktura;
+void odczytajCzlonkowie(const char* nazwa, vector<strukturaCzlonkowie>& struktura) {
     cout << nazwa << endl;
-    int licznik;
-    string linia, test;
     ifstream plik(nazwa);
     if (!plik.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
     } else {
+        strukturaCzlonkowie strukt;
+        int licznik, numerLinii;
+        string linia, test;
+        numerLinii = 0;
         while (getline(plik, linia)) {
             linia += ';';
             licznik = 0;
             for (int i = 0; i < linia.length(); i++) {
                 if (linia.at(i) == ';') {
                     switch (licznik) {
-                        case 0: struktura.ID.push_back(stoi(test));
+                        case 0: strukt.ID = stoi(test);
                         break;
-                        case 1: struktura.imie.push_back(test);
+                        case 1: strukt.imie = test;
                         break;
-                        case 2: struktura.nazwisko.push_back(test);
+                        case 2: strukt.nazwisko = test;
                         break;
-                        case 3: struktura.przypisaneZadania.push_back(utworzWektor(test, ','));
+                        case 3: strukt.przypisaneZadania = utworzWektorC(test, ',');
                         break;
-                        case 4: struktura.historiaZadan.push_back(utworzWektor(test, ','));
+                        case 4: strukt.historiaZadan = utworzWektorC(test, ',');
                         break;
                     }
                     test = "";
@@ -68,23 +63,24 @@ void odczytajCzlonkowie(const char* nazwa) {
                     test += linia.at(i);
                 }
             }
+            numerLinii++;
         }
+        struktura.push_back(strukt);
     }
 }
 
-void zapiszCzlonkowie(const char* nazwa) {
-    strukturaCzlonkowie struktura;
+void zapiszCzlonkowie(const char* nazwa, vector<strukturaCzlonkowie>& struktura) {
     ofstream plik(nazwa, ios::app);
-    string linia;
     if (!plik.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
     } else {
-        for (int i = 0; i < struktura.ID.size(); i++) {
-            linia += struktura.ID[i] + ";";
-            linia += struktura.imie[i] + ";";
-            linia += struktura.nazwisko[i] + ";";
-            linia += odczytajWektor(struktura.przypisaneZadania[i], *",") + ";";
-            linia += odczytajWektor(struktura.historiaZadan[i], *",") + "\n";
+        string linia;
+        for (auto i : struktura) {
+            linia += to_string(i.ID) + ";";
+            linia += i.imie + ";";
+            linia += i.nazwisko + ";";
+            linia += odczytajWektorC(i.przypisaneZadania, *",") + ";";
+            linia += odczytajWektorC(i.historiaZadan, *",") + "\n";
             plik << linia;
             linia = "";
         }

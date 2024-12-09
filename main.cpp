@@ -22,8 +22,9 @@ int main(int argc, char* argv[]) {
     } else if (argc < 3) {
         cout << "Nie podales jakiegos parametru" << endl;
     } else {
-        odczytajZadania(argv[znajdzWartoscParametru(argc, argv, "-z")]);
-        zapiszZadania(argv[znajdzWartoscParametru(argc, argv, "-z")]);
+        vector<strukturaZadania> struktura;
+        odczytajZadania(argv[znajdzWartoscParametru(argc, argv, "-z")], struktura);
+        zapiszZadania(argv[znajdzWartoscParametru(argc, argv, "-z")], struktura);
     }
     return 0;
 }

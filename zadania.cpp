@@ -7,13 +7,7 @@
 
 using namespace std;
 
-struct strukturaZadania {
-    vector<int> ID, procentRealizacji;
-    vector<string> nazwa, opis, priorytet, status;
-    vector<vector<int>> zaleznosci, przewidywanyKoniec, dataRozpoczecia, przypisaneOsoby;
-};
-
-vector<int> utworzWektor(string dane, char rozdzielnik) {
+vector<int> utworzWektorZ(string dane, char rozdzielnik) {
     dane += rozdzielnik;
     vector<int> zwor;
     string test;
@@ -31,46 +25,46 @@ vector<int> utworzWektor(string dane, char rozdzielnik) {
 string odczytajWektor(vector<int> wektor, const char rozdzielnik) {
     string zwrot;
     for (int i = 0; i < wektor.size(); i++) {
-        zwrot += wektor.at(i) + rozdzielnik;
+        zwrot += to_string(wektor.at(i)) + rozdzielnik;
     }
     zwrot.pop_back();
     return zwrot;
 }
 
-void odczytajZadania(const char* nazwa) {
-    strukturaZadania struktura;
+void odczytajZadania(const char* nazwa, vector<strukturaZadania>& struktura) {
     cout << nazwa << endl;
-    int licznik;
-    string linia, test;
     ifstream plik(nazwa);
     if (!plik.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
     } else {
+        strukturaZadania strukt;
+        int licznik;
+        string linia, test;
         while (getline(plik, linia)) {
             linia += ';';
             licznik = 0;
             for (int i = 0; i < linia.length(); i++) {
                 if (linia.at(i) == ';') {
                     switch (licznik) {
-                        case 0: struktura.ID.push_back(stoi(test));
+                        case 0: strukt.ID = stoi(test);
                         break;
-                        case 1: struktura.nazwa.push_back(test);
+                        case 1: strukt.nazwa = test;
                         break;
-                        case 2: struktura.opis.push_back(test);
+                        case 2: strukt.opis = test;
                         break;
-                        case 3: struktura.priorytet.push_back(test);
+                        case 3: strukt.priorytet = test;
                         break;
-                        case 4: struktura.przypisaneOsoby.push_back(utworzWektor(test, *","));
+                        case 4: strukt.przypisaneOsoby = utworzWektorZ(test, *",");
                         break;
-                        case 5: struktura.dataRozpoczecia.push_back(utworzWektor(test, *"."));
+                        case 5: strukt.dataRozpoczecia = utworzWektorZ(test, *".");
                         break;
-                        case 6: struktura.przewidywanyKoniec.push_back(utworzWektor(test, *"."));
+                        case 6: strukt.przewidywanyKoniec = utworzWektorZ(test, *".");
                         break;
-                        case 7: struktura.status.push_back(test);
+                        case 7: strukt.status = test;
                         break;
-                        case 8: struktura.zaleznosci.push_back(utworzWektor(test, *","));
+                        case 8: strukt.zaleznosci = utworzWektorZ(test, *",");
                         break;
-                        case 9: struktura.procentRealizacji.push_back(stoi(test));
+                        case 9: strukt.procentRealizacji = stoi(test);
                         break;
                     }
                     test = "";
@@ -79,32 +73,32 @@ void odczytajZadania(const char* nazwa) {
                     test += linia.at(i);
                 }
             }
+            struktura.push_back(strukt);
         }
     }
-    for (auto i: struktura.przewidywanyKoniec)
-        for (auto j: i)
-            cout << j << endl;
+    for (auto i : struktura)
+        cout << i.opis << endl;
 }
 
-void zapiszZadania(const char* nazwa) {
-    strukturaZadania struktura;
-    ofstream plik(nazwa, ios::app);
-    string linia;
+void zapiszZadania(const char* nazwa, vector<strukturaZadania>& struktura) {
+    ofstream plik(nazwa, std::ios::in | std::ios::out | ios::app);
     if (!plik.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
     } else {
-        for (int i = 0; i < struktura.ID.size(); i++) {
-            linia += struktura.ID[i] + ";";
-            linia += struktura.nazwa[i] + ";";
-            linia += struktura.opis[i] + ";";
-            linia += struktura.priorytet[i] + ";";
-            linia += odczytajWektor(struktura.przypisaneOsoby[i], *",") + ";";
-            linia += odczytajWektor(struktura.dataRozpoczecia[i], *".") + ";";
-            linia += odczytajWektor(struktura.przewidywanyKoniec[i], *".") + ";";
-            linia += struktura.status[i] + ";";
-            linia += odczytajWektor(struktura.zaleznosci[i], *",") + ";";
-            linia += struktura.procentRealizacji[i] + "\n";
-            plik << linia;
+        string linia;
+        for (auto i : struktura) {
+            i.opis = "a jednak jest to polska";
+            linia += to_string(i.ID) + ";";
+            linia += i.nazwa + ";";
+            linia += i.opis + ";";
+            linia += i.priorytet + ";";
+            linia += odczytajWektor(i.przypisaneOsoby, *",") + ";";
+            linia += odczytajWektor(i.dataRozpoczecia, *".") + ";";
+            linia += odczytajWektor(i.przewidywanyKoniec, *".") + ";";
+            linia += i.status + ";";
+            linia += odczytajWektor(i.zaleznosci, *",") + ";";
+            linia += to_string(i.procentRealizacji);
+            plik << linia << endl;
             linia = "";
         }
     }
