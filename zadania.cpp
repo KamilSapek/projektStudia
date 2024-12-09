@@ -1,4 +1,5 @@
 #include "zadania.h"
+#include "wpsolneFunkcje.h"
 
 #include <string>
 #include <vector>
@@ -6,30 +7,6 @@
 #include <iostream>
 
 using namespace std;
-
-vector<int> utworzWektorZ(string dane, char rozdzielnik) {
-    dane += rozdzielnik;
-    vector<int> zwor;
-    string test;
-    for (int i = 0; i < dane.length(); i++) {
-        if (dane.at(i) == rozdzielnik) {
-            zwor.push_back(stoi(test));
-            test = "";
-        } else {
-            test += dane.at(i);
-        }
-    }
-    return zwor;
-}
-
-string odczytajWektor(vector<int> wektor, const char rozdzielnik) {
-    string zwrot;
-    for (int i = 0; i < wektor.size(); i++) {
-        zwrot += to_string(wektor.at(i)) + rozdzielnik;
-    }
-    zwrot.pop_back();
-    return zwrot;
-}
 
 void odczytajZadania(const char* nazwa, vector<strukturaZadania>& struktura) {
     cout << nazwa << endl;
@@ -54,15 +31,15 @@ void odczytajZadania(const char* nazwa, vector<strukturaZadania>& struktura) {
                         break;
                         case 3: strukt.priorytet = test;
                         break;
-                        case 4: strukt.przypisaneOsoby = utworzWektorZ(test, *",");
+                        case 4: strukt.przypisaneOsoby = utworzWektor(test, *",");
                         break;
-                        case 5: strukt.dataRozpoczecia = utworzWektorZ(test, *".");
+                        case 5: strukt.dataRozpoczecia = utworzWektor(test, *".");
                         break;
-                        case 6: strukt.przewidywanyKoniec = utworzWektorZ(test, *".");
+                        case 6: strukt.przewidywanyKoniec = utworzWektor(test, *".");
                         break;
                         case 7: strukt.status = test;
                         break;
-                        case 8: strukt.zaleznosci = utworzWektorZ(test, *",");
+                        case 8: strukt.zaleznosci = utworzWektor(test, *",");
                         break;
                         case 9: strukt.procentRealizacji = stoi(test);
                         break;

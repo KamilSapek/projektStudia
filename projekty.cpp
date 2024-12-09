@@ -1,34 +1,11 @@
 #include "projekty.h"
+#include "wpsolneFunkcje.h"
 
 #include <iostream>
 #include <string>
 #include <vector>
 #include <fstream>
 using namespace std;
-
-vector<int> utworzWektorP(string dane, char rozdzielnik) {
-    dane += rozdzielnik;
-    vector<int> zwor;
-    string test;
-    for (int i = 0; i < dane.length(); i++) {
-        if (dane.at(i) == rozdzielnik) {
-            zwor.push_back(stoi(test));
-            test = "";
-        } else {
-            test += dane.at(i);
-        }
-    }
-    return zwor;
-}
-
-string odczytajWektorP(vector<int> wektor, const char rozdzielnik) {
-    string zwrot;
-    for (int i = 0; i < wektor.size(); i++) {
-        zwrot += to_string(wektor.at(i)) + rozdzielnik;
-    }
-    zwrot.pop_back();
-    return zwrot;
-}
 
 void odczytajProjekty(const char* nazwa, vector<strukturaProjekty>& struktura) {
     cout << nazwa << endl;
@@ -77,9 +54,9 @@ void zapiszProjekty(const char* nazwa, vector<strukturaProjekty>& struktura) {
         for (auto i : struktura) {
             linia += i.nazwa + ";";
             linia += i.opis + ";";
-            linia += odczytajWektorP(i.dataRozpoczecia, *".") + ";";
-            linia += odczytajWektorP(i.dataZakonczenia, *".") + ";";
-            linia += odczytajWektorP(i.listaZadan, *",") + ";";
+            linia += odczytajWektor(i.dataRozpoczecia, *".") + ";";
+            linia += odczytajWektor(i.dataZakonczenia, *".") + ";";
+            linia += odczytajWektor(i.listaZadan, *",") + ";";
             plik << linia << endl;;
             linia = "";
         }

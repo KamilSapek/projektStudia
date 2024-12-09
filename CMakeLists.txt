@@ -9,4 +9,6 @@ add_executable(projektStudia main.cpp
         zadania.cpp
         zadania.h
         czlonkowie.cpp
-        czlonkowie.h)
+        czlonkowie.h
+        wpsolneFunkcje.cpp
+        wpsolneFunkcje.h)

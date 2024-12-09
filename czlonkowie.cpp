@@ -1,34 +1,11 @@
 #include "czlonkowie.h"
+#include "wpsolneFunkcje.h"
 
 #include <iostream>
 #include <string>
 #include <vector>
 #include <fstream>
 using namespace std;
-
-vector<int> utworzWektorC(string dane, char rozdzielnik) {
-    dane += rozdzielnik;
-    vector<int> zwor;
-    string test;
-    for (int i = 0; i < dane.length(); i++) {
-        if (dane.at(i) == rozdzielnik) {
-            zwor.push_back(stoi(test));
-            test = "";
-        } else {
-            test += dane.at(i);
-        }
-    }
-    return zwor;
-}
-
-string odczytajWektorC(vector<int> wektor, const char rozdzielnik) {
-    string zwrot;
-    for (int i = 0; i < wektor.size(); i++) {
-        zwrot += to_string(wektor.at(i)) + rozdzielnik;
-    }
-    zwrot.pop_back();
-    return zwrot;
-}
 
 void odczytajCzlonkowie(const char* nazwa, vector<strukturaCzlonkowie>& struktura) {
     cout << nazwa << endl;
@@ -52,9 +29,9 @@ void odczytajCzlonkowie(const char* nazwa, vector<strukturaCzlonkowie>& struktur
                         break;
                         case 2: strukt.nazwisko = test;
                         break;
-                        case 3: strukt.przypisaneZadania = utworzWektorC(test, ',');
+                        case 3: strukt.przypisaneZadania = utworzWektor(test, ',');
                         break;
-                        case 4: strukt.historiaZadan = utworzWektorC(test, ',');
+                        case 4: strukt.historiaZadan = utworzWektor(test, ',');
                         break;
                     }
                     test = "";
@@ -79,8 +56,8 @@ void zapiszCzlonkowie(const char* nazwa, vector<strukturaCzlonkowie>& struktura)
             linia += to_string(i.ID) + ";";
             linia += i.imie + ";";
             linia += i.nazwisko + ";";
-            linia += odczytajWektorC(i.przypisaneZadania, *",") + ";";
-            linia += odczytajWektorC(i.historiaZadan, *",") + "\n";
+            linia += odczytajWektor(i.przypisaneZadania, *",") + ";";
+            linia += odczytajWektor(i.historiaZadan, *",") + "\n";
             plik << linia;
             linia = "";
         }
