@@ -1,5 +1,5 @@
 #include "zadania.h"
-#include "wpsolneFunkcje.h"
+#include "wspolneFunkcje.h"
 
 #include <string>
 #include <vector>

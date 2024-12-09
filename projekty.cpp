@@ -1,5 +1,5 @@
 #include "projekty.h"
-#include "wpsolneFunkcje.h"
+#include "wspolneFunkcje.h"
 
 #include <iostream>
 #include <string>
