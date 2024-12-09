@@ -6,11 +6,6 @@
 #include <fstream>
 using namespace std;
 
-struct strukturaProjekty {
-    string nazwa, opis, status;
-    vector<int> listaZadan, dataRozpoczecia, dataZakonczenia;
-};
-
 vector<int> utworzWektorP(string dane, char rozdzielnik) {
     dane += rozdzielnik;
     vector<int> zwor;
