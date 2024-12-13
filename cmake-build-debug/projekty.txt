@@ -1,0 +1,2 @@
+nazwa projektu;pierwszy projekt;20.12.24;22.12.24;w trakcie;1,3,5
+nazwa2 projektu;drugi projekt;25.12.24;31.12.25;zakonczony;1,3,5
