@@ -22,9 +22,9 @@ vector<int> createVector(string data, char splitter) {
     return vectorToReturn;
 }
 
-std::string readVector(std::vector<int> vector, const char splitter) {
+std::string readVector(const std::vector<int> &vector, const char splitter) {
     string stringToReturn;
-    for (int i : vector) {
+    for (const int i : vector) {
         stringToReturn += to_string(i) + splitter;
     }
     stringToReturn.pop_back();

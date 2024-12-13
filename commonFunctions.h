@@ -9,8 +9,8 @@
 #include <vector>
 
 std::vector<int> createVector(std::string data, char splitter);
-std::string readVector(std::vector<int> vector, const char splitter);
+std::string readVector(const std::vector<int> &vector, char splitter);
 
 
 
-#endif //COCOMMONFUNCTIONS_H
+#endif //COMMONFUNCTIONS_H
