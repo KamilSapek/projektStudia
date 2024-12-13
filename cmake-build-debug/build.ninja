@@ -51,25 +51,31 @@ build cmake_object_order_depends_target_projektStudia: phony || .
 
 build CMakeFiles/projektStudia.dir/main.cpp.o: CXX_COMPILER__projektStudia_unscanned_Debug /Users/kamil/CLionProjects/projektStudia/main.cpp || cmake_object_order_depends_target_projektStudia
   DEP_FILE = CMakeFiles/projektStudia.dir/main.cpp.o.d
-  FLAGS = -g -std=gnu++17 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.1.sdk -fcolor-diagnostics
+  FLAGS = -g -std=gnu++17 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fcolor-diagnostics
   OBJECT_DIR = CMakeFiles/projektStudia.dir
   OBJECT_FILE_DIR = CMakeFiles/projektStudia.dir
 
-build CMakeFiles/projektStudia.dir/projekty.cpp.o: CXX_COMPILER__projektStudia_unscanned_Debug /Users/kamil/CLionProjects/projektStudia/projekty.cpp || cmake_object_order_depends_target_projektStudia
-  DEP_FILE = CMakeFiles/projektStudia.dir/projekty.cpp.o.d
-  FLAGS = -g -std=gnu++17 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.1.sdk -fcolor-diagnostics
+build CMakeFiles/projektStudia.dir/projects.cpp.o: CXX_COMPILER__projektStudia_unscanned_Debug /Users/kamil/CLionProjects/projektStudia/projects.cpp || cmake_object_order_depends_target_projektStudia
+  DEP_FILE = CMakeFiles/projektStudia.dir/projects.cpp.o.d
+  FLAGS = -g -std=gnu++17 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fcolor-diagnostics
   OBJECT_DIR = CMakeFiles/projektStudia.dir
   OBJECT_FILE_DIR = CMakeFiles/projektStudia.dir
 
-build CMakeFiles/projektStudia.dir/zadania.cpp.o: CXX_COMPILER__projektStudia_unscanned_Debug /Users/kamil/CLionProjects/projektStudia/zadania.cpp || cmake_object_order_depends_target_projektStudia
-  DEP_FILE = CMakeFiles/projektStudia.dir/zadania.cpp.o.d
-  FLAGS = -g -std=gnu++17 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.1.sdk -fcolor-diagnostics
+build CMakeFiles/projektStudia.dir/tasks.cpp.o: CXX_COMPILER__projektStudia_unscanned_Debug /Users/kamil/CLionProjects/projektStudia/tasks.cpp || cmake_object_order_depends_target_projektStudia
+  DEP_FILE = CMakeFiles/projektStudia.dir/tasks.cpp.o.d
+  FLAGS = -g -std=gnu++17 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fcolor-diagnostics
   OBJECT_DIR = CMakeFiles/projektStudia.dir
   OBJECT_FILE_DIR = CMakeFiles/projektStudia.dir
 
-build CMakeFiles/projektStudia.dir/czlonkowie.cpp.o: CXX_COMPILER__projektStudia_unscanned_Debug /Users/kamil/CLionProjects/projektStudia/czlonkowie.cpp || cmake_object_order_depends_target_projektStudia
-  DEP_FILE = CMakeFiles/projektStudia.dir/czlonkowie.cpp.o.d
-  FLAGS = -g -std=gnu++17 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.1.sdk -fcolor-diagnostics
+build CMakeFiles/projektStudia.dir/contributors.cpp.o: CXX_COMPILER__projektStudia_unscanned_Debug /Users/kamil/CLionProjects/projektStudia/contributors.cpp || cmake_object_order_depends_target_projektStudia
+  DEP_FILE = CMakeFiles/projektStudia.dir/contributors.cpp.o.d
+  FLAGS = -g -std=gnu++17 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fcolor-diagnostics
+  OBJECT_DIR = CMakeFiles/projektStudia.dir
+  OBJECT_FILE_DIR = CMakeFiles/projektStudia.dir
+
+build CMakeFiles/projektStudia.dir/commonFunctions.cpp.o: CXX_COMPILER__projektStudia_unscanned_Debug /Users/kamil/CLionProjects/projektStudia/commonFunctions.cpp || cmake_object_order_depends_target_projektStudia
+  DEP_FILE = CMakeFiles/projektStudia.dir/commonFunctions.cpp.o.d
+  FLAGS = -g -std=gnu++17 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk -fcolor-diagnostics
   OBJECT_DIR = CMakeFiles/projektStudia.dir
   OBJECT_FILE_DIR = CMakeFiles/projektStudia.dir
 
@@ -81,8 +87,8 @@ build CMakeFiles/projektStudia.dir/czlonkowie.cpp.o: CXX_COMPILER__projektStudia
 #############################################
 # Link the executable projektStudia
 
-build projektStudia: CXX_EXECUTABLE_LINKER__projektStudia_Debug CMakeFiles/projektStudia.dir/main.cpp.o CMakeFiles/projektStudia.dir/projekty.cpp.o CMakeFiles/projektStudia.dir/zadania.cpp.o CMakeFiles/projektStudia.dir/czlonkowie.cpp.o
-  FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.1.sdk
+build projektStudia: CXX_EXECUTABLE_LINKER__projektStudia_Debug CMakeFiles/projektStudia.dir/main.cpp.o CMakeFiles/projektStudia.dir/projects.cpp.o CMakeFiles/projektStudia.dir/tasks.cpp.o CMakeFiles/projektStudia.dir/contributors.cpp.o CMakeFiles/projektStudia.dir/commonFunctions.cpp.o
+  FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk
   OBJECT_DIR = CMakeFiles/projektStudia.dir
   POST_BUILD = :
   PRE_LINK = :
