@@ -7,22 +7,22 @@
 #include <fstream>
 using namespace std;
 
-void readContributors(const char* nazwa, vector<strucureContributors>& struktura) {
-    cout << nazwa << endl;
-    ifstream plik(nazwa);
-    if (!plik.is_open()) {
+void readContributors(const char* name, vector<strucureContributors>& structure) {
+    cout << name << endl;
+    ifstream file(name);
+    if (!file.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
     } else {
         strucureContributors strukt;
-        int licznik, numerLinii;
-        string linia, test;
-        numerLinii = 0;
-        while (getline(plik, linia)) {
-            linia += ';';
-            licznik = 0;
-            for (int i = 0; i < linia.length(); i++) {
-                if (linia.at(i) == ';') {
-                    switch (licznik) {
+        int iterator, lineNumer;
+        string line, test;
+        lineNumer = 0;
+        while (getline(file, line)) {
+            line += ';';
+            iterator = 0;
+            for (int i = 0; i < line.length(); i++) {
+                if (line.at(i) == ';') {
+                    switch (iterator) {
                         case 0: strukt.ID = stoi(test);
                         break;
                         case 1: strukt.name = test;
@@ -35,31 +35,31 @@ void readContributors(const char* nazwa, vector<strucureContributors>& struktura
                         break;
                     }
                     test = "";
-                    licznik++;
+                    iterator++;
                 } else {
-                    test += linia.at(i);
+                    test += line.at(i);
                 }
             }
-            numerLinii++;
+            lineNumer++;
         }
-        struktura.push_back(strukt);
+        structure.push_back(strukt);
     }
 }
 
-void saveContributor(const char* nazwa, vector<strucureContributors>& struktura) {
-    ofstream plik(nazwa, ios::app);
-    if (!plik.is_open()) {
+void saveContributor(const char* name, vector<strucureContributors>& structure) {
+    ofstream file(name, ios::app);
+    if (!file.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
     } else {
-        string linia;
-        for (auto i : struktura) {
-            linia += to_string(i.ID) + ";";
-            linia += i.name + ";";
-            linia += i.surname + ";";
-            linia += readVector(i.tasksToDo, *",") + ";";
-            linia += readVector(i.historyOfTasks, *",") + "\n";
-            plik << linia;
-            linia = "";
+        string line;
+        for (auto i : structure) {
+            line += to_string(i.ID) + ";";
+            line += i.name + ";";
+            line += i.surname + ";";
+            line += readVector(i.tasksToDo, *",") + ";";
+            line += readVector(i.historyOfTasks, *",") + "\n";
+            file << line;
+            line = "";
         }
     }
 }
