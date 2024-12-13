@@ -1,4 +1,2 @@
 0;polska;poland;0;1,2;20.20.20;23.20.20;rozpoczete;0;25
 1;niemcy;germany;0;1,2;20.30.20;23.20.20;zakonczone;0;25
-0;polska;a jednak jest to polska;0;1,2;20.20.20;23.20.20;rozpoczete;0;25
-1;niemcy;a jednak jest to polska;0;1,2;20.30.20;23.20.20;zakonczone;0;25
