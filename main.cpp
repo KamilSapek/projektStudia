@@ -1,7 +1,8 @@
 #include <iostream>
 #include <cstring>
+#include <vector>
 
-#include "zadania.h"
+#include "tasks.h"
 using namespace std;
 
 int znajdzWartoscParametru(int argc, char* argv[], const char* param) {
@@ -22,9 +23,9 @@ int main(int argc, char* argv[]) {
     } else if (argc < 3) {
         cout << "Nie podales jakiegos parametru" << endl;
     } else {
-        vector<strukturaZadania> struktura;
-        odczytajZadania(argv[znajdzWartoscParametru(argc, argv, "-z")], struktura);
-        zapiszZadania(argv[znajdzWartoscParametru(argc, argv, "-z")], struktura);
+        vector<taskStructure> struktura;
+        readTasks(argv[znajdzWartoscParametru(argc, argv, "-z")], struktura);
+        saveTasks(argv[znajdzWartoscParametru(argc, argv, "-z")], struktura);
     }
     return 0;
 }
