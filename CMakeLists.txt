@@ -4,11 +4,11 @@ project(projektStudia)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(projektStudia main.cpp
-        projekty.cpp
-        projekty.h
-        zadania.cpp
-        zadania.h
-        czlonkowie.cpp
-        czlonkowie.h
-        wspolneFunkcje.cpp
-        wspolneFunkcje.h)
+        projects.cpp
+        projects.h
+        tasks.cpp
+        tasks.h
+        contributors.cpp
+        contributors.h
+        commonFunctions.cpp
+        commonFunctions.h)
