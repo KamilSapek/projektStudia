@@ -10,8 +10,7 @@
 
 std::vector<int> createVector(std::string data, char splitter);
 std::string readVector(const std::vector<int> &vector, char splitter);
-int interfaceAndChoice(const std::string& firstLine, const std::vector<std::string>& vector);
-std::string createString(std::string text, std::string onErrorText);
-int createInt(std::string text, std::string onErrorText);
+std::string inputString(const std::string& text, const std::string& onErrorText);
+int inputInt(const std::string& text, const std::string& onErrorText);
 
 #endif //COMMONFUNCTIONS_H

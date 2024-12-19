@@ -139,10 +139,10 @@ void reportContributor(vector<structureContributors>& structure) {
 }
 
 void editContributor() {
-    int choice = createInt("Podaj ID czlonka:", "Podaj ID czlonka jeszcze raz:");
+    int choice = inputInt("Podaj ID czlonka:", "Podaj ID czlonka jeszcze raz:");
     while (choice < 0) {
         cout << "ID nie moze byc mniejsze od 0!" << endl;
-        choice = createInt("Podaj ID czlonka:", "Podaj ID czlonka jeszcze raz:");
+        choice = inputInt("Podaj ID czlonka:", "Podaj ID czlonka jeszcze raz:");
     }
     cout << "Co chcesz zmienic?\nDostepne opcje:" << endl;
     cout << "1. Imie\n2. Nazwisko\n3. Zadania do zrobienia\n4. Historia zrobionych zadan";

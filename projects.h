@@ -14,6 +14,7 @@ void removeProject();
 void report();
 void readProjects(const char* name, std::vector<structureProjects>& structure);
 void saveProjects(const char* name, std::vector<structureProjects>& structure);
+void editProject();
 
 
 

@@ -91,27 +91,20 @@ void saveTasks(const char* name, vector<taskStructure>& structure) {
 void addTask(vector<taskStructure> structure) {
     taskStructure strukt;
     string test;
-    cout << "Podaj ID: ";
-    cin >> strukt.ID;
-    while (!cin) {
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Podaj jeszcze raz ID:";
-        cin >> strukt.ID;
-    }
-    strukt.name = createString("Podaj nazwe zadania:", "Podaj jeszcze raz nazwe zadania:");
-    strukt.description = createString("Podaj opis:", "Podaj opis jeszcze raz:");
-    strukt.priority = createString("Podaj priorytet (niski / sredni / wysoki):",
+    strukt.ID = inputInt("Podaj ID:", "Podaj ID jeszcze raz:");
+    strukt.name = inputString("Podaj nazwe zadania:", "Podaj jeszcze raz nazwe zadania:");
+    strukt.description = inputString("Podaj opis:", "Podaj opis jeszcze raz:");
+    strukt.priority = inputString("Podaj priorytet (niski / sredni / wysoki):",
         "Podaj jeszcze raz priorytet (niski / sredni / wysoki):");
-    strukt.status = createString("Podaj status (nie rozpoczete / w trakcie / zakonczone):",
+    strukt.status = inputString("Podaj status (nie rozpoczete / w trakcie / zakonczone):",
         "Podaj jeszcze raz status (nie rozpoczete / w trakcie / zakonczone):");
-    strukt.dependencies = createVector(createString("Podaj po przecinku ID zadan ktore musza byc wykonane przed tym zadaniem:",
+    strukt.dependencies = createVector(inputString("Podaj po przecinku ID zadan ktore musza byc wykonane przed tym zadaniem:",
         "Podaj po przecinku ID zadan ktore musza byc wykonane przed tym zadaniem jeszcze raz:"), *",");
-    strukt.estimatedEndDate = createVector(createString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]:",
+    strukt.estimatedEndDate = createVector(inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]:",
         "Sprobuj jeszcze raz podac date [DD.MM.RRRR]:"), *".");
-    strukt.startDate = createVector(createString("Podaj date rozpoczecia zadania [DD.MM.RRRR]:",
+    strukt.startDate = createVector(inputString("Podaj date rozpoczecia zadania [DD.MM.RRRR]:",
         "Podaj jeszcze raz date rozpoczecia zadania [DD.MM.RRRR]:"), *".");
-    strukt.contributors = createVector(createString("Podaj po przecinku ID czlonkow pracujacych nad tym zadaniem:",
+    strukt.contributors = createVector(inputString("Podaj po przecinku ID czlonkow pracujacych nad tym zadaniem:",
         "Podaj jeszcze raz po przecinku ID czlonkow pracujacych nad zadaniem:"), *",");
     structure.push_back(strukt);
 }

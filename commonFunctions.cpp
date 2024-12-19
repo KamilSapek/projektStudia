@@ -3,6 +3,10 @@
 //
 
 #include "commonFunctions.h"
+#include "tasks.h"
+#include "contributors.h"
+#include "projects.h"
+
 #include <iostream>
 #include <limits>
 #include <vector>
@@ -32,19 +36,10 @@ std::string readVector(const std::vector<int> &vector, const char splitter) {
     return stringToReturn;
 }
 
-int interfaceAndChoice(const string& firstLine, const vector<string>& vector) {
-    int choice, iterator = 1;
-    cout << firstLine << endl;
-    for (const string& i : vector) {
-        cout << iterator << ". " << i << endl;
-        iterator++;
-    }
-    cout << "Choose your option: ";
-    cin >> choice;
-    return choice;
-}
 
-string createString(const string& text, const string& onErrorText) {
+
+
+string inputString(const string& text, const string& onErrorText) {
     string toReturn;
     cout << text;
     cin >> toReturn;
@@ -57,7 +52,7 @@ string createString(const string& text, const string& onErrorText) {
     return toReturn;
 }
 
-int createInt(const string& text, const string& onErrorText) {
+int inputInt(const string& text, const string& onErrorText) {
     int toReturn;
     cout << text;
     cin >> toReturn;

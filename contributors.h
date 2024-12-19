@@ -10,7 +10,7 @@ struct structureContributors {
     std::vector<int> tasksToDo, historyOfTasks;
 };
 
-void addContributor(std::vector<structureContributors>& structure);
+void addContributor(std::vector<structureContributors>& structure, vector<taskStructure>& taskStruc);
 void removeContributor(std::vector<structureContributors>& structure, std::vector<taskStructure>& taskStruc);
 void reportContributor(std::vector<structureContributors>& structure);
 void editContributor();
