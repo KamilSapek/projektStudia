@@ -52,7 +52,7 @@ void saveProjects(const char* name, vector<structureProjects>& structure) {
         cout << "Nie mozna otworzyc pliku" << endl;
     } else {
         string line;
-        for (auto i : structure) {
+        for (const structureProjects& i : structure) {
             line += i.name + ";";
             line += i.description + ";";
             line += readVector(i.startDate, *".") + ";";

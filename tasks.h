@@ -11,7 +11,7 @@ struct taskStructure {
     vector<int> dependencies, estimatedEndDate, startDate, contributors;
 };
 
-void addTask();
+void addTask(vector<taskStructure> structure);
 void removeTask();
 void reportTask();
 void editTask();

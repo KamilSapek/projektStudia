@@ -5,7 +5,7 @@
 #include <vector>
 
 struct structureProjects {
-    std::pmr::string name, description, status;
+    std::string name, description, status;
     std::vector<int> taskList, startDate, endDate;
 };
 

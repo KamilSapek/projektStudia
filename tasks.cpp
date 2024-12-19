@@ -5,6 +5,7 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include <limits>
 
 using namespace std;
 
@@ -53,7 +54,7 @@ void readTasks(const char* name, vector<taskStructure>& structure) {
             structure.push_back(strukt);
         }
     }
-    for (auto i : structure)
+    for (const taskStructure& i : structure)
         cout << i.description << endl;
 }
 
@@ -69,7 +70,7 @@ void saveTasks(const char* name, vector<taskStructure>& structure) {
         cout << "Nie mozna otworzyc pliku" << endl;
     } else {
         string line;
-        for (auto i : structure) {
+        for (taskStructure& i : structure) {
             i.description = "a jednak jest to polska";
             line += to_string(i.ID) + ";";
             line += i.name + ";";
@@ -87,13 +88,38 @@ void saveTasks(const char* name, vector<taskStructure>& structure) {
     }
 }
 
-void addTask() {
+void addTask(vector<taskStructure> structure) {
+    taskStructure strukt;
+    string test;
+    cout << "Podaj ID: ";
+    cin >> strukt.ID;
+    while (!cin) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Podaj jeszcze raz ID:";
+        cin >> strukt.ID;
+    }
+    strukt.name = createString("Podaj nazwe zadania:", "Podaj jeszcze raz nazwe zadania:");
+    strukt.description = createString("Podaj opis:", "Podaj opis jeszcze raz:");
+    strukt.priority = createString("Podaj priorytet (niski / sredni / wysoki):",
+        "Podaj jeszcze raz priorytet (niski / sredni / wysoki):");
+    strukt.status = createString("Podaj status (nie rozpoczete / w trakcie / zakonczone):",
+        "Podaj jeszcze raz status (nie rozpoczete / w trakcie / zakonczone):");
+    strukt.dependencies = createVector(createString("Podaj po przecinku ID zadan ktore musza byc wykonane przed tym zadaniem:",
+        "Podaj po przecinku ID zadan ktore musza byc wykonane przed tym zadaniem jeszcze raz:"), *",");
+    strukt.estimatedEndDate = createVector(createString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]:",
+        "Sprobuj jeszcze raz podac date [DD.MM.RRRR]:"), *".");
+    strukt.startDate = createVector(createString("Podaj date rozpoczecia zadania [DD.MM.RRRR]:",
+        "Podaj jeszcze raz date rozpoczecia zadania [DD.MM.RRRR]:"), *".");
+    strukt.contributors = createVector(createString("Podaj po przecinku ID czlonkow pracujacych nad tym zadaniem:",
+        "Podaj jeszcze raz po przecinku ID czlonkow pracujacych nad zadaniem:"), *",");
+    structure.push_back(strukt);
 }
 
 void removeTask() {
 }
 
-void raportTasks() {
+void reportTasks() {
 }
 
 void editTask() {

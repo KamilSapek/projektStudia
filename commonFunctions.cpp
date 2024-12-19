@@ -4,6 +4,7 @@
 
 #include "commonFunctions.h"
 #include <iostream>
+#include <limits>
 #include <vector>
 using namespace std;
 
@@ -29,4 +30,42 @@ std::string readVector(const std::vector<int> &vector, const char splitter) {
     }
     stringToReturn.pop_back();
     return stringToReturn;
+}
+
+int interfaceAndChoice(const string& firstLine, const vector<string>& vector) {
+    int choice, iterator = 1;
+    cout << firstLine << endl;
+    for (const string& i : vector) {
+        cout << iterator << ". " << i << endl;
+        iterator++;
+    }
+    cout << "Choose your option: ";
+    cin >> choice;
+    return choice;
+}
+
+string createString(const string& text, const string& onErrorText) {
+    string toReturn;
+    cout << text;
+    cin >> toReturn;
+    while (!cin) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << onErrorText;
+        cin >> toReturn;
+    }
+    return toReturn;
+}
+
+int createInt(const string& text, const string& onErrorText) {
+    int toReturn;
+    cout << text;
+    cin >> toReturn;
+    while (!cin) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << onErrorText;
+        cin >> toReturn;
+    }
+    return toReturn;
 }

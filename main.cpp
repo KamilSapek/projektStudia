@@ -1,11 +1,11 @@
-
 #include <iostream>
 #include <cstring>
+#include <vector>
 
 #include "tasks.h"
 using namespace std;
 
-int findParamValue(int argc, char* argv[], const char* param) {
+int znajdzWartoscParametru(int argc, char* argv[], const char* param) {
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], param) == 0) {
             return i + 1;
@@ -23,9 +23,9 @@ int main(int argc, char* argv[]) {
     } else if (argc < 3) {
         cout << "Nie podales jakiegos parametru" << endl;
     } else {
-        vector<taskStructure> structure;
-        readTasks(argv[findParamValue(argc, argv, "-z")], structure);
-        saveTasks(argv[findParamValue(argc, argv, "-z")], structure);
+        vector<taskStructure> struktura;
+        readTasks(argv[znajdzWartoscParametru(argc, argv, "-z")], struktura);
+        saveTasks(argv[znajdzWartoscParametru(argc, argv, "-z")], struktura);
     }
     return 0;
 }
