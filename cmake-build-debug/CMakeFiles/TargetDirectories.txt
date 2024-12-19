@@ -1,3 +1,0 @@
-C:/Users/Kamil/CLionProjects/projektStudia/cmake-build-debug/CMakeFiles/projektStudia.dir
-C:/Users/Kamil/CLionProjects/projektStudia/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Kamil/CLionProjects/projektStudia/cmake-build-debug/CMakeFiles/rebuild_cache.dir
