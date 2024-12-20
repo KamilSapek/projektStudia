@@ -11,6 +11,7 @@
 #include <iostream>
 using namespace std;
 
+/*fukcja od wyswietlania opcji wyboru i wybierania*/
 int interfaceAndChoice(const string& firstLine, const vector<string>& vector) {
     int iterator = 1;
     cout << firstLine << endl;
@@ -24,38 +25,40 @@ int interfaceAndChoice(const string& firstLine, const vector<string>& vector) {
 
 /*interfejs projekty*/
 void projectsInterface() {
-    int choice = interfaceAndChoice("PROJEKTY",
+    while (true) {
+        int choice = interfaceAndChoice("PROJEKTY",
         {"Dodaj projekt", "Usun projekt", "Edytuj projekt", "Menu glowne"});
-    if (choice == 1) {
-        addProject();
-    } else if (choice == 2) {
-        removeProject();
-    } else if (choice == 3) {
-        editProject();
-    } else if (choice == 4) {
-      mainMenu();
-    } else {
-        cout << "Nie ma takiego wyboru!" << endl;
-        projectsInterface();
+        if (choice == 1) {
+            addProject();
+        } else if (choice == 2) {
+            removeProject();
+        } else if (choice == 3) {
+            editProject();
+        } else if (choice == 4) {
+            break;
+        } else {
+            cout << "Nie ma takiego wyboru!" << endl;
+        }
     }
 }
 
 /*interfejs zadania*/
 void tasksInterface() {
     vector<taskStructure> taskStructure;
-    int choice = interfaceAndChoice("ZADANIA",
+    while (true) {
+        int choice = interfaceAndChoice("ZADANIA",
             {"Dodaj zadanie", "Usun zadanie", "Edytuj zadanie", "Menu glowne"});
-    if (choice == 1) {
-        addTask(taskStructure);
-    } else if (choice == 2) {
-        removeTask();
-    } else if (choice == 3) {
-        editTask();
-    } else if (choice == 4) {
-        mainMenu();
-    } else {
-        cout << "Nie ma takiego wyboru!" << endl;
-        tasksInterface();
+        if (choice == 1) {
+            addTask(taskStructure);
+        } else if (choice == 2) {
+            removeTask();
+        } else if (choice == 3) {
+            editTask();
+        } else if (choice == 4) {
+            break;
+        } else {
+            cout << "Nie ma takiego wyboru!" << endl;
+        }
     }
 }
 
@@ -63,33 +66,38 @@ void tasksInterface() {
 void contributorsInterface() {
     vector<structureContributors> structureContributors;
     vector<taskStructure> taskStructure;
-    int choice = interfaceAndChoice("CZLONKOWIE",
-            {"Dodaj czlonka", "Usun czlonka", "Edytuj czlonka", "Menu glowne"});
-    if (choice == 1) {
-        addContributor(structureContributors, taskStructure);
-    } else if (choice == 2) {
-        removeContributor(structureContributors, taskStructure);
-    } else if (choice == 3) {
-        editContributor();
-    } else if (choice == 4) {
-        mainMenu();
-    } else {
-        cout << "Nie ma takiego wyboru!" << endl;
-        contributorsInterface();
+    while (true) {
+        int choice = interfaceAndChoice("CZLONKOWIE",
+             {"Dodaj czlonka", "Usun czlonka", "Edytuj czlonka", "Menu glowne"});
+        if (choice == 1) {
+            addContributor(structureContributors, taskStructure);
+        } else if (choice == 2) {
+            removeContributor(structureContributors, taskStructure);
+        } else if (choice == 3) {
+            editContributor();
+        } else if (choice == 4) {
+            break;
+        } else {
+            cout << "Nie ma takiego wyboru!" << endl;
+        }
     }
+
 }
 
 void mainMenu() {
-    int choice = interfaceAndChoice("Czym chcesz zarzadzac?",
-        {"Projekty", "Zadania", "Czlonkowie"});
-    if (choice == 1) {
-        projectsInterface();
-    } else if (choice == 2) {
-        tasksInterface();
-    } else if (choice == 3) {
-        contributorsInterface();
-    } else {
-        cout << "Nie ma takiego wyboru!" << endl;
-        mainMenu();
+    while (true) {
+        int choice = interfaceAndChoice("Czym chcesz zarzadzac?",
+          {"Projekty", "Zadania", "Czlonkowie", "Koniec"});
+        if (choice == 1) {
+            projectsInterface();
+        } else if (choice == 2) {
+            tasksInterface();
+        } else if (choice == 3) {
+            contributorsInterface();
+        } else if (choice == 4) {
+            break;
+        } else {
+            cout << "Nie ma takiego wyboru!" << endl;
+        }
     }
 }

@@ -9,9 +9,10 @@
 #include <limits>
 using namespace std;
 
-void readContributors(const char* name, vector<structureContributors>& structure) {
-    cout << name << endl;
-    ifstream file(name);
+void readContributors(vector<structureContributors>& structure) {
+    files files;
+    // cout << name << endl;
+    ifstream file(files.contributorsFile);
     if (!file.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
     } else {
@@ -48,8 +49,9 @@ void readContributors(const char* name, vector<structureContributors>& structure
     }
 }
 
-void saveContributor(const char* name, vector<structureContributors>& structure) {
-    ofstream file(name, ios::app);
+void saveContributor(vector<structureContributors>& structure) {
+    files files;
+    ofstream file(files.contributorsFile, ios::app);
     if (!file.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
     } else {

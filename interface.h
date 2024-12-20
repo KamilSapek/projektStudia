@@ -4,13 +4,11 @@
 
 #ifndef INTERFACE_H
 #define INTERFACE_H
-
-#include <iostream>
+#include <string>
 
 
 
 void mainMenu();
-int interfaceAndChoice(const std::string& firstLine, const std::vector<std::string>& vector);
 
 
 

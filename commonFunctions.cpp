@@ -36,9 +36,6 @@ std::string readVector(const std::vector<int> &vector, const char splitter) {
     return stringToReturn;
 }
 
-
-
-
 string inputString(const string& text, const string& onErrorText) {
     string toReturn;
     cout << text;

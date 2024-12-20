@@ -14,8 +14,8 @@ void addContributor(std::vector<structureContributors>& structure, vector<taskSt
 void removeContributor(std::vector<structureContributors>& structure, std::vector<taskStructure>& taskStruc);
 void reportContributor(std::vector<structureContributors>& structure);
 void editContributor();
-void saveContributor(const char* name, std::pmr::vector<structureContributors>& structure);
-void readContributors(const char* name, std::pmr::vector<structureContributors>& structure);
+void saveContributor(std::pmr::vector<structureContributors>& structure);
+void readContributors(std::pmr::vector<structureContributors>& structure);
 
 
 

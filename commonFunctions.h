@@ -7,7 +7,9 @@
 #define COMMONFUNCTIONS_H
 #include <string>
 #include <vector>
-
+struct files {
+    std::string projectsFile, tasksFile, contributorsFile;
+};
 std::vector<int> createVector(std::string data, char splitter);
 std::string readVector(const std::vector<int> &vector, char splitter);
 std::string inputString(const std::string& text, const std::string& onErrorText);
