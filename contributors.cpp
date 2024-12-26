@@ -70,16 +70,9 @@ void saveContributor(vector<structureContributors>& structure) {
 
 void addContributor(vector<structureContributors>& structure, vector<taskStructure>& taskStruc) {
     structureContributors strukt;
-    string name, surname, tasksToDo, historyOfTasks;
-    cout << "Podaj imie czlonka:";
-    cin >> name;
-    strukt.name = name;
-    cout << "Podaj nazwisko czlonka:";
-    cin >> surname;
-    strukt.surname = surname;
-    cout << "Podaj po przecinku ID zadan do wykonania przez czlonka:";
-    cin >> tasksToDo;
-    strukt.tasksToDo = createVector(tasksToDo, *",");
+    strukt.name = inputString("Podaj imie czlonka:");
+    strukt.surname = inputString("Podaj nazwisko czlonka:");
+    strukt.tasksToDo = createVector(inputString("Podaj po przecinku ID zadan do wykonania:"), *",");
     for (taskStructure& i : taskStruc) {
         for (const int& g : strukt.tasksToDo) {
             if (i.ID == g) {
@@ -87,16 +80,13 @@ void addContributor(vector<structureContributors>& structure, vector<taskStructu
             }
         }
     }
-    cout << "Podaj po przecinku ID zadan ktore juz czlonek wykonal:";
-    cin >> historyOfTasks;
-    strukt.historyOfTasks = createVector(historyOfTasks, *",");
+    strukt.historyOfTasks = createVector(inputString("Podaj po przecinku ID zadan ktore czlonek juz wykonal:"), *",");
     structure.push_back(strukt);
 }
 
 void removeContributor(vector<structureContributors>& structure, vector<taskStructure>& taskStruc) {
     int ID;
-    cout << "Podaj ID czlonka:";
-    cin >> ID;
+    ID = inputInt("Podaj ID czlonka:");
     for (int i = 0; i < structure.size(); i++) {
         if (structure[i].ID == ID) {
             structure.erase(structure.begin() + i);
@@ -125,9 +115,6 @@ void reportContributor(vector<structureContributors>& structure) {
                 cout << g << ", ";
             }
             cout << "\nHistory of tasks: ";
-            // for (const int& g : i.historyOfTasks) {
-            //     cout << g << ", ";
-            // }
             for (int g = 0; g < i.historyOfTasks.size(); g++) {
                 if (g == i.historyOfTasks.size()) {
                     cout << i.historyOfTasks[g] << endl;
@@ -141,10 +128,10 @@ void reportContributor(vector<structureContributors>& structure) {
 }
 
 void editContributor() {
-    int choice = inputInt("Podaj ID czlonka:", "Podaj ID czlonka jeszcze raz:");
+    int choice = inputInt("Podaj ID czlonka:");
     while (choice < 0) {
         cout << "ID nie moze byc mniejsze od 0!" << endl;
-        choice = inputInt("Podaj ID czlonka:", "Podaj ID czlonka jeszcze raz:");
+        choice = inputInt("Podaj ID czlonka:");
     }
     cout << "Co chcesz zmienic?\nDostepne opcje:" << endl;
     cout << "1. Imie\n2. Nazwisko\n3. Zadania do zrobienia\n4. Historia zrobionych zadan";

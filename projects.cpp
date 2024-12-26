@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 #include <fstream>
+
+#include "tasks.h"
 using namespace std;
 
 void readProjects(const char* name, vector<structureProjects>& structure) {
@@ -64,12 +66,30 @@ void saveProjects(const char* name, vector<structureProjects>& structure) {
     }
 }
 
-void addProject() {
-
+void addProject(vector<structureProjects>& structure) {
+    structureProjects strukt;
+    strukt.name = inputString("Podaj nazwe projektu:");
+    strukt.description = inputString("Podaj opis:");
+    strukt.startDate = createVector(inputString("Podaj date rozpoczecia [DD.MM.RRRR]:"), *".");
+    strukt.endDate = createVector(inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]:"), *".");
+    strukt.status = inputString("Podaj status projektu (np. „planowany,” „w trakcie,” „zakończony”)");
+    strukt.taskList = createVector(inputString("Podaj po przecinku ID zadan podlegajacych pod ten projekt:"), *",");
+    structure.push_back(strukt);
 }
 
-void removeProject() {
+void removeProject(vector<structureProjects>& structure, vector<taskStructure>& taskStructure) {
+    string name = inputString("Podaj nazwe projektu:");
+    for (int i = 0; i < structure.size(); i++) {
+        if (structure[i].name == name) {
+            for (const int& j : structure[i].taskList) {
+                for (const::taskStructure& k : taskStructure) {
 
+                }
+            }
+            structure.erase(structure.begin() + i);
+
+        }
+    }
 }
 
 void report() {

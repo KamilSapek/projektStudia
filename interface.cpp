@@ -19,7 +19,7 @@ int interfaceAndChoice(const string& firstLine, const vector<string>& vector) {
         cout << iterator << ". " << i << endl;
         iterator++;
     }
-    int choice = inputInt("Wybierz opcje:", "Wybierz opcje ponownie:");
+    int choice = inputInt("Wybierz opcje:");
     return choice;
 }
 

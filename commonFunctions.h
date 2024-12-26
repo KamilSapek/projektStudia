@@ -1,18 +1,15 @@
-
-//
-// Created by Kamil on 12/9/2024.
-//
-
 #ifndef COMMONFUNCTIONS_H
 #define COMMONFUNCTIONS_H
 #include <string>
 #include <vector>
+using namespace std;
+
 struct files {
-    std::string projectsFile, tasksFile, contributorsFile;
+    string projectsFile, tasksFile, contributorsFile;
 };
-std::vector<int> createVector(std::string data, char splitter);
-std::string readVector(const std::vector<int> &vector, char splitter);
-std::string inputString(const std::string& text, const std::string& onErrorText);
-int inputInt(const std::string& text, const std::string& onErrorText);
+vector<int> createVector(string data, char splitter);
+string readVector(const vector<int> &vector, char splitter);
+string inputString(const string& text);
+int inputInt(const string& text);
 
 #endif //COMMONFUNCTIONS_H

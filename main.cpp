@@ -5,9 +5,6 @@
 #include "interface.h"
 using namespace std;
 
-
-
-
 /*funkcja ktora szuka parametru podanego w argumencie*/
 string findFileName(const int& argc, char *argv[], const char *param) {
     for (int i = 1; i < argc; i++) {
@@ -17,7 +14,7 @@ string findFileName(const int& argc, char *argv[], const char *param) {
     }
 }
 
-int main(int argc, char *argv[]) {
+int main(const int argc, char *argv[]) {
     /*sprawdzanie parametrow*/
     if (argc == 0) {
         cout << "Do poprawnego korzystania z programu, musisz uzyc parametrow.\n"

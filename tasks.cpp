@@ -7,6 +7,8 @@
 #include <iostream>
 #include <limits>
 
+#include "contributors.h"
+
 using namespace std;
 
 void readTasks(const char* name, vector<taskStructure>& structure) {
@@ -90,26 +92,29 @@ void saveTasks(const char* name, vector<taskStructure>& structure) {
 
 void addTask(vector<taskStructure> structure) {
     taskStructure strukt;
-    string test;
-    strukt.ID = inputInt("Podaj ID:", "Podaj ID jeszcze raz:");
-    strukt.name = inputString("Podaj nazwe zadania:", "Podaj jeszcze raz nazwe zadania:");
-    strukt.description = inputString("Podaj opis:", "Podaj opis jeszcze raz:");
-    strukt.priority = inputString("Podaj priorytet (niski / sredni / wysoki):",
-        "Podaj jeszcze raz priorytet (niski / sredni / wysoki):");
-    strukt.status = inputString("Podaj status (nie rozpoczete / w trakcie / zakonczone):",
-        "Podaj jeszcze raz status (nie rozpoczete / w trakcie / zakonczone):");
-    strukt.dependencies = createVector(inputString("Podaj po przecinku ID zadan ktore musza byc wykonane przed tym zadaniem:",
-        "Podaj po przecinku ID zadan ktore musza byc wykonane przed tym zadaniem jeszcze raz:"), *",");
-    strukt.estimatedEndDate = createVector(inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]:",
-        "Sprobuj jeszcze raz podac date [DD.MM.RRRR]:"), *".");
-    strukt.startDate = createVector(inputString("Podaj date rozpoczecia zadania [DD.MM.RRRR]:",
-        "Podaj jeszcze raz date rozpoczecia zadania [DD.MM.RRRR]:"), *".");
-    strukt.contributors = createVector(inputString("Podaj po przecinku ID czlonkow pracujacych nad tym zadaniem:",
-        "Podaj jeszcze raz po przecinku ID czlonkow pracujacych nad zadaniem:"), *",");
+    strukt.ID = inputInt("Podaj ID:");
+    strukt.name = inputString("Podaj nazwe zadania:");
+    strukt.description = inputString("Podaj opis:");
+    strukt.priority = inputString("Podaj priorytet (niski / sredni / wysoki):");
+    strukt.status = inputString("Podaj status (nie rozpoczete / w trakcie / zakonczone):");
+    strukt.dependencies = createVector(inputString("Podaj po przecinku ID zadan ktore musza byc wykonane przed tym zadaniem:"), *",");
+    strukt.estimatedEndDate = createVector(inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]:"), *".");
+    strukt.startDate = createVector(inputString("Podaj date rozpoczecia zadania [DD.MM.RRRR]:"), *".");
+    strukt.contributors = createVector(inputString("Podaj po przecinku ID czlonkow pracujacych nad tym zadaniem:"), *",");
     structure.push_back(strukt);
 }
 
-void removeTask() {
+void removeTask(int ID, vector<taskStructure>& structure, vector<structureContributors>& structureContributors) {
+    for (const taskStructure& i : structure) {
+        if (i.ID == ID) {
+            for (const auto& j : structureContributors) {
+                for (const int& k : i.contributors) {
+
+                }
+            }
+            structure.erase(structure.begin() + ID);
+        }
+    }
 }
 
 void reportTasks() {

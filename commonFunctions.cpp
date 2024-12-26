@@ -36,27 +36,29 @@ std::string readVector(const std::vector<int> &vector, const char splitter) {
     return stringToReturn;
 }
 
-string inputString(const string& text, const string& onErrorText) {
+string inputString(const string& text) {
     string toReturn;
     cout << text;
     cin >> toReturn;
     while (!cin) {
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << onErrorText;
+        cout << "Ups! Cos poszlo nie tak. Sprobuj ponownie." << endl;
+        cout << text;
         cin >> toReturn;
     }
     return toReturn;
 }
 
-int inputInt(const string& text, const string& onErrorText) {
+int inputInt(const string& text) {
     int toReturn;
     cout << text;
     cin >> toReturn;
     while (!cin) {
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << onErrorText;
+        cout << "Ups! Cos poszlo nie tak. Sprobuj ponownie." << endl;
+        cout << text;
         cin >> toReturn;
     }
     return toReturn;

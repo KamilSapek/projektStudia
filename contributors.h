@@ -3,19 +3,20 @@
 #include "tasks.h"
 #include <string>
 #include <vector>
+using namespace std;
 
 struct structureContributors {
     int ID;
-    std::pmr::string name, surname;
-    std::vector<int> tasksToDo, historyOfTasks;
+    string name, surname;
+    vector<int> tasksToDo, historyOfTasks;
 };
 
-void addContributor(std::vector<structureContributors>& structure, vector<taskStructure>& taskStruc);
-void removeContributor(std::vector<structureContributors>& structure, std::vector<taskStructure>& taskStruc);
-void reportContributor(std::vector<structureContributors>& structure);
+void addContributor(vector<structureContributors>& structure, vector<taskStructure>& taskStruc);
+void removeContributor(vector<structureContributors>& structure, vector<taskStructure>& taskStruc);
+void reportContributor(vector<structureContributors>& structure);
 void editContributor();
-void saveContributor(std::pmr::vector<structureContributors>& structure);
-void readContributors(std::pmr::vector<structureContributors>& structure);
+void saveContributor(vector<structureContributors>& structure);
+void readContributors(vector<structureContributors>& structure);
 
 
 
