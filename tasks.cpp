@@ -11,6 +11,7 @@
 
 using namespace std;
 
+/*funkcja ktora odczytuje dane z pliku*/
 void readTasks(const char* name, vector<taskStructure>& structure) {
     cout << name << endl;
     ifstream file(name);
@@ -66,6 +67,7 @@ void _checkData(vector<taskStructure>& struktura) {
 
 }
 
+/*funkcja ktora zapisuje strukture do pliku*/
 void saveTasks(const char* name, vector<taskStructure>& structure) {
     ofstream file(name, std::ios::in | std::ios::out | ios::app);
     if (!file.is_open()) {
@@ -90,6 +92,7 @@ void saveTasks(const char* name, vector<taskStructure>& structure) {
     }
 }
 
+/*funkcja od dodawania zadania*/
 void addTask(vector<taskStructure> structure) {
     taskStructure strukt;
     strukt.ID = inputInt("Podaj ID:");
@@ -105,7 +108,7 @@ void addTask(vector<taskStructure> structure) {
 }
 
 /*funkcja od usuwania zadan*/
-void removeTask(int ID, vector<taskStructure>& structure, vector<structureContributors>& structureContributors) {
+void removeTask(const int ID, vector<taskStructure>& structure, vector<structureContributors>& structureContributors) {
     for (const taskStructure& i : structure) {
         if (i.ID == ID) {
             // usuwanie zadania czlonkowi
