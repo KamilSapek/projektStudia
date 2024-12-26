@@ -104,12 +104,24 @@ void addTask(vector<taskStructure> structure) {
     structure.push_back(strukt);
 }
 
+/*funkcja od usuwania zadan*/
 void removeTask(int ID, vector<taskStructure>& structure, vector<structureContributors>& structureContributors) {
     for (const taskStructure& i : structure) {
         if (i.ID == ID) {
-            for (const auto& j : structureContributors) {
+            // usuwanie zadania czlonkowi
+            // petla lecaca przez strukture czlonkow
+            for (auto& j : structureContributors) {
+                // petla lecaca przez wektor przypisanych czlonkow do danego zadania
                 for (const int& k : i.contributors) {
-
+                    // jesli zgodne id z wektora i struktury
+                    if (k == j.ID) {
+                        // szuka i usuwa ID zadania z wektora przypisanych zadan
+                        for (int l = 0; l < j.tasksToDo.size(); l++) {
+                            if (j.tasksToDo[l] == ID) {
+                                j.tasksToDo.erase(j.tasksToDo.begin() + l);
+                            }
+                        }
+                    }
                 }
             }
             structure.erase(structure.begin() + ID);
