@@ -9,6 +9,6 @@ using namespace std;
 
 void mainMenu(vector<structureProjects>& structureProjects,
     vector<taskStructure>& taskStructure,
-    vector<structureContributors>& structureContributors);
+    vector<structureContributors>& structureContributors, files& files);
 
 #endif //INTERFACE_H

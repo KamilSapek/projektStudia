@@ -75,7 +75,8 @@ void contributorsInterface(vector<structureContributors>& structureContributors,
 /*menu glowne*/
 void mainMenu(vector<structureProjects>& structureProjects,
     vector<taskStructure>& taskStructure,
-    vector<structureContributors>& structureContributors) {
+    vector<structureContributors>& structureContributors,
+    files& files) {
     while (true) {
         cout << "MENU GLOWNE\n1. Projekty\n2. Zadania\n3. Czlonkowie\n4. Koniec" << endl;
         const int choice = inputInt("Wybierz opcje: ");
@@ -87,6 +88,9 @@ void mainMenu(vector<structureProjects>& structureProjects,
         } else if (choice == 3) {
             contributorsInterface(structureContributors, taskStructure);
         } else if (choice == 4) {
+            saveProjects(files.projectsFile, structureProjects);
+            saveTasks(files.tasksFile, taskStructure);
+            saveContributor(files.contributorsFile, structureContributors);
             break;
         } else {
             cout << "Nie ma takiego wyboru!" << endl;

@@ -17,8 +17,8 @@ void addContributor(vector<structureContributors>& structure, vector<taskStructu
 void removeContributor(vector<structureContributors>& structure, vector<taskStructure>& taskStruc);
 void reportContributor(vector<structureContributors>& structure);
 void editContributor();
-void saveContributor(const char* name, vector<structureContributors>& structure);
-void readContributors(vector<structureContributors>& structure);
+void saveContributor(const string& name, vector<structureContributors>& structure);
+void readContributors(const string& name, vector<structureContributors>& structure);
 
 
 

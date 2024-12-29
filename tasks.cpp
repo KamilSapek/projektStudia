@@ -12,7 +12,7 @@
 using namespace std;
 
 /*funkcja ktora odczytuje dane z pliku*/
-void readTasks(const char* name, vector<taskStructure>& structure) {
+void readTasks(const string& name, vector<taskStructure>& structure) {
     cout << name << endl;
     ifstream file(name);
     if (!file.is_open()) {
@@ -37,9 +37,9 @@ void readTasks(const char* name, vector<taskStructure>& structure) {
                         break;
                         case 4: strukt.contributors = createVector(test, *",");
                         break;
-                        case 5: strukt.startDate = createVector(test, *".");
+                        case 5: strukt.startDate = createDate(test + ".");
                         break;
-                        case 6: strukt.estimatedEndDate = createVector(test, *".");
+                        case 6: strukt.endDate = createDate(test + ".");
                         break;
                         case 7: strukt.status = stoi(test);
                         break;
@@ -57,8 +57,6 @@ void readTasks(const char* name, vector<taskStructure>& structure) {
             structure.push_back(strukt);
         }
     }
-    for (const taskStructure& i : structure)
-        cout << i.description << endl;
 }
 
 /* Funkcja ktora sprawdza czy nie ma w strukturze zduplikowanego ID lub czy nie ma konfliktu w zależnościach */
@@ -68,7 +66,7 @@ void _checkData(vector<taskStructure>& struktura) {
 }
 
 /*funkcja ktora zapisuje strukture do pliku*/
-void saveTasks(const char* name, vector<taskStructure>& structure) {
+void saveTasks(const string& name, vector<taskStructure>& structure) {
     ofstream file(name, std::ios::in | std::ios::out | ios::app);
     if (!file.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
@@ -81,8 +79,8 @@ void saveTasks(const char* name, vector<taskStructure>& structure) {
             line += i.description + ";";
             line += i.priority + ";";
             line += readVector(i.contributors, *",") + ";";
-            line += readVector(i.startDate, *".") + ";";
-            line += readVector(i.estimatedEndDate, *".") + ";";
+            line += to_string(i.startDate.day) + "." + to_string(i.startDate.month) + "." + to_string(i.startDate.year) + ";";
+            line += to_string(i.endDate.day) + "." + to_string(i.endDate.month) + "." + to_string(i.endDate.year) + ";";
             line += to_string(i.status) + ";";
             line += readVector(i.dependencies, *",") + ";";
             line += to_string(i.completionPercentage);
@@ -128,8 +126,8 @@ int addTask(vector<taskStructure>& structure) {
             }
         }
     }
-    strukt.estimatedEndDate = createVector(inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]:"), *".");
-    strukt.startDate = createVector(inputString("Podaj date rozpoczecia zadania [DD.MM.RRRR]:"), *".");
+    strukt.endDate = createDate(inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]:"));
+    strukt.startDate = createDate(inputString("Podaj date rozpoczecia zadania [DD.MM.RRRR]:"));
     strukt.contributors = createVector(inputString("Podaj po przecinku ID czlonkow pracujacych nad tym zadaniem:"), *",");
     structure.push_back(strukt);
     return ID;

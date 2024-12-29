@@ -37,10 +37,11 @@ int main(const int argc, char *argv[]) {
         vector<taskStructure> taskStructure;
         vector<structureContributors> structureContributors;
 
-        readProjects("projekty.txt",structureProjects);
+        readProjects(files.projectsFile,structureProjects);
+        readTasks(files.tasksFile,taskStructure);
+        readContributors(files.contributorsFile, structureContributors);
         /*uruchomienie interfejsu*/
-        mainMenu(structureProjects, taskStructure, structureContributors);
-
+        mainMenu(structureProjects, taskStructure, structureContributors, files);
         return 0;
     }
 }

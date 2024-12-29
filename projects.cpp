@@ -10,7 +10,7 @@
 #include "tasks.h"
 using namespace std;
 
-void readProjects(const char* name, vector<structureProjects>& structure) {
+void readProjects(const string& name, vector<structureProjects>& structure) {
     cout << name << endl;
     ifstream file(name);
     if (!file.is_open()) {
@@ -48,7 +48,7 @@ void readProjects(const char* name, vector<structureProjects>& structure) {
     }
 }
 
-void saveProjects(const char* name, vector<structureProjects>& structure) {
+void saveProjects(const string& name, vector<structureProjects>& structure) {
     ofstream file(name, ios::app);
     if (!file.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;

@@ -10,15 +10,14 @@
 using namespace std;
 
 void readContributors(const string& name, vector<structureContributors>& structure) {
-    // cout << name << endl;
+    cout << name << endl;
     ifstream file(name);
     if (!file.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
     } else {
         structureContributors strukt;
-        int iterator, lineNumer;
+        int iterator;
         string line, test;
-        lineNumer = 0;
         while (getline(file, line)) {
             line += ';';
             iterator = 0;
@@ -42,13 +41,12 @@ void readContributors(const string& name, vector<structureContributors>& structu
                     test += line.at(i);
                 }
             }
-            lineNumer++;
+            structure.push_back(strukt);
         }
-        structure.push_back(strukt);
     }
 }
 
-void saveContributor(const char* name, vector<structureContributors>& structure) {
+void saveContributor(const string& name, vector<structureContributors>& structure) {
     ofstream file(name, ios::app);
     if (!file.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
