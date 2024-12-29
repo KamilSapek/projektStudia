@@ -12,6 +12,7 @@
 #include <vector>
 using namespace std;
 
+/*tworzy wektor intow na podstawie podanego tekstu i znaku interpunkcyjnego*/
 vector<int> createVector(string data, char splitter) {
     data += splitter;
     vector<int> vectorToReturn;
@@ -27,7 +28,8 @@ vector<int> createVector(string data, char splitter) {
     return vectorToReturn;
 }
 
-std::string readVector(const std::vector<int> &vector, const char splitter) {
+/*przetwarza wektor na string*/
+string readVector(const std::vector<int> &vector, const char splitter) {
     string stringToReturn;
     for (const int i : vector) {
         stringToReturn += to_string(i) + splitter;
@@ -36,24 +38,29 @@ std::string readVector(const std::vector<int> &vector, const char splitter) {
     return stringToReturn;
 }
 
+/*prosi uzytkownika o podanie stringa i sprawdza czy nie wystapil blad podczas tego lub czy cokolwiek wpisal*/
 string inputString(const string& text) {
     string toReturn;
-    cout << text;
-    cin >> toReturn;
-    while (!cin) {
+    cout << text << " ";
+    getline(cin, toReturn);
+    // dopoki istnieje blad podczas wpisywania stringa
+    while (toReturn.empty() || !cin) {
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cout << "Ups! Cos poszlo nie tak. Sprobuj ponownie." << endl;
         cout << text;
-        cin >> toReturn;
+        getline(cin, toReturn);
     }
+    cout << toReturn << endl;
     return toReturn;
 }
 
+/*prosi uzytkownika o podanie inta i sprawdza czy nie wystapil blad podczas tego lub czy cokolwiek wpisal*/
 int inputInt(const string& text) {
     int toReturn;
     cout << text;
     cin >> toReturn;
+    // dopoki wystepuje blad podczas podawania liczby
     while (!cin) {
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -61,5 +68,26 @@ int inputInt(const string& text) {
         cout << text;
         cin >> toReturn;
     }
+    cin.ignore();
     return toReturn;
+}
+
+date createDate(const string& text) {
+    date dateToReturn = {};
+    int iterator = 0;
+    string test;
+    for (int i = 0; i < text.length(); i++) {
+        if (text.at(i) == '.') {
+            switch (iterator) {
+                case 0: dateToReturn.day = stoi(test); break;
+                case 1: dateToReturn.month = stoi(test); break;
+                case 2: dateToReturn.year = stoi(test); break;
+            }
+            iterator++;
+            test = "";
+        } else {
+            test += text.at(i);
+        }
+    }
+    return dateToReturn;
 }

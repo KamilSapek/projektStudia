@@ -29,11 +29,11 @@ void readProjects(const char* name, vector<structureProjects>& structure) {
                         break;
                         case 1: strukt.description = test;
                         break;
-                        case 2: strukt.startDate.push_back(stoi(test));
+                        case 2: strukt.startDate = createDate(test + ".");
                         break;
-                        case 3: strukt.endDate.push_back(stoi(test));
+                        case 3: strukt.endDate = createDate(test + ".");
                         break;
-                        case 4: strukt.status = test;
+                        case 4: strukt.status = stoi(test);
                         break;
                         case 5: strukt.taskList.push_back(stoi(test));
                     }
@@ -57,8 +57,8 @@ void saveProjects(const char* name, vector<structureProjects>& structure) {
         for (const structureProjects& i : structure) {
             line += i.name + ";";
             line += i.description + ";";
-            line += readVector(i.startDate, *".") + ";";
-            line += readVector(i.endDate, *".") + ";";
+            line += to_string(i.startDate.day) + "." + to_string(i.startDate.month) + "." + to_string(i.startDate.year) + ";";
+            line += to_string(i.endDate.day) + "." + to_string(i.endDate.month) + "." + to_string(i.endDate.year) + ";";
             line += readVector(i.taskList, *",") + ";";
             file << line << endl;;
             line = "";
@@ -66,24 +66,49 @@ void saveProjects(const char* name, vector<structureProjects>& structure) {
     }
 }
 
-void addProject(vector<structureProjects>& structure) {
+void addProject(vector<structureProjects>& structure, vector<taskStructure>& taskStructure) {
     structureProjects strukt;
     strukt.name = inputString("Podaj nazwe projektu:");
     strukt.description = inputString("Podaj opis:");
-    strukt.startDate = createVector(inputString("Podaj date rozpoczecia [DD.MM.RRRR]:"), *".");
-    strukt.endDate = createVector(inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]:"), *".");
-    strukt.status = inputString("Podaj status projektu (np. „planowany,” „w trakcie,” „zakończony”)");
-    strukt.taskList = createVector(inputString("Podaj po przecinku ID zadan podlegajacych pod ten projekt:"), *",");
+    strukt.startDate = createDate(inputString("Podaj date rozpoczecia [DD.MM.RRRR]:") + ".");
+    strukt.endDate = createDate(inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]:") + ".");
+    while (true) {
+        if (strukt.startDate.day == strukt.endDate.day || strukt.startDate.month == strukt.endDate.month || strukt.startDate.year == strukt.endDate.year) {
+            cout << "Planowana data zakonczenia nie moze byc taka sama co data rozpoczecia projektu!" << endl;
+        } else if (strukt.endDate.year < strukt.startDate.year) {
+            cout << "Projekt nie moze sie zakonczyc przed jego rozpoczeciem!" << endl;
+        } else if (strukt.startDate.month < strukt.endDate.month) {
+            cout << "Projekt nie moze sie zakonczyc przed jego rozpoczeciem!" << endl;
+        } else if (strukt.endDate.day > strukt.startDate.day) {
+            cout << "Projekt nie moze sie zakonczyc przed jego rozpoczeciem!" << endl;
+        } else {
+            break;
+        }
+        strukt.endDate = createDate(inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]:"));
+    }
+    // strukt.status = inputString("Podaj status projektu (np. „planowany,” „w trakcie,” „zakończony”)");
+    cout << "Jaki jest obecny status projektu?\n1. Planowany\n2. W trakcie\n3. Zakonczony" << endl;
+    strukt.status = inputInt("Wybierz opcje:");
+    // strukt.taskList = createVector(inputString("Podaj po przecinku ID zadan podlegajacych pod ten projekt:"), *",");
+    int amount = inputInt("Ile zadan podlega zadaniu?:");
+    vector<int> tasks;
+    tasks.reserve(amount);
+    for (int i = 0; i < amount; i++) {
+        tasks.push_back(addTask(taskStructure));
+    }
+    strukt.taskList = tasks;
     structure.push_back(strukt);
 }
 
-void removeProject(vector<structureProjects>& structure, vector<taskStructure>& taskStructure) {
+void removeProject(vector<structureProjects>& structure, vector<taskStructure>& taskStructure, vector<structureContributors>& structureContributors) {
     string name = inputString("Podaj nazwe projektu:");
     for (int i = 0; i < structure.size(); i++) {
         if (structure[i].name == name) {
             for (const int& j : structure[i].taskList) {
                 for (const::taskStructure& k : taskStructure) {
-
+                    if (j == k.ID) {
+                        removeTask(j,taskStructure, structureContributors);
+                    }
                 }
             }
             structure.erase(structure.begin() + i);

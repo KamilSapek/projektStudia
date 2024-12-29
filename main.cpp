@@ -3,15 +3,19 @@
 #include <iostream>
 
 #include "interface.h"
+#include "contributors.h"
+#include "projects.h"
+#include "tasks.h"
 using namespace std;
 
-/*funkcja ktora szuka parametru podanego w argumencie*/
-string findFileName(const int& argc, char *argv[], const char *param) {
+/*szuka parametru podanego w argumencie*/
+string findFileName(const int& argc, char* argv[], const char* param) {
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], param) == 0) {
             return argv[i + 1];
         }
     }
+    return "";
 }
 
 int main(const int argc, char *argv[]) {
@@ -24,12 +28,18 @@ int main(const int argc, char *argv[]) {
     } else if (argc < 7) {
         cout << "Nie podales jakiegos parametru" << endl;
     } else {
-        files files;
+        files files = {};
         files.projectsFile = findFileName(argc, argv, "-p");
         files.tasksFile = findFileName(argc, argv, "-z");
         files.contributorsFile = findFileName(argc, argv, "-c");
-        mainMenu();
+
+        vector<structureProjects> structureProjects;
+        vector<taskStructure> taskStructure;
+        vector<structureContributors> structureContributors;
+
+        readProjects("projekty.txt",structureProjects);
         /*uruchomienie interfejsu*/
+        mainMenu(structureProjects, taskStructure, structureContributors);
 
         return 0;
     }

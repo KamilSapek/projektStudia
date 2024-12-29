@@ -1,7 +1,3 @@
-//
-// Created by Kamil on 19/12/2024.
-//
-
 #include "interface.h"
 #include "tasks.h"
 #include "projects.h"
@@ -11,27 +7,18 @@
 #include <iostream>
 using namespace std;
 
-/*fukcja od wyswietlania opcji wyboru i wybierania*/
-int interfaceAndChoice(const string& firstLine, const vector<string>& vector) {
-    int iterator = 1;
-    cout << firstLine << endl;
-    for (const string& i : vector) {
-        cout << iterator << ". " << i << endl;
-        iterator++;
-    }
-    int choice = inputInt("Wybierz opcje:");
-    return choice;
-}
-
 /*interfejs projekty*/
-void projectsInterface() {
+void projectsInterface(vector<structureProjects>& structureProjects, vector<taskStructure>& taskStructure, vector<structureContributors> structureContributors) {
+    // obsluga wyboru uzytkownika
     while (true) {
-        int choice = interfaceAndChoice("PROJEKTY",
-        {"Dodaj projekt", "Usun projekt", "Edytuj projekt", "Menu glowne"});
+        // const int choice = interfaceAndChoice("PROJEKTY",
+        // {"Dodaj projekt", "Usun projekt", "Edytuj projekt", "Menu glowne"});
+        cout << "PROJEKTY\n1. Dodaj projekt\n2. Usun projekt\n3. Edytuj projekt\n4. Menu glowne" << endl;
+        const int choice = inputInt("Wybierz opcje: ");
         if (choice == 1) {
-            addProject();
+            addProject(structureProjects, taskStructure);
         } else if (choice == 2) {
-            removeProject();
+            removeProject(structureProjects, taskStructure ,structureContributors);
         } else if (choice == 3) {
             editProject();
         } else if (choice == 4) {
@@ -43,15 +30,16 @@ void projectsInterface() {
 }
 
 /*interfejs zadania*/
-void tasksInterface() {
-    vector<taskStructure> taskStructure;
+void tasksInterface(vector<taskStructure>& taskStructure, vector<structureContributors>& structureContributors) {
     while (true) {
-        int choice = interfaceAndChoice("ZADANIA",
-            {"Dodaj zadanie", "Usun zadanie", "Edytuj zadanie", "Menu glowne"});
+        cout << "ZADANIA\n1. Dodaj zadanie\n2. Usun zadanie\n3. Edytuj zadanie\n4. Menu glowne" << endl;
+        const int choice = inputInt("Wybierz opcje: ");
+        // obsluga wyboru uzytkownika
         if (choice == 1) {
             addTask(taskStructure);
         } else if (choice == 2) {
-            removeTask();
+            int ID = inputInt("Podaj ID zadania do usuniecia:");
+            removeTask(ID, taskStructure, structureContributors);
         } else if (choice == 3) {
             editTask();
         } else if (choice == 4) {
@@ -63,12 +51,12 @@ void tasksInterface() {
 }
 
 /*interfejs czlonkowie*/
-void contributorsInterface() {
-    vector<structureContributors> structureContributors;
-    vector<taskStructure> taskStructure;
+void contributorsInterface(vector<structureContributors>& structureContributors,
+    vector<taskStructure>& taskStructure) {
+    // obsluga wyboru uzytkownika
     while (true) {
-        int choice = interfaceAndChoice("CZLONKOWIE",
-             {"Dodaj czlonka", "Usun czlonka", "Edytuj czlonka", "Menu glowne"});
+        cout << "CZLONKOWIE\n1. Dodaj czlonka\n2. Usun czlonka\n3. Edytuj czlonka\n4. Menu glowne" << endl;
+        const int choice = inputInt("Wybierz opcje: ");
         if (choice == 1) {
             addContributor(structureContributors, taskStructure);
         } else if (choice == 2) {
@@ -84,16 +72,20 @@ void contributorsInterface() {
 
 }
 
-void mainMenu() {
+/*menu glowne*/
+void mainMenu(vector<structureProjects>& structureProjects,
+    vector<taskStructure>& taskStructure,
+    vector<structureContributors>& structureContributors) {
     while (true) {
-        int choice = interfaceAndChoice("Czym chcesz zarzadzac?",
-          {"Projekty", "Zadania", "Czlonkowie", "Koniec"});
+        cout << "MENU GLOWNE\n1. Projekty\n2. Zadania\n3. Czlonkowie\n4. Koniec" << endl;
+        const int choice = inputInt("Wybierz opcje: ");
+        // obsluga wyboru uzytkownika
         if (choice == 1) {
-            projectsInterface();
+            projectsInterface(structureProjects, taskStructure, structureContributors);
         } else if (choice == 2) {
-            tasksInterface();
+            tasksInterface(taskStructure, structureContributors);
         } else if (choice == 3) {
-            contributorsInterface();
+            contributorsInterface(structureContributors, taskStructure);
         } else if (choice == 4) {
             break;
         } else {

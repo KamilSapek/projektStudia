@@ -41,7 +41,7 @@ void readTasks(const char* name, vector<taskStructure>& structure) {
                         break;
                         case 6: strukt.estimatedEndDate = createVector(test, *".");
                         break;
-                        case 7: strukt.status = test;
+                        case 7: strukt.status = stoi(test);
                         break;
                         case 8: strukt.dependencies = createVector(test, *",");
                         break;
@@ -83,7 +83,7 @@ void saveTasks(const char* name, vector<taskStructure>& structure) {
             line += readVector(i.contributors, *",") + ";";
             line += readVector(i.startDate, *".") + ";";
             line += readVector(i.estimatedEndDate, *".") + ";";
-            line += i.status + ";";
+            line += to_string(i.status) + ";";
             line += readVector(i.dependencies, *",") + ";";
             line += to_string(i.completionPercentage);
             file << line << endl;
@@ -92,19 +92,47 @@ void saveTasks(const char* name, vector<taskStructure>& structure) {
     }
 }
 
-/*funkcja od dodawania zadania*/
-void addTask(vector<taskStructure> structure) {
+/*monitorowanie zaleznosci*/
+int dependecyMonitor(vector<taskStructure>& taskStructure) {
+
+    return 0;
+}
+
+/*funkcja od dodawania zadania
+ * zwraca ID, gdyz jesli zostanie wywolana przez addProject to od razu ID doda sie do vectora zadan
+ */
+int addTask(vector<taskStructure>& structure) {
     taskStructure strukt;
-    strukt.ID = inputInt("Podaj ID:");
+    int ID;
+    if (structure.empty()) {
+        ID = 0;
+    } else {
+        ID = structure.back().ID + 1;
+    }
+    strukt.ID = ID;
     strukt.name = inputString("Podaj nazwe zadania:");
     strukt.description = inputString("Podaj opis:");
     strukt.priority = inputString("Podaj priorytet (niski / sredni / wysoki):");
-    strukt.status = inputString("Podaj status (nie rozpoczete / w trakcie / zakonczone):");
+    // strukt.status = inputString("Podaj status (nie rozpoczete / w trakcie / zakonczone):");
+    cout << "Mozliwe statusy zadania:\n1. Nie rozpoczete\n2. W trakcie\n3. Zakonczone" << endl;
+    strukt.status = inputInt("Wybierz stautus (1-3):");
     strukt.dependencies = createVector(inputString("Podaj po przecinku ID zadan ktore musza byc wykonane przed tym zadaniem:"), *",");
+    // sprawdzanie czy zadanie o wyzszym "priorytecie" jest obecnie w trakcie wykonywania,
+    // jesli tak to ustawia status obecnego zadania na "nie rozpoczete" pod warunkiem, ze uzytkownik ustawil status na "w trakcie"
+    for (const int& i : strukt.dependencies) {
+        for (const taskStructure& j : structure) {
+            if (j.ID == i || j.status == strukt.status == 2) {
+                strukt.status = 1;
+                cout << "Zadanie o ID " << j.ID << " ma priorytet nad obecnym zadaniem i jest w trakcie."
+                                                   "Status obecnego zadania ustawiam na nie rozpoczete" << endl;
+            }
+        }
+    }
     strukt.estimatedEndDate = createVector(inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]:"), *".");
     strukt.startDate = createVector(inputString("Podaj date rozpoczecia zadania [DD.MM.RRRR]:"), *".");
     strukt.contributors = createVector(inputString("Podaj po przecinku ID czlonkow pracujacych nad tym zadaniem:"), *",");
     structure.push_back(strukt);
+    return ID;
 }
 
 /*funkcja od usuwania zadan*/

@@ -6,13 +6,17 @@
 using namespace std;
 
 struct taskStructure {
-    int ID, completionPercentage;
-    string name, description, priority, status;
+    int ID, completionPercentage, status;
+    string name, description, priority;
     vector<int> dependencies, estimatedEndDate, startDate, contributors;
 };
 
-void addTask(vector<taskStructure> structure);
-void removeTask();
+#include "contributors.h"
+
+
+
+int addTask(vector<taskStructure>& structure);
+void removeTask(int ID, vector<taskStructure>& structure, vector<structureContributors>& structureContributors);
 void reportTask();
 void editTask();
 void readTasks(const char* name, vector<taskStructure>& structure);
