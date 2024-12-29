@@ -56,7 +56,7 @@ string inputString(const string& text) {
 }
 
 /*prosi uzytkownika o podanie inta i sprawdza czy nie wystapil blad podczas tego lub czy cokolwiek wpisal*/
-int inputInt(const string& text) {
+auto inputInt(const string &text, const int &maxChoice) -> int {
     int toReturn;
     cout << text;
     cin >> toReturn;
@@ -69,6 +69,10 @@ int inputInt(const string& text) {
         cin >> toReturn;
     }
     cin.ignore();
+    if (toReturn > maxChoice) {
+        cout << "Nie mozesz podac liczby wiekszej niz " << maxChoice << "!" << endl;
+        return inputInt(text, maxChoice);
+    }
     return toReturn;
 }
 

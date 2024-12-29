@@ -14,7 +14,7 @@ void projectsInterface(vector<structureProjects>& structureProjects, vector<task
         // const int choice = interfaceAndChoice("PROJEKTY",
         // {"Dodaj projekt", "Usun projekt", "Edytuj projekt", "Menu glowne"});
         cout << "PROJEKTY\n1. Dodaj projekt\n2. Usun projekt\n3. Edytuj projekt\n4. Menu glowne" << endl;
-        const int choice = inputInt("Wybierz opcje: ");
+        const int choice = inputInt("Wybierz opcje:", 4);
         if (choice == 1) {
             addProject(structureProjects, taskStructure);
         } else if (choice == 2) {
@@ -30,16 +30,15 @@ void projectsInterface(vector<structureProjects>& structureProjects, vector<task
 }
 
 /*interfejs zadania*/
-void tasksInterface(vector<taskStructure>& taskStructure, vector<structureContributors>& structureContributors) {
+void tasksInterface(vector<taskStructure>& taskStructure, vector<structureContributors>& structureContributors, vector<structureProjects>& structureProjects) {
     while (true) {
         cout << "ZADANIA\n1. Dodaj zadanie\n2. Usun zadanie\n3. Edytuj zadanie\n4. Menu glowne" << endl;
-        const int choice = inputInt("Wybierz opcje: ");
+        const int choice = inputInt("Wybierz opcje:", 4);
         // obsluga wyboru uzytkownika
         if (choice == 1) {
-            addTask(taskStructure);
+            addTask(taskStructure, structureProjects, -1, false);
         } else if (choice == 2) {
-            int ID = inputInt("Podaj ID zadania do usuniecia:");
-            removeTask(ID, taskStructure, structureContributors);
+            removeTask(-1, taskStructure, structureContributors);
         } else if (choice == 3) {
             editTask();
         } else if (choice == 4) {
@@ -56,7 +55,7 @@ void contributorsInterface(vector<structureContributors>& structureContributors,
     // obsluga wyboru uzytkownika
     while (true) {
         cout << "CZLONKOWIE\n1. Dodaj czlonka\n2. Usun czlonka\n3. Edytuj czlonka\n4. Menu glowne" << endl;
-        const int choice = inputInt("Wybierz opcje: ");
+        const int choice = inputInt("Wybierz opcje: ", 4);
         if (choice == 1) {
             addContributor(structureContributors, taskStructure);
         } else if (choice == 2) {
@@ -79,12 +78,12 @@ void mainMenu(vector<structureProjects>& structureProjects,
     files& files) {
     while (true) {
         cout << "MENU GLOWNE\n1. Projekty\n2. Zadania\n3. Czlonkowie\n4. Koniec" << endl;
-        const int choice = inputInt("Wybierz opcje: ");
+        const int choice = inputInt("Wybierz opcje: ", 4);
         // obsluga wyboru uzytkownika
         if (choice == 1) {
             projectsInterface(structureProjects, taskStructure, structureContributors);
         } else if (choice == 2) {
-            tasksInterface(taskStructure, structureContributors);
+            tasksInterface(taskStructure, structureContributors, structureProjects);
         } else if (choice == 3) {
             contributorsInterface(structureContributors, taskStructure);
         } else if (choice == 4) {

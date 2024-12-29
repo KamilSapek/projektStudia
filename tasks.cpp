@@ -8,6 +8,7 @@
 #include <limits>
 
 #include "contributors.h"
+#include "projects.h"
 
 using namespace std;
 
@@ -33,7 +34,7 @@ void readTasks(const string& name, vector<taskStructure>& structure) {
                         break;
                         case 2: strukt.description = test;
                         break;
-                        case 3: strukt.priority = test;
+                        case 3: strukt.priority = stoi(test);
                         break;
                         case 4: strukt.contributors = createVector(test, *",");
                         break;
@@ -73,11 +74,10 @@ void saveTasks(const string& name, vector<taskStructure>& structure) {
     } else {
         string line;
         for (taskStructure& i : structure) {
-            i.description = "a jednak jest to polska";
             line += to_string(i.ID) + ";";
             line += i.name + ";";
             line += i.description + ";";
-            line += i.priority + ";";
+            line += to_string(i.priority) + ";";
             line += readVector(i.contributors, *",") + ";";
             line += to_string(i.startDate.day) + "." + to_string(i.startDate.month) + "." + to_string(i.startDate.year) + ";";
             line += to_string(i.endDate.day) + "." + to_string(i.endDate.month) + "." + to_string(i.endDate.year) + ";";
@@ -99,8 +99,9 @@ int dependecyMonitor(vector<taskStructure>& taskStructure) {
 /*funkcja od dodawania zadania
  * zwraca ID, gdyz jesli zostanie wywolana przez addProject to od razu ID doda sie do vectora zadan
  */
-int addTask(vector<taskStructure>& structure) {
+void addTask(vector<taskStructure>& structure, vector<structureProjects>& structProjects, int projectID, const bool& fromProject) {
     taskStructure strukt;
+    // ustawienie ID zadania
     int ID;
     if (structure.empty()) {
         ID = 0;
@@ -108,12 +109,29 @@ int addTask(vector<taskStructure>& structure) {
         ID = structure.back().ID + 1;
     }
     strukt.ID = ID;
+    // ustawienie ID projektu do ktorego ma nalezec te zadanie
+    if (!fromProject) {
+        projectID = inputInt("Podaj ID projektu do ktorego mam dodac to zadanie:", structProjects.back().ID + 1);
+        while (projectID < 0) {
+            cout << "ID nie moze byc mniejsze od 0!" << endl;
+            projectID = inputInt("Podaj ID projektu do ktorego mam dodac to zadanie:", structProjects.back().ID + 1);
+        }
+    }
+    // dodanie zadania do projektu
+    for (structureProjects& i : structProjects) {
+        if (i.ID == projectID) {
+            i.taskList.push_back(ID);
+        }
+    }
     strukt.name = inputString("Podaj nazwe zadania:");
     strukt.description = inputString("Podaj opis:");
-    strukt.priority = inputString("Podaj priorytet (niski / sredni / wysoki):");
+    // strukt.priority = inputString("Podaj priorytet (niski / sredni / wysoki):");
+    cout << "Mozliwe priorytety:\n1. Niski\n2. Sredni\3. Wysoki" << endl;
+    strukt.priority = inputInt("Wybierz priorytet:", 3);
+
     // strukt.status = inputString("Podaj status (nie rozpoczete / w trakcie / zakonczone):");
     cout << "Mozliwe statusy zadania:\n1. Nie rozpoczete\n2. W trakcie\n3. Zakonczone" << endl;
-    strukt.status = inputInt("Wybierz stautus (1-3):");
+    strukt.status = inputInt("Wybierz stautus (1-3):", 3);
     strukt.dependencies = createVector(inputString("Podaj po przecinku ID zadan ktore musza byc wykonane przed tym zadaniem:"), *",");
     // sprawdzanie czy zadanie o wyzszym "priorytecie" jest obecnie w trakcie wykonywania,
     // jesli tak to ustawia status obecnego zadania na "nie rozpoczete" pod warunkiem, ze uzytkownik ustawil status na "w trakcie"
@@ -127,14 +145,41 @@ int addTask(vector<taskStructure>& structure) {
         }
     }
     strukt.endDate = createDate(inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]:"));
+    // sprawdzenie czy data zakonczenia tego zadania nie jest dalsza od daty zakonczenia projektu
+    // TODO: sprawdzic czy dziala
+    for (structureProjects&i : structProjects) {
+        if (i.ID == projectID) {
+            while (true) {
+                if (strukt.endDate.year > i.endDate.year) {
+                    cout << "Zadanie nie moze konczyc sie pozniej niz sam projekt!" << endl;
+                } else if (strukt.endDate.month > i.endDate.month && strukt.endDate.year == i.endDate.year) {
+                    cout << "Zadanie nie moze konczyc sie pozniej niz sam projekt!" << endl;
+                } else if (strukt.endDate.day > i.endDate.day && strukt.endDate.month == i.endDate.month && strukt.endDate.year == i.endDate.year) {
+                    cout << "Zadanie nie moze konczyc sie pozniej niz sam projekt!" << endl;
+                } else {
+                    break;
+                }
+                cout << "Co chcesz z tym zrobic?\n1. Ustaw date zakonczenia projektu na " << strukt.endDate.day << "." << strukt.endDate.month << "." << strukt.endDate.year << endl;
+                cout << "2. Zmienic date zakonczenia zadania" << endl;
+                const int choice = inputInt("Wybierz opcje:", 2);
+                if (choice == 1) {
+                    i.endDate = strukt.endDate;
+                } else {
+                    strukt.endDate = createDate(inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]:"));
+                }
+            }
+        }
+    }
     strukt.startDate = createDate(inputString("Podaj date rozpoczecia zadania [DD.MM.RRRR]:"));
     strukt.contributors = createVector(inputString("Podaj po przecinku ID czlonkow pracujacych nad tym zadaniem:"), *",");
     structure.push_back(strukt);
-    return ID;
 }
 
 /*funkcja od usuwania zadan*/
-void removeTask(const int ID, vector<taskStructure>& structure, vector<structureContributors>& structureContributors) {
+void removeTask(int ID, vector<taskStructure>& structure, vector<structureContributors>& structureContributors) {
+    if (ID == -1) {
+        ID = inputInt("Podaj ID zadania do usuniecia:", structure.back().ID);
+    }
     for (const taskStructure& i : structure) {
         if (i.ID == ID) {
             // usuwanie zadania czlonkowi

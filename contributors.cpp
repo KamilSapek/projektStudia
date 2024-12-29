@@ -81,8 +81,7 @@ void addContributor(vector<structureContributors>& structure, vector<taskStructu
 }
 
 void removeContributor(vector<structureContributors>& structure, vector<taskStructure>& taskStruc) {
-    int ID;
-    ID = inputInt("Podaj ID czlonka:");
+    const int ID = inputInt("Podaj ID czlonka:", structure.back().ID);
     for (int i = 0; i < structure.size(); i++) {
         if (structure[i].ID == ID) {
             structure.erase(structure.begin() + i);
@@ -124,10 +123,10 @@ void reportContributor(vector<structureContributors>& structure) {
 }
 
 void editContributor() {
-    int choice = inputInt("Podaj ID czlonka:");
+    int choice = inputInt("Podaj ID czlonka:", 4);
     while (choice < 0) {
         cout << "ID nie moze byc mniejsze od 0!" << endl;
-        choice = inputInt("Podaj ID czlonka:");
+        choice = inputInt("Podaj ID czlonka:", 4);
     }
     cout << "Co chcesz zmienic?\nDostepne opcje:" << endl;
     cout << "1. Imie\n2. Nazwisko\n3. Zadania do zrobienia\n4. Historia zrobionych zadan";

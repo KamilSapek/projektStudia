@@ -1,16 +1,10 @@
 #ifndef CONTRIBUTORS_H
 #define CONTRIBUTORS_H
-#include <string>
+#include "structures.h"
 #include <vector>
 using namespace std;
 
-struct structureContributors {
-    int ID;
-    string name, surname;
-    vector<int> tasksToDo, historyOfTasks;
-};
 
-#include "tasks.h"
 
 
 void addContributor(vector<structureContributors>& structure, vector<taskStructure>& taskStruc);
