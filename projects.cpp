@@ -1,4 +1,3 @@
-
 #include "projects.h"
 #include "commonFunctions.h"
 

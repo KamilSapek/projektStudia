@@ -1,12 +1,5 @@
-//
-// Created by Kamil on 12/9/2024.
-//
-
 #include "commonFunctions.h"
 #include "tasks.h"
-#include "contributors.h"
-#include "projects.h"
-
 #include <iostream>
 #include <limits>
 #include <vector>
@@ -56,6 +49,7 @@ string inputString(const string& text) {
 }
 
 /*prosi uzytkownika o podanie inta i sprawdza czy nie wystapil blad podczas tego lub czy cokolwiek wpisal*/
+// TODO: sprawdzic blad kiedy zamiast samego inta poda sie np. "31.31.31"
 auto inputInt(const string &text, const int &maxChoice) -> int {
     int toReturn;
     cout << text;
@@ -72,6 +66,9 @@ auto inputInt(const string &text, const int &maxChoice) -> int {
     if (toReturn > maxChoice) {
         cout << "Nie mozesz podac liczby wiekszej niz " << maxChoice << "!" << endl;
         return inputInt(text, maxChoice);
+    } if (toReturn < 1) {
+        cout << "Nie mozesz podac mniejszej liczby od 1!" << endl;
+        return inputInt(text, maxChoice);
     }
     return toReturn;
 }
@@ -82,10 +79,22 @@ date createDate(const string& text) {
     string test;
     for (int i = 0; i < text.length(); i++) {
         if (text.at(i) == '.') {
+            int number = stoi(test);
             switch (iterator) {
-                case 0: dateToReturn.day = stoi(test); break;
-                case 1: dateToReturn.month = stoi(test); break;
-                case 2: dateToReturn.year = stoi(test); break;
+                case 0:
+                    while (number < 1 || number > 31) {
+                        cout << "Dzien musi znajdowac sie w przedziale 1 - 31" << endl;
+                        number = inputInt("Podaj dzien: ", 31);
+                }
+                    dateToReturn.day = number; break;
+                case 1:
+                    while (number < 1 || number > 12) {
+                        cout << "Miesiac musi znajdowac sie w przedziale 1 - 12" << endl;
+                        number = inputInt("Podaj miesiac: ", 12);
+                    }
+                    dateToReturn.month = stoi(test); break;
+                case 2:
+                    dateToReturn.year = stoi(test); break;
             }
             iterator++;
             test = "";
