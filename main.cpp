@@ -9,7 +9,7 @@
 using namespace std;
 
 /*szuka parametru podanego w argumencie*/
-string findFileName(const int& argc, char* argv[], const char* param) {
+string findFileName(const int &argc, char *argv[], const char *param) {
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], param) == 0) {
             return argv[i + 1];
@@ -37,8 +37,8 @@ int main(const int argc, char *argv[]) {
         vector<taskStructure> taskStructure;
         vector<structureContributors> structureContributors;
 
-        readProjects(files.projectsFile,structureProjects);
-        readTasks(files.tasksFile,taskStructure);
+        readProjects(files.projectsFile, structureProjects);
+        readTasks(files.tasksFile, taskStructure);
         readContributors(files.contributorsFile, structureContributors);
         /*uruchomienie interfejsu*/
         mainMenu(structureProjects, taskStructure, structureContributors, files);

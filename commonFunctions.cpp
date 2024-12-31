@@ -24,7 +24,7 @@ vector<int> createVector(string data, char splitter) {
 /*przetwarza wektor na string*/
 string readVector(const std::vector<int> &vector, const char splitter) {
     string stringToReturn;
-    for (const int i : vector) {
+    for (const int i: vector) {
         stringToReturn += to_string(i) + splitter;
     }
     stringToReturn.pop_back();
@@ -32,7 +32,7 @@ string readVector(const std::vector<int> &vector, const char splitter) {
 }
 
 /*prosi uzytkownika o podanie stringa i sprawdza czy nie wystapil blad podczas tego lub czy cokolwiek wpisal*/
-string inputString(const string& text) {
+string inputString(const string &text) {
     string toReturn;
     cout << text << " ";
     getline(cin, toReturn);
@@ -66,14 +66,11 @@ auto inputInt(const string &text, const int &maxChoice) -> int {
     if (toReturn > maxChoice) {
         cout << "Nie mozesz podac liczby wiekszej niz " << maxChoice << "!" << endl;
         return inputInt(text, maxChoice);
-    } if (toReturn < 1) {
-        cout << "Nie mozesz podac mniejszej liczby od 1!" << endl;
-        return inputInt(text, maxChoice);
     }
     return toReturn;
 }
 
-date createDate(const string& text) {
+date createDate(const string &text) {
     date dateToReturn = {};
     int iterator = 0;
     string test;
@@ -85,16 +82,19 @@ date createDate(const string& text) {
                     while (number < 1 || number > 31) {
                         cout << "Dzien musi znajdowac sie w przedziale 1 - 31" << endl;
                         number = inputInt("Podaj dzien: ", 31);
-                }
-                    dateToReturn.day = number; break;
+                    }
+                    dateToReturn.day = number;
+                    break;
                 case 1:
                     while (number < 1 || number > 12) {
                         cout << "Miesiac musi znajdowac sie w przedziale 1 - 12" << endl;
                         number = inputInt("Podaj miesiac: ", 12);
                     }
-                    dateToReturn.month = stoi(test); break;
+                    dateToReturn.month = stoi(test);
+                    break;
                 case 2:
-                    dateToReturn.year = stoi(test); break;
+                    dateToReturn.year = stoi(test);
+                    break;
             }
             iterator++;
             test = "";

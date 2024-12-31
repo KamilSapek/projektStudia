@@ -11,7 +11,7 @@
 using namespace std;
 
 /*funkcja ktora odczytuje dane z pliku*/
-void readTasks(const string& name, vector<taskStructure>& structure) {
+void readTasks(const string &name, vector<taskStructure> &structure) {
     cout << name << endl;
     ifstream file(name);
     if (!file.is_open()) {
@@ -27,25 +27,25 @@ void readTasks(const string& name, vector<taskStructure>& structure) {
                 if (line.at(i) == ';') {
                     switch (iterator) {
                         case 0: strukt.ID = stoi(test);
-                        break;
+                            break;
                         case 1: strukt.name = test;
-                        break;
+                            break;
                         case 2: strukt.description = test;
-                        break;
+                            break;
                         case 3: strukt.priority = stoi(test);
-                        break;
+                            break;
                         case 4: strukt.contributors = createVector(test, *",");
-                        break;
+                            break;
                         case 5: strukt.startDate = createDate(test + ".");
-                        break;
+                            break;
                         case 6: strukt.endDate = createDate(test + ".");
-                        break;
+                            break;
                         case 7: strukt.status = stoi(test);
-                        break;
+                            break;
                         case 8: strukt.dependencies = createVector(test, *",");
-                        break;
+                            break;
                         case 9: strukt.completionPercentage = stoi(test);
-                        break;
+                            break;
                     }
                     test = "";
                     iterator++;
@@ -59,25 +59,25 @@ void readTasks(const string& name, vector<taskStructure>& structure) {
 }
 
 /* Funkcja ktora sprawdza czy nie ma w strukturze zduplikowanego ID lub czy nie ma konfliktu w zależnościach */
-void _checkData(vector<taskStructure>& struktura) {
+void _checkData(vector<taskStructure> &struktura) {
     // duplikaty ID
-
 }
 
 /*funkcja ktora zapisuje strukture do pliku*/
-void saveTasks(const string& name, vector<taskStructure>& structure) {
+void saveTasks(const string &name, vector<taskStructure> &structure) {
     ofstream file(name, std::ios::in | std::ios::out | ios::app);
     if (!file.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
     } else {
         string line;
-        for (taskStructure& i : structure) {
+        for (taskStructure &i: structure) {
             line += to_string(i.ID) + ";";
             line += i.name + ";";
             line += i.description + ";";
             line += to_string(i.priority) + ";";
             line += readVector(i.contributors, *",") + ";";
-            line += to_string(i.startDate.day) + "." + to_string(i.startDate.month) + "." + to_string(i.startDate.year) + ";";
+            line += to_string(i.startDate.day) + "." + to_string(i.startDate.month) + "." + to_string(i.startDate.year)
+                    + ";";
             line += to_string(i.endDate.day) + "." + to_string(i.endDate.month) + "." + to_string(i.endDate.year) + ";";
             line += to_string(i.status) + ";";
             line += readVector(i.dependencies, *",") + ";";
@@ -89,15 +89,15 @@ void saveTasks(const string& name, vector<taskStructure>& structure) {
 }
 
 /*monitorowanie zaleznosci*/
-int dependecyMonitor(vector<taskStructure>& taskStructure) {
-
+int dependecyMonitor(vector<taskStructure> &taskStructure) {
     return 0;
 }
 
 /*funkcja od dodawania zadania
  * zwraca ID, gdyz jesli zostanie wywolana przez addProject to od razu ID doda sie do vectora zadan
  */
-void addTask(vector<taskStructure>& structure, vector<structureProjects>& structProjects, int projectID, const bool& fromProject) {
+void addTask(vector<taskStructure> &structure, vector<structureProjects> &structProjects, int projectID,
+             const bool &fromProject) {
     taskStructure strukt;
     // ustawienie ID zadania
     int ID;
@@ -116,7 +116,7 @@ void addTask(vector<taskStructure>& structure, vector<structureProjects>& struct
         }
     }
     // dodanie zadania do projektu
-    for (structureProjects& i : structProjects) {
+    for (structureProjects &i: structProjects) {
         if (i.ID == projectID) {
             i.taskList.push_back(ID);
         }
@@ -130,7 +130,8 @@ void addTask(vector<taskStructure>& structure, vector<structureProjects>& struct
     // strukt.status = inputString("Podaj status (nie rozpoczete / w trakcie / zakonczone):");
     cout << "Mozliwe statusy zadania:\n1. Nie rozpoczete\n2. W trakcie\n3. Zakonczone" << endl;
     strukt.status = inputInt("Wybierz stautus (1-3):", 3);
-    strukt.dependencies = createVector(inputString("Podaj po przecinku ID zadan ktore musza byc wykonane przed tym zadaniem:"), *",");
+    strukt.dependencies = createVector(
+        inputString("Podaj po przecinku ID zadan ktore musza byc wykonane przed tym zadaniem:"), *",");
     // sprawdzenie czy zostalo wprowadzone ID ktore nie istnieje
     const int largestIDinTasks = structure.back().ID;
     vector<int> IDtoRemove;
@@ -153,12 +154,13 @@ void addTask(vector<taskStructure>& structure, vector<structureProjects>& struct
     // sprawdzanie czy zadanie o wyzszym "priorytecie" jest obecnie w trakcie wykonywania,
     // jesli tak to ustawia status obecnego zadania na "nie rozpoczete" pod warunkiem, ze uzytkownik ustawil status na "w trakcie"
     if (strukt.status == 2) {
-        for (const int& i : strukt.dependencies) {
-            for (const taskStructure& j : structure) {
+        for (const int &i: strukt.dependencies) {
+            for (const taskStructure &j: structure) {
                 if (j.ID == i && j.status == 2) {
                     strukt.status = 1;
-                    cout << "Zadanie o ID " << j.ID << " ma priorytet nad obecnym zadaniem i jest w trakcie wykonywania."
-                                                       "Status obecnego zadania ustawiam na nie rozpoczete" << endl;
+                    cout << "Zadanie o ID " << j.ID <<
+                            " ma priorytet nad obecnym zadaniem i jest w trakcie wykonywania."
+                            "Status obecnego zadania ustawiam na nie rozpoczete" << endl;
                 }
             }
         }
@@ -166,45 +168,49 @@ void addTask(vector<taskStructure>& structure, vector<structureProjects>& struct
     strukt.startDate = createDate(inputString("Podaj date rozpoczecia zadania [DD.MM.RRRR]:"));
     strukt.endDate = createDate(inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]:") + ".");
     // sprawdzenie czy data zakonczenia tego zadania nie jest dalsza od daty zakonczenia projektu
-    for (structureProjects& i : structProjects) {
+    for (structureProjects &i: structProjects) {
         if (i.ID == projectID) {
             while (true) {
                 if (strukt.endDate.year > i.endDate.year) {
                     cout << "Zadanie nie moze konczyc sie pozniej niz sam projekt!" << endl;
                 } else if (strukt.endDate.month > i.endDate.month && strukt.endDate.year == i.endDate.year) {
                     cout << "Zadanie nie moze konczyc sie pozniej niz sam projekt!" << endl;
-                } else if (strukt.endDate.day > i.endDate.day && strukt.endDate.month == i.endDate.month && strukt.endDate.year == i.endDate.year) {
+                } else if (strukt.endDate.day > i.endDate.day && strukt.endDate.month == i.endDate.month && strukt.
+                           endDate.year == i.endDate.year) {
                     cout << "Zadanie nie moze konczyc sie pozniej niz sam projekt!" << endl;
                 } else {
                     break;
                 }
-                cout << "Co chcesz z tym zrobic?\n1. Ustaw date zakonczenia projektu na " << strukt.endDate.day << "." << strukt.endDate.month << "." << strukt.endDate.year << endl;
+                cout << "Co chcesz z tym zrobic?\n1. Ustaw date zakonczenia projektu na " << strukt.endDate.day << "."
+                        << strukt.endDate.month << "." << strukt.endDate.year << endl;
                 cout << "2. Zmienic date zakonczenia zadania" << endl;
                 const int choice = inputInt("Wybierz opcje:", 2);
                 if (choice == 1) {
                     i.endDate = strukt.endDate;
                 } else {
-                    strukt.endDate = createDate(inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]:") + ".");
+                    strukt.endDate = createDate(
+                        inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]:") + ".");
                 }
             }
         }
     }
-    strukt.contributors = createVector(inputString("Podaj po przecinku ID czlonkow pracujacych nad tym zadaniem:"), *",");
+    strukt.contributors = createVector(inputString("Podaj po przecinku ID czlonkow pracujacych nad tym zadaniem:"),
+                                       *",");
     structure.push_back(strukt);
 }
 
 /*funkcja od usuwania zadan*/
-void removeTask(int ID, vector<taskStructure>& structure, vector<structureContributors>& structureContributors) {
+void removeTask(int ID, vector<taskStructure> &structure, vector<structureContributors> &structureContributors) {
     if (ID == -1) {
         ID = inputInt("Podaj ID zadania do usuniecia:", structure.back().ID);
     }
-    for (const taskStructure& i : structure) {
+    for (const taskStructure &i: structure) {
         if (i.ID == ID) {
             // usuwanie zadania czlonkowi
             // petla lecaca przez strukture czlonkow
-            for (auto& j : structureContributors) {
+            for (auto &j: structureContributors) {
                 // petla lecaca przez wektor przypisanych czlonkow do danego zadania
-                for (const int& k : i.contributors) {
+                for (const int &k: i.contributors) {
                     // jesli zgodne id z wektora i struktury
                     if (k == j.ID) {
                         // szuka i usuwa ID zadania z wektora przypisanych zadan

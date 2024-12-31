@@ -9,7 +9,7 @@
 #include "tasks.h"
 using namespace std;
 
-void readProjects(const string& name, vector<structureProjects>& structure) {
+void readProjects(const string &name, vector<structureProjects> &structure) {
     cout << name << endl;
     ifstream file(name);
     if (!file.is_open()) {
@@ -25,17 +25,17 @@ void readProjects(const string& name, vector<structureProjects>& structure) {
                 if (line.at(i) == ';') {
                     switch (iterator) {
                         case 0: strukt.ID = stoi(test);
-                        break;
+                            break;
                         case 1: strukt.name = test;
-                        break;
+                            break;
                         case 2: strukt.description = test;
-                        break;
+                            break;
                         case 3: strukt.startDate = createDate(test + ".");
-                        break;
+                            break;
                         case 4: strukt.endDate = createDate(test + ".");
-                        break;
+                            break;
                         case 5: strukt.status = stoi(test);
-                        break;
+                            break;
                         case 6: strukt.taskList.push_back(stoi(test));
                     }
                     test = "";
@@ -49,17 +49,18 @@ void readProjects(const string& name, vector<structureProjects>& structure) {
     }
 }
 
-void saveProjects(const string& name, vector<structureProjects>& structure) {
+void saveProjects(const string &name, vector<structureProjects> &structure) {
     ofstream file(name, ios::app);
     if (!file.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
     } else {
         string line;
-        for (const structureProjects& i : structure) {
+        for (const structureProjects &i: structure) {
             line += to_string(i.ID) + ";";
             line += i.name + ";";
             line += i.description + ";";
-            line += to_string(i.startDate.day) + "." + to_string(i.startDate.month) + "." + to_string(i.startDate.year) + ";";
+            line += to_string(i.startDate.day) + "." + to_string(i.startDate.month) + "." + to_string(i.startDate.year)
+                    + ";";
             line += to_string(i.endDate.day) + "." + to_string(i.endDate.month) + "." + to_string(i.endDate.year) + ";";
             line += readVector(i.taskList, *",") + ";";
             file << line << endl;;
@@ -68,7 +69,7 @@ void saveProjects(const string& name, vector<structureProjects>& structure) {
     }
 }
 
-void addProject(vector<structureProjects>& structure, vector<taskStructure>& taskStructure) {
+void addProject(vector<structureProjects> &structure, vector<taskStructure> &taskStructure) {
     structureProjects strukt;
     int ID;
     if (structure.empty()) {
@@ -82,7 +83,8 @@ void addProject(vector<structureProjects>& structure, vector<taskStructure>& tas
     strukt.startDate = createDate(inputString("Podaj date rozpoczecia [DD.MM.RRRR]:") + ".");
     strukt.endDate = createDate(inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]:") + ".");
     while (true) {
-        if (strukt.startDate.day == strukt.endDate.day && strukt.startDate.month == strukt.endDate.month && strukt.startDate.year == strukt.endDate.year) {
+        if (strukt.startDate.day == strukt.endDate.day && strukt.startDate.month == strukt.endDate.month && strukt.
+            startDate.year == strukt.endDate.year) {
             cout << "Planowana data zakonczenia nie moze byc taka sama co data rozpoczecia projektu!" << endl;
         } else if (strukt.endDate.year < strukt.startDate.year) {
             cout << "Projekt nie moze sie zakonczyc przed jego rozpoczeciem!" << endl;
@@ -109,12 +111,13 @@ void addProject(vector<structureProjects>& structure, vector<taskStructure>& tas
     structure.push_back(strukt);
 }
 
-void removeProject(vector<structureProjects>& structure, vector<taskStructure>& taskStructure, vector<structureContributors>& structureContributors) {
+void removeProject(vector<structureProjects> &structure, vector<taskStructure> &taskStructure,
+                   vector<structureContributors> &structureContributors) {
     string name = inputString("Podaj nazwe projektu:");
     for (int i = 0; i < structure.size(); i++) {
         if (structure[i].name == name) {
-            for (int& j : structure[i].taskList) {
-                for (const::taskStructure& k : taskStructure) {
+            for (int &j: structure[i].taskList) {
+                for (const ::taskStructure &k: taskStructure) {
                     if (j == k.ID) {
                         removeTask(j, taskStructure, structureContributors);
                     }
@@ -125,10 +128,36 @@ void removeProject(vector<structureProjects>& structure, vector<taskStructure>& 
     }
 }
 
-void report() {
-
+void reportProejct(const vector<structureProjects> &structure, const vector<taskStructure> &taskStruc) {
+    cout << "Podaj ID projektu: " << endl;
+    for (const structureProjects &i: structure) {
+        cout << "Nazwa: " << i.name << endl;
+        cout << "Opis: " << i.description << endl;
+        cout << "Status: " << i.status << endl;
+        cout << "Data rozpoczecia: " << i.startDate.day << "." << i.startDate.month << "." << i.startDate.year << endl;
+        cout << "Szacowana data zakonczenia: " << i.endDate.day << "." << i.endDate.month << "." << i.endDate.year <<
+                endl;
+        cout << "ID przypisanych zadan: ";
+        for (int j = 0; j < i.taskList.size(); j++) {
+            if (j == i.taskList.size() - 1) {
+                cout << i.taskList[j] << endl;
+            } else {
+                cout << i.taskList[j] << ", ";
+            }
+        }
+        cout << "Szacowany najkrotszy mozliwy czas zrealizowania: " << i.endDate.day - i.startDate.day + (
+            i.endDate.month - i.startDate.month) * 30 + (i.endDate.year - i.startDate.year) * 365 << " dni" << endl;
+        int sumPercentage = 0;
+        for (const int& j : i.taskList) {
+            for (const taskStructure &k: taskStruc) {
+                if (j == k.ID) {
+                    sumPercentage += k.completionPercentage;
+                }
+            }
+        }
+        cout << "Status realizacji zadania: " << sumPercentage / i.taskList.size() << endl;
+    }
 }
 
 void editProject() {
-
 }

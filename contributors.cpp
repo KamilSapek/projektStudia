@@ -8,7 +8,7 @@
 #include <limits>
 using namespace std;
 
-void readContributors(const string& name, vector<structureContributors>& structure) {
+void readContributors(const string &name, vector<structureContributors> &structure) {
     cout << name << endl;
     ifstream file(name);
     if (!file.is_open()) {
@@ -24,15 +24,15 @@ void readContributors(const string& name, vector<structureContributors>& structu
                 if (line.at(i) == ';') {
                     switch (iterator) {
                         case 0: strukt.ID = stoi(test);
-                        break;
+                            break;
                         case 1: strukt.name = test;
-                        break;
+                            break;
                         case 2: strukt.surname = test;
-                        break;
+                            break;
                         case 3: strukt.tasksToDo = createVector(test, ',');
-                        break;
+                            break;
                         case 4: strukt.historyOfTasks = createVector(test, ',');
-                        break;
+                            break;
                     }
                     test = "";
                     iterator++;
@@ -45,13 +45,13 @@ void readContributors(const string& name, vector<structureContributors>& structu
     }
 }
 
-void saveContributor(const string& name, vector<structureContributors>& structure) {
+void saveContributor(const string &name, vector<structureContributors> &structure) {
     ofstream file(name, ios::app);
     if (!file.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
     } else {
         string line;
-        for (const structureContributors& i : structure) {
+        for (const structureContributors &i: structure) {
             line += to_string(i.ID) + ";";
             line += i.name + ";";
             line += i.surname + ";";
@@ -63,13 +63,13 @@ void saveContributor(const string& name, vector<structureContributors>& structur
     }
 }
 
-void addContributor(vector<structureContributors>& structure, vector<taskStructure>& taskStruc) {
+void addContributor(vector<structureContributors> &structure, vector<taskStructure> &taskStruc) {
     structureContributors strukt;
     strukt.name = inputString("Podaj imie czlonka:");
     strukt.surname = inputString("Podaj nazwisko czlonka:");
     strukt.tasksToDo = createVector(inputString("Podaj po przecinku ID zadan do wykonania:"), *",");
-    for (taskStructure& i : taskStruc) {
-        for (const int& g : strukt.tasksToDo) {
+    for (taskStructure &i: taskStruc) {
+        for (const int &g: strukt.tasksToDo) {
             if (i.ID == g) {
                 i.contributors.push_back(g);
             }
@@ -79,15 +79,15 @@ void addContributor(vector<structureContributors>& structure, vector<taskStructu
     structure.push_back(strukt);
 }
 
-void removeContributor(vector<structureContributors>& structure, vector<taskStructure>& taskStruc) {
+void removeContributor(vector<structureContributors> &structure, vector<taskStructure> &taskStruc) {
     const int ID = inputInt("Podaj ID czlonka:", structure.back().ID);
     for (int i = 0; i < structure.size(); i++) {
         if (structure[i].ID == ID) {
             structure.erase(structure.begin() + i);
         }
     }
-    for (taskStructure& i : taskStruc) {
-        for (const int& g : i.contributors) {
+    for (taskStructure &i: taskStruc) {
+        for (const int &g: i.contributors) {
             if (ID == g) {
                 i.contributors.erase(i.contributors.begin() + g);
             }
@@ -95,20 +95,19 @@ void removeContributor(vector<structureContributors>& structure, vector<taskStru
     }
 }
 
-void reportContributor(vector<structureContributors>& structure) {
+void reportContributor(vector<structureContributors> &structure) {
     int ID;
     cout << "Podaj ID czlonka:";
     cin >> ID;
-    for (const structureContributors& i : structure) {
+    for (const structureContributors &i: structure) {
         if (i.ID == ID) {
-            cout << "ID: " << i.ID << endl;
-            cout << "Name: " << i.name << endl;
-            cout << "Surname: " << i.surname << endl;
-            cout << "Tasks to do: ";
-            for (const int& g : i.tasksToDo) {
+            cout << "Imie: " << i.name << endl;
+            cout << "Nazwisko: " << i.surname << endl;
+            cout << "Zadania do zrobienia: ";
+            for (const int &g: i.tasksToDo) {
                 cout << g << ", ";
             }
-            cout << "\nHistory of tasks: ";
+            cout << "\nZadania ktore zrobil: ";
             for (int g = 0; g < i.historyOfTasks.size(); g++) {
                 if (g == i.historyOfTasks.size()) {
                     cout << i.historyOfTasks[g] << endl;
@@ -137,4 +136,57 @@ void editContributor() {
         cout << "Wybierz opcje jeszcze raz:";
         cin >> choice;
     }
+}
+
+bool isEarlierDate(const date &date1, const date &date2) {
+    if (date1.year < date2.year) {
+        return true;
+    }
+    if (date1.month < date2.month && date1.year == date2.year) {
+        return true;
+    }
+    if (date1.day < date2.day && date1.year == date2.year && date1.month == date2.month) {
+        return true;
+    }
+    return false;
+}
+
+bool isLaterDate(const date &date1, const date &date2) {
+    if (date1.year > date2.year) {
+        return true;
+    }
+    if (date1.month > date2.month && date1.year == date2.year) {
+        return true;
+    }
+    if (date1.day > date2.day && date1.year == date2.year && date1.month == date2.month) {
+        return true;
+    }
+    return false;
+}
+
+void contributorLoad(const vector<structureContributors> &structureContributors,
+                     const vector<taskStructure> &taskStruc) {
+    const int ID = inputInt("Podaj ID czlonka:", structureContributors.back().ID);
+    int amountOfTasks = 0;
+    date earliestDate = taskStruc[0].startDate, latestDate = taskStruc[0].endDate;
+    for (const struct structureContributors &i: structureContributors) {
+        if (i.ID == ID) {
+            amountOfTasks = i.tasksToDo.size();
+            for (const int &j: i.tasksToDo) {
+                for (const taskStructure &k: taskStruc) {
+                    if (k.ID == j) {
+                        if (isEarlierDate(k.startDate, earliestDate)) {
+                            earliestDate = k.startDate;
+                        }
+                        if (isLaterDate(k.endDate, latestDate)) {
+                            latestDate = k.endDate;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    cout << "Liczba przypisanych zadan: " << amountOfTasks << endl;
+    cout << "Szacowany czas wykonania wszystkich zadan: " << latestDate.day - earliestDate.day + (
+        latestDate.month - earliestDate.month) * 30 + (latestDate.year - earliestDate.year) * 365 << endl;
 }

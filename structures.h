@@ -16,7 +16,7 @@ struct structureContributors {
 };
 
 struct date {
-    int day, month, year;
+    short day, month, year;
 };
 
 struct taskStructure {
