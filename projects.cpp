@@ -174,6 +174,18 @@ void editProject(vector<structureProjects> &structure, vector<taskStructure> &ta
             break;
         case 3:
             structure[ID].startDate = createDate(inputString("Podaj date rozpoczecia [DD.MM.RRRR]:") + ".");
+            while (true) {
+                if (structure[ID].startDate.day == structure[ID].endDate.day && structure[ID].startDate.month ==
+                    structure[ID].endDate.month && structure[ID].
+                    startDate.year == structure[ID].endDate.year) {
+                    cout << "Planowana data rozpoczecia  nie moze byc taka sama co data zakonczenia projektu!" << endl;
+                } else if (isLaterDate(structure[ID].startDate, structure[ID].endDate)) {
+                    cout << "Projekt nie moze sie rozpoczac po jego zakonczeniu!" << endl;
+                } else {
+                    break;
+                }
+                structure[ID].endDate = createDate(inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]:"));
+            }
             break;
         case 4:
             structure[ID].endDate = createDate(inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]:") + ".");
@@ -182,11 +194,7 @@ void editProject(vector<structureProjects> &structure, vector<taskStructure> &ta
                     structure[ID].endDate.month && structure[ID].
                     startDate.year == structure[ID].endDate.year) {
                     cout << "Planowana data zakonczenia nie moze byc taka sama co data rozpoczecia projektu!" << endl;
-                } else if (structure[ID].endDate.year < structure[ID].startDate.year) {
-                    cout << "Projekt nie moze sie zakonczyc przed jego rozpoczeciem!" << endl;
-                } else if (structure[ID].startDate.month < structure[ID].endDate.month) {
-                    cout << "Projekt nie moze sie zakonczyc przed jego rozpoczeciem!" << endl;
-                } else if (structure[ID].endDate.day < structure[ID].startDate.day) {
+                } else if (isEarlierDate(structure[ID].endDate, structure[ID].startDate)) {
                     cout << "Projekt nie moze sie zakonczyc przed jego rozpoczeciem!" << endl;
                 } else {
                     break;

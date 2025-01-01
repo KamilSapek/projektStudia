@@ -151,32 +151,6 @@ void editContributor(vector<structureContributors> &structure, vector<taskStruct
     }
 }
 
-bool isEarlierDate(const date &date1, const date &date2) {
-    if (date1.year < date2.year) {
-        return true;
-    }
-    if (date1.month < date2.month && date1.year == date2.year) {
-        return true;
-    }
-    if (date1.day < date2.day && date1.year == date2.year && date1.month == date2.month) {
-        return true;
-    }
-    return false;
-}
-
-bool isLaterDate(const date &date1, const date &date2) {
-    if (date1.year > date2.year) {
-        return true;
-    }
-    if (date1.month > date2.month && date1.year == date2.year) {
-        return true;
-    }
-    if (date1.day > date2.day && date1.year == date2.year && date1.month == date2.month) {
-        return true;
-    }
-    return false;
-}
-
 void contributorLoad(const vector<structureContributors> &structureContributors,
                      const vector<taskStructure> &taskStruc) {
     const int ID = inputInt("Podaj ID czlonka:", structureContributors.back().ID);
