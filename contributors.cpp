@@ -9,7 +9,6 @@
 using namespace std;
 
 void readContributors(const string &name, vector<structureContributors> &structure) {
-    cout << name << endl;
     ifstream file(name);
     if (!file.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
@@ -95,7 +94,7 @@ void removeContributor(vector<structureContributors> &structure, vector<taskStru
     }
 }
 
-void reportContributor(vector<structureContributors> &structure) {
+void reportContributor(const vector<structureContributors> &structure) {
     int ID;
     cout << "Podaj ID czlonka:";
     cin >> ID;
@@ -120,21 +119,35 @@ void reportContributor(vector<structureContributors> &structure) {
     }
 }
 
-void editContributor() {
-    int choice = inputInt("Podaj ID czlonka:", 4);
-    while (choice < 0) {
+void editContributor(vector<structureContributors> &structure, vector<taskStructure> &taskStruc) {
+    int ID = inputInt("Podaj ID czlonka:", 4);
+    while (ID < 0) {
         cout << "ID nie moze byc mniejsze od 0!" << endl;
-        choice = inputInt("Podaj ID czlonka:", 4);
+        ID = inputInt("Podaj ID czlonka:", 4);
     }
     cout << "Co chcesz zmienic?\nDostepne opcje:" << endl;
     cout << "1. Imie\n2. Nazwisko\n3. Zadania do zrobienia\n4. Historia zrobionych zadan";
-    cout << "Wybierz opcje:" << endl;
-    cin >> choice;
-    while (!cin) {
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Wybierz opcje jeszcze raz:";
-        cin >> choice;
+    switch (inputInt("Wybierz opcje: ", 4)) {
+        case 1:
+            structure[ID].name = inputString("Podaj imie czlonka: ");
+            break;
+        case 2:
+            structure[ID].surname = inputString("Podaj nazwisko czlonka: ");
+            break;
+        case 3:
+            structure[ID].tasksToDo = createVector(inputString("Podaj po przecinku ID zadan do wykonania:"), *",");
+            for (taskStructure &i: taskStruc) {
+                for (const int &g: structure[ID].tasksToDo) {
+                    if (i.ID == g) {
+                        i.contributors.push_back(g);
+                    }
+                }
+            }
+            break;
+        case 4:
+            structure[ID].historyOfTasks = createVector(
+                inputString("Podaj po przecinku ID zadan ktore czlonek juz wykonal:"), *",");
+            break;
     }
 }
 

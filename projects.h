@@ -16,7 +16,7 @@ void removeProject(vector<structureProjects>& structure, vector<taskStructure>& 
 void reportProejct(const vector<structureProjects> &structure);
 void readProjects(const string& name, vector<structureProjects>& structure);
 void saveProjects(const string& name, vector<structureProjects>& structure);
-void editProject();
+void editProject(vector<structureProjects> &structure, vector<taskStructure> &taskStruc);
 
 
 

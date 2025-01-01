@@ -11,8 +11,8 @@ using namespace std;
 
 struct structureContributors {
     int ID;
-    std::string name, surname;
-    std::vector<int> tasksToDo, historyOfTasks;
+    string name, surname;
+    vector<int> tasksToDo, historyOfTasks;
 };
 
 struct date {
@@ -20,19 +20,21 @@ struct date {
 };
 
 struct taskStructure {
-    int ID, completionPercentage, status, priority;
+    int ID;
+    short completionPercentage, status, priority;
     string name, description;
     vector<int> dependencies, contributors;
     date startDate, endDate;
 };
 
 struct files {
-    std::string projectsFile, tasksFile, contributorsFile;
+    string projectsFile, tasksFile, contributorsFile;
 };
 
 struct structureProjects {
     string name, description;
-    int status, ID;
+    short status;
+    int ID;
     vector<int> taskList;
     date startDate, endDate;
 };

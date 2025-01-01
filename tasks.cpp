@@ -12,7 +12,6 @@ using namespace std;
 
 /*funkcja ktora odczytuje dane z pliku*/
 void readTasks(const string &name, vector<taskStructure> &structure) {
-    cout << name << endl;
     ifstream file(name);
     if (!file.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
@@ -165,7 +164,7 @@ void addTask(vector<taskStructure> &structure, vector<structureProjects> &struct
             }
         }
     }
-    strukt.startDate = createDate(inputString("Podaj date rozpoczecia zadania [DD.MM.RRRR]:"));
+    strukt.startDate = createDate(inputString("Podaj date rozpoczecia zadania [DD.MM.RRRR]:") + ".");
     strukt.endDate = createDate(inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]:") + ".");
     // sprawdzenie czy data zakonczenia tego zadania nie jest dalsza od daty zakonczenia projektu
     for (structureProjects &i: structProjects) {
@@ -230,5 +229,71 @@ void removeTask(int ID, vector<taskStructure> &structure, vector<structureContri
 void reportTasks() {
 }
 
-void editTask() {
+void editTask(vector<taskStructure> &taskStructure) {
+    const int ID = inputInt("Podaj ID zadania: ", taskStructure.back().ID);
+    const int largestIDinTasks = taskStructure.back().ID;
+    vector<int> IDtoRemove;
+    cout <<
+            "Co chcesz zmienic? Dostepne opcje:\n"
+            "1. Nazwa\n"
+            "2. Opis\n"
+            "3. Priorytet\n"
+            "4. Przypisane osoby\n"
+            "5. Data rozpoczecia\n"
+            "6. Przewidywana data zakonczenia\n"
+            "7. Status\n"
+            "8. Zaleznosci\n"
+            "9. Procent realizacji zadania"
+            << endl;
+    switch (inputInt("Wybierz opcje:", 9)) {
+        case 1:
+            taskStructure[ID].name = inputString("Podaj nowa nazwe: ");
+            break;
+        case 2:
+            taskStructure[ID].description = inputString("Podaj nowy opis: ");
+            break;
+        case 3:
+            cout << "Mozliwe priorytety:\n1. Niski\n2. Sredni\n3. Wysoki" << endl;
+            taskStructure[ID].priority = inputInt("Wybierz priorytet:", 3);
+            break;
+        case 4:
+            taskStructure[ID].contributors = createVector(
+                inputString("Podaj po przecinku ID czlonkow pracujacych nad tym zadaniem:"), *",");
+            break;
+        case 5:
+            taskStructure[ID].startDate =
+                    createDate(inputString("Podaj date rozpoczecia zadania [DD.MM.RRRR]: ") + ".");
+            break;
+        case 6:
+            taskStructure[ID].endDate = createDate(
+                inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]:") + ".");
+            break;
+        case 7:
+            taskStructure[ID].status = inputInt("Wybierz stautus (1-3):", 3);
+            if (taskStructure[ID].status == 2) {
+                for (const int &i: taskStructure[ID].dependencies) {
+                        if (taskStructure[i].ID == i && taskStructure[i].status == 2) {
+                            taskStructure[i].status = 1;
+                            cout << "Zadanie o ID " << taskStructure[i].ID <<
+                                    " ma priorytet nad obecnym zadaniem i jest w trakcie wykonywania."
+                                    "Status obecnego zadania ustawiam na nie rozpoczete" << endl;
+                        }
+                    }
+                }
+            break;
+        case 8:
+            taskStructure[ID].dependencies = createVector(
+                inputString("Podaj po przecinku ID zadan ktore musza byc wykonane przed tym zadaniem:"), *",");
+            // sprawdzenie czy zostalo wprowadzone ID ktore nie istnieje
+            for (int i = 0; i < taskStructure[ID].dependencies.size(); i++) {
+                if (taskStructure[ID].dependencies[i] > largestIDinTasks) {
+                    IDtoRemove.push_back(taskStructure[ID].dependencies[i]);
+                    taskStructure[ID].dependencies.erase(taskStructure[ID].dependencies.begin() + i);
+                    i--;
+                }
+            }
+            break;
+        case 9:
+            taskStructure[ID].completionPercentage = inputInt("Podaj procent realizacji zadania: ", 100); break;
+    }
 }

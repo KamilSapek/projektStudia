@@ -10,7 +10,6 @@
 using namespace std;
 
 void readProjects(const string &name, vector<structureProjects> &structure) {
-    cout << name << endl;
     ifstream file(name);
     if (!file.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
@@ -148,7 +147,7 @@ void reportProejct(const vector<structureProjects> &structure, const vector<task
         cout << "Szacowany najkrotszy mozliwy czas zrealizowania: " << i.endDate.day - i.startDate.day + (
             i.endDate.month - i.startDate.month) * 30 + (i.endDate.year - i.startDate.year) * 365 << " dni" << endl;
         int sumPercentage = 0;
-        for (const int& j : i.taskList) {
+        for (const int &j: i.taskList) {
             for (const taskStructure &k: taskStruc) {
                 if (j == k.ID) {
                     sumPercentage += k.completionPercentage;
@@ -159,5 +158,52 @@ void reportProejct(const vector<structureProjects> &structure, const vector<task
     }
 }
 
-void editProject() {
+void editProject(vector<structureProjects> &structure, vector<taskStructure> &taskStruc) {
+    const int ID = inputInt("Podaj ID projektu: ", structure.back().ID);
+    int amount;
+    vector<int> tasks;
+    cout <<
+            "Co chcesz zmienic? Dostepne opcje:\n1. Nazwa\n2. Opis\n3. Data rozpoczecia\n4. Planowana data zakonczenia\n5. Status\n6. Lista zadan"
+            << endl;
+    switch (inputInt("Wybierz opcje: ", 6)) {
+        case 1:
+            structure[ID].name = inputString("Podaj nazwe projektu: ");
+            break;
+        case 2:
+            structure[ID].description = inputString("Podaj opis projektu: ");
+            break;
+        case 3:
+            structure[ID].startDate = createDate(inputString("Podaj date rozpoczecia [DD.MM.RRRR]:") + ".");
+            break;
+        case 4:
+            structure[ID].endDate = createDate(inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]:") + ".");
+            while (true) {
+                if (structure[ID].startDate.day == structure[ID].endDate.day && structure[ID].startDate.month ==
+                    structure[ID].endDate.month && structure[ID].
+                    startDate.year == structure[ID].endDate.year) {
+                    cout << "Planowana data zakonczenia nie moze byc taka sama co data rozpoczecia projektu!" << endl;
+                } else if (structure[ID].endDate.year < structure[ID].startDate.year) {
+                    cout << "Projekt nie moze sie zakonczyc przed jego rozpoczeciem!" << endl;
+                } else if (structure[ID].startDate.month < structure[ID].endDate.month) {
+                    cout << "Projekt nie moze sie zakonczyc przed jego rozpoczeciem!" << endl;
+                } else if (structure[ID].endDate.day < structure[ID].startDate.day) {
+                    cout << "Projekt nie moze sie zakonczyc przed jego rozpoczeciem!" << endl;
+                } else {
+                    break;
+                }
+                structure[ID].endDate = createDate(inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]:"));
+            }
+            break;
+        case 5:
+            cout << "Jaki jest obecny status projektu?\n1. Planowany\n2. W trakcie\n3. Zakonczony" << endl;
+            structure[ID].status = inputInt("Wybierz opcje:", 3);
+            break;
+        case 6:
+            amount = inputInt("Ile zadan podlega zadaniu?:", 2147483647);
+            tasks.reserve(amount);
+            for (int i = 0; i < amount; i++) {
+                addTask(taskStruc, structure, ID, true);
+            }
+            structure[ID].taskList = tasks;
+    }
 }
