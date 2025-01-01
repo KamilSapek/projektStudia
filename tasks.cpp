@@ -87,11 +87,6 @@ void saveTasks(const string &name, vector<taskStructure> &structure) {
     }
 }
 
-/*monitorowanie zaleznosci*/
-int dependecyMonitor(vector<taskStructure> &taskStructure) {
-    return 0;
-}
-
 /*funkcja od dodawania zadania
  * zwraca ID, gdyz jesli zostanie wywolana przez addProject to od razu ID doda sie do vectora zadan
  */
