@@ -12,6 +12,7 @@ using namespace std;
 
 /*funkcja ktora odczytuje dane z pliku*/
 void readTasks(const string &name, vector<taskStructure> &structure) {
+    cout << "Tasks" << endl;
     ifstream file(name);
     if (!file.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
@@ -64,7 +65,8 @@ void _checkData(vector<taskStructure> &struktura) {
 
 /*funkcja ktora zapisuje strukture do pliku*/
 void saveTasks(const string &name, vector<taskStructure> &structure) {
-    ofstream file(name, std::ios::in | std::ios::out | ios::app);
+    // ofstream file(name, std::ios::in | std::ios::out | ios::app);
+    ofstream file(name, ios::trunc);
     if (!file.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
     } else {
@@ -103,10 +105,10 @@ void addTask(vector<taskStructure> &structure, vector<structureProjects> &struct
     strukt.ID = ID;
     // ustawienie ID projektu do ktorego ma nalezec te zadanie
     if (!fromProject) {
-        projectID = inputInt("Podaj ID projektu do ktorego mam dodac to zadanie:", structProjects.back().ID);
+        projectID = inputInt("Podaj ID projektu do ktorego mam dodac to zadanie:", 0, structProjects.back().ID);
         while (projectID < 0) {
             cout << "ID nie moze byc mniejsze od 0!" << endl;
-            projectID = inputInt("Podaj ID projektu do ktorego mam dodac to zadanie:", structProjects.back().ID);
+            projectID = inputInt("Podaj ID projektu do ktorego mam dodac to zadanie:", 0, structProjects.back().ID);
         }
     }
     // dodanie zadania do projektu
@@ -119,11 +121,11 @@ void addTask(vector<taskStructure> &structure, vector<structureProjects> &struct
     strukt.description = inputString("Podaj opis:");
     // strukt.priority = inputString("Podaj priorytet (niski / sredni / wysoki):");
     cout << "Mozliwe priorytety:\n1. Niski\n2. Sredni\n3. Wysoki" << endl;
-    strukt.priority = inputInt("Wybierz priorytet:", 3);
+    strukt.priority = inputInt("Wybierz priorytet:", 1, 3);
 
     // strukt.status = inputString("Podaj status (nie rozpoczete / w trakcie / zakonczone):");
     cout << "Mozliwe statusy zadania:\n1. Nie rozpoczete\n2. W trakcie\n3. Zakonczone" << endl;
-    strukt.status = inputInt("Wybierz stautus (1-3):", 3);
+    strukt.status = inputInt("Wybierz stautus (1-3):", 1, 3);
     strukt.dependencies = createVector(
         inputString("Podaj po przecinku ID zadan ktore musza byc wykonane przed tym zadaniem:"), *",");
     // sprawdzenie czy zostalo wprowadzone ID ktore nie istnieje
@@ -178,7 +180,7 @@ void addTask(vector<taskStructure> &structure, vector<structureProjects> &struct
                 cout << "Co chcesz z tym zrobic?\n1. Ustaw date zakonczenia projektu na " << strukt.endDate.day << "."
                         << strukt.endDate.month << "." << strukt.endDate.year << endl;
                 cout << "2. Zmienic date zakonczenia zadania" << endl;
-                const int choice = inputInt("Wybierz opcje:", 2);
+                const int choice = inputInt("Wybierz opcje:", 1, 2);
                 if (choice == 1) {
                     i.endDate = strukt.endDate;
                 } else {
@@ -196,7 +198,7 @@ void addTask(vector<taskStructure> &structure, vector<structureProjects> &struct
 /*funkcja od usuwania zadan*/
 void removeTask(int ID, vector<taskStructure> &structure, vector<structureContributors> &structureContributors) {
     if (ID == -1) {
-        ID = inputInt("Podaj ID zadania do usuniecia:", structure.back().ID);
+        ID = inputInt("Podaj ID zadania do usuniecia:", 0, structure.back().ID);
     }
     for (const taskStructure &i: structure) {
         if (i.ID == ID) {
@@ -225,8 +227,8 @@ void reportTasks() {
 }
 
 void editTask(vector<taskStructure> &taskStructure) {
-    const int ID = inputInt("Podaj ID zadania: ", taskStructure.back().ID);
-    const int largestIDinTasks = taskStructure.back().ID;
+    const int ID = inputInt("Podaj ID zadania: ", 0, taskStructure.back().ID),
+    largestIDinTasks = taskStructure.back().ID;
     vector<int> IDtoRemove;
     cout <<
             "Co chcesz zmienic? Dostepne opcje:\n"
@@ -240,7 +242,7 @@ void editTask(vector<taskStructure> &taskStructure) {
             "8. Zaleznosci\n"
             "9. Procent realizacji zadania"
             << endl;
-    switch (inputInt("Wybierz opcje:", 9)) {
+    switch (inputInt("Wybierz opcje:", 1, 9)) {
         case 1:
             taskStructure[ID].name = inputString("Podaj nowa nazwe: ");
             break;
@@ -249,7 +251,7 @@ void editTask(vector<taskStructure> &taskStructure) {
             break;
         case 3:
             cout << "Mozliwe priorytety:\n1. Niski\n2. Sredni\n3. Wysoki" << endl;
-            taskStructure[ID].priority = inputInt("Wybierz priorytet:", 3);
+            taskStructure[ID].priority = inputInt("Wybierz priorytet:", 1, 3);
             break;
         case 4:
             taskStructure[ID].contributors = createVector(
@@ -264,22 +266,22 @@ void editTask(vector<taskStructure> &taskStructure) {
                 inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]:") + ".");
             break;
         case 7:
-            taskStructure[ID].status = inputInt("Wybierz stautus (1-3):", 3);
+            taskStructure[ID].status = inputInt("Wybierz stautus (1-3):", 1, 3);
             if (taskStructure[ID].status == 2) {
                 for (const int &i: taskStructure[ID].dependencies) {
-                        if (taskStructure[i].ID == i && taskStructure[i].status == 2) {
-                            taskStructure[i].status = 1;
-                            cout << "Zadanie o ID " << taskStructure[i].ID <<
-                                    " ma priorytet nad obecnym zadaniem i jest w trakcie wykonywania."
-                                    "Status obecnego zadania ustawiam na nie rozpoczete" << endl;
-                        }
+                    if (taskStructure[i].ID == i && taskStructure[i].status == 2) {
+                        taskStructure[i].status = 1;
+                        cout << "Zadanie o ID " << taskStructure[i].ID <<
+                                " ma priorytet nad obecnym zadaniem i jest w trakcie wykonywania."
+                                "Status obecnego zadania ustawiam na nie rozpoczete" << endl;
                     }
                 }
+            }
             break;
         case 8:
             taskStructure[ID].dependencies = createVector(
                 inputString("Podaj po przecinku ID zadan ktore musza byc wykonane przed tym zadaniem:"), *",");
-            // sprawdzenie czy zostalo wprowadzone ID ktore nie istnieje
+        // sprawdzenie czy zostalo wprowadzone ID ktore nie istnieje
             for (int i = 0; i < taskStructure[ID].dependencies.size(); i++) {
                 if (taskStructure[ID].dependencies[i] > largestIDinTasks) {
                     IDtoRemove.push_back(taskStructure[ID].dependencies[i]);
@@ -289,6 +291,7 @@ void editTask(vector<taskStructure> &taskStructure) {
             }
             break;
         case 9:
-            taskStructure[ID].completionPercentage = inputInt("Podaj procent realizacji zadania: ", 100); break;
+            taskStructure[ID].completionPercentage = inputInt("Podaj procent realizacji zadania: ", 1, 100);
+            break;
     }
 }

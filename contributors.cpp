@@ -5,10 +5,10 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include <limits>
 using namespace std;
 
 void readContributors(const string &name, vector<structureContributors> &structure) {
+    cout << "Contributors" << endl;
     ifstream file(name);
     if (!file.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
@@ -45,7 +45,7 @@ void readContributors(const string &name, vector<structureContributors> &structu
 }
 
 void saveContributor(const string &name, vector<structureContributors> &structure) {
-    ofstream file(name, ios::app);
+    ofstream file(name, ios::trunc);
     if (!file.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
     } else {
@@ -79,7 +79,7 @@ void addContributor(vector<structureContributors> &structure, vector<taskStructu
 }
 
 void removeContributor(vector<structureContributors> &structure, vector<taskStructure> &taskStruc) {
-    const int ID = inputInt("Podaj ID czlonka:", structure.back().ID);
+    const int ID = inputInt("Podaj ID czlonka:", 0, structure.back().ID);
     for (int i = 0; i < structure.size(); i++) {
         if (structure[i].ID == ID) {
             structure.erase(structure.begin() + i);
@@ -120,14 +120,14 @@ void reportContributor(const vector<structureContributors> &structure) {
 }
 
 void editContributor(vector<structureContributors> &structure, vector<taskStructure> &taskStruc) {
-    int ID = inputInt("Podaj ID czlonka:", 4);
+    int ID = inputInt("Podaj ID czlonka:", 0, 4);
     while (ID < 0) {
         cout << "ID nie moze byc mniejsze od 0!" << endl;
-        ID = inputInt("Podaj ID czlonka:", 4);
+        ID = inputInt("Podaj ID czlonka:", 0, 4);
     }
     cout << "Co chcesz zmienic?\nDostepne opcje:" << endl;
     cout << "1. Imie\n2. Nazwisko\n3. Zadania do zrobienia\n4. Historia zrobionych zadan";
-    switch (inputInt("Wybierz opcje: ", 4)) {
+    switch (inputInt("Wybierz opcje: ", 0, 4)) {
         case 1:
             structure[ID].name = inputString("Podaj imie czlonka: ");
             break;
@@ -153,7 +153,7 @@ void editContributor(vector<structureContributors> &structure, vector<taskStruct
 
 void contributorLoad(const vector<structureContributors> &structureContributors,
                      const vector<taskStructure> &taskStruc) {
-    const int ID = inputInt("Podaj ID czlonka:", structureContributors.back().ID);
+    const int ID = inputInt("Podaj ID czlonka:", 0, structureContributors.back().ID);
     int amountOfTasks = 0;
     date earliestDate = taskStruc[0].startDate, latestDate = taskStruc[0].endDate;
     for (const struct structureContributors &i: structureContributors) {

@@ -10,6 +10,7 @@
 using namespace std;
 
 void readProjects(const string &name, vector<structureProjects> &structure) {
+    cout << "Projects" << endl;
     ifstream file(name);
     if (!file.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
@@ -35,7 +36,7 @@ void readProjects(const string &name, vector<structureProjects> &structure) {
                             break;
                         case 5: strukt.status = stoi(test);
                             break;
-                        case 6: strukt.taskList.push_back(stoi(test));
+                        case 6: strukt.taskList = createVector(test, *",");
                     }
                     test = "";
                     iterator++;
@@ -49,7 +50,7 @@ void readProjects(const string &name, vector<structureProjects> &structure) {
 }
 
 void saveProjects(const string &name, vector<structureProjects> &structure) {
-    ofstream file(name, ios::app);
+    ofstream file(name, ios::trunc);
     if (!file.is_open()) {
         cout << "Nie mozna otworzyc pliku" << endl;
     } else {
@@ -61,7 +62,8 @@ void saveProjects(const string &name, vector<structureProjects> &structure) {
             line += to_string(i.startDate.day) + "." + to_string(i.startDate.month) + "." + to_string(i.startDate.year)
                     + ";";
             line += to_string(i.endDate.day) + "." + to_string(i.endDate.month) + "." + to_string(i.endDate.year) + ";";
-            line += readVector(i.taskList, *",") + ";";
+            line += to_string(i.status) + ";";
+            line += readVector(i.taskList, *",");
             file << line << endl;;
             line = "";
         }
@@ -85,11 +87,7 @@ void addProject(vector<structureProjects> &structure, vector<taskStructure> &tas
         if (strukt.startDate.day == strukt.endDate.day && strukt.startDate.month == strukt.endDate.month && strukt.
             startDate.year == strukt.endDate.year) {
             cout << "Planowana data zakonczenia nie moze byc taka sama co data rozpoczecia projektu!" << endl;
-        } else if (strukt.endDate.year < strukt.startDate.year) {
-            cout << "Projekt nie moze sie zakonczyc przed jego rozpoczeciem!" << endl;
-        } else if (strukt.startDate.month < strukt.endDate.month) {
-            cout << "Projekt nie moze sie zakonczyc przed jego rozpoczeciem!" << endl;
-        } else if (strukt.endDate.day < strukt.startDate.day) {
+        } else if (isEarlierDate(strukt.endDate, strukt.startDate)) {
             cout << "Projekt nie moze sie zakonczyc przed jego rozpoczeciem!" << endl;
         } else {
             break;
@@ -98,9 +96,9 @@ void addProject(vector<structureProjects> &structure, vector<taskStructure> &tas
     }
     // strukt.status = inputString("Podaj status projektu (np. „planowany,” „w trakcie,” „zakończony”)");
     cout << "Jaki jest obecny status projektu?\n1. Planowany\n2. W trakcie\n3. Zakonczony" << endl;
-    strukt.status = inputInt("Wybierz opcje:", 3);
+    strukt.status = inputInt("Wybierz opcje:", 1, 3);
     // strukt.taskList = createVector(inputString("Podaj po przecinku ID zadan podlegajacych pod ten projekt:"), *",");
-    int amount = inputInt("Ile zadan podlega zadaniu?:", 2147483647);
+    const int amount = inputInt("Ile zadan podlega projektowi?:", 1, 2147483647);
     vector<int> tasks;
     tasks.reserve(amount);
     for (int i = 0; i < amount; i++) {
@@ -159,13 +157,13 @@ void reportProejct(const vector<structureProjects> &structure, const vector<task
 }
 
 void editProject(vector<structureProjects> &structure, vector<taskStructure> &taskStruc) {
-    const int ID = inputInt("Podaj ID projektu: ", structure.back().ID);
+    const int ID = inputInt("Podaj ID projektu: ", 0, structure.back().ID);
     int amount;
     vector<int> tasks;
     cout <<
             "Co chcesz zmienic? Dostepne opcje:\n1. Nazwa\n2. Opis\n3. Data rozpoczecia\n4. Planowana data zakonczenia\n5. Status\n6. Lista zadan"
             << endl;
-    switch (inputInt("Wybierz opcje: ", 6)) {
+    switch (inputInt("Wybierz opcje: ", 1, 6)) {
         case 1:
             structure[ID].name = inputString("Podaj nazwe projektu: ");
             break;
@@ -204,14 +202,22 @@ void editProject(vector<structureProjects> &structure, vector<taskStructure> &ta
             break;
         case 5:
             cout << "Jaki jest obecny status projektu?\n1. Planowany\n2. W trakcie\n3. Zakonczony" << endl;
-            structure[ID].status = inputInt("Wybierz opcje:", 3);
+            structure[ID].status = inputInt("Wybierz opcje:", 1, 3);
             break;
         case 6:
-            amount = inputInt("Ile zadan podlega zadaniu?:", 2147483647);
+            amount = inputInt("Ile zadan podlega zadaniu?:", 1, 2147483647);
             tasks.reserve(amount);
             for (int i = 0; i < amount; i++) {
                 addTask(taskStruc, structure, ID, true);
             }
             structure[ID].taskList = tasks;
+    }
+}
+
+void scheme(const vector<structureProjects> &structure) {
+    cout << "HARMONOGRAM PROJEKTOW" << endl;
+    for (const structureProjects &i: structure) {
+        cout << i.name << "   " << i.startDate.day << "." << i.startDate.month << "." << i.startDate.year << " - " << i.
+                endDate.day << "." << i.endDate.month << i.endDate.year << endl;
     }
 }
