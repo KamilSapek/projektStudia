@@ -16,7 +16,7 @@ void projectsInterface(vector<structureProjects> &structureProjects, vector<task
         // const int choice = interfaceAndChoice("PROJEKTY",
         // {"Dodaj projekt", "Usun projekt", "Edytuj projekt", "Menu glowne"});
         cout << "PROJEKTY\n1. Dodaj projekt\n2. Usun projekt\n3. Edytuj projekt\n4. Harmonogram\n5. Menu glowne" << endl;
-        const int choice = inputInt("Wybierz opcje:", 1, 5);
+        const int choice = inputInt("Wybierz opcje: ", 1, 5);
         if (choice == 1) {
             addProject(structureProjects, taskStructure);
         } else if (choice == 2) {
@@ -39,7 +39,7 @@ void tasksInterface(vector<taskStructure> &taskStructure, vector<structureContri
     while (true) {
         system("clear");
         cout << "ZADANIA\n1. Dodaj zadanie\n2. Usun zadanie\n3. Edytuj zadanie\n4. Menu glowne" << endl;
-        const int choice = inputInt("Wybierz opcje:", 1, 4);
+        const int choice = inputInt("Wybierz opcje: ", 1, 4);
         // obsluga wyboru uzytkownika
         if (choice == 1) {
             addTask(taskStructure, structureProjects, -1, false);

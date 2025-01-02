@@ -21,12 +21,17 @@ string findFileName(const int &argc, char *argv[], const char *param) {
 int main(const int argc, char *argv[]) {
     /*sprawdzanie parametrow*/
     if (argc == 0) {
-        cout << "Do poprawnego korzystania z programu, musisz uzyc parametrow.\n"
+        cout << "Nie podales zadnego parametru" << endl;
+        cout << "Do poprawnego korzystania z programu, musisz uzyc parametrow\n"
                 "-p [nazwa pliku z danymi do projektow]\n"
                 "-z [nazwa pliku z danymi do zadan]\n"
                 "-c [nazwa pliku z danymi do czlonkow]" << endl;
     } else if (argc < 7) {
         cout << "Nie podales jakiegos parametru" << endl;
+        cout << "Do poprawnego korzystania z programu, musisz uzyc parametrow\n"
+                "-p [nazwa pliku z danymi do projektow]\n"
+                "-z [nazwa pliku z danymi do zadan]\n"
+                "-c [nazwa pliku z danymi do czlonkow]" << endl;
     } else {
         files files = {};
         files.projectsFile = findFileName(argc, argv, "-p");

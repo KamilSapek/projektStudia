@@ -105,11 +105,7 @@ void addTask(vector<taskStructure> &structure, vector<structureProjects> &struct
     strukt.ID = ID;
     // ustawienie ID projektu do ktorego ma nalezec te zadanie
     if (!fromProject) {
-        projectID = inputInt("Podaj ID projektu do ktorego mam dodac to zadanie:", 0, structProjects.back().ID);
-        while (projectID < 0) {
-            cout << "ID nie moze byc mniejsze od 0!" << endl;
-            projectID = inputInt("Podaj ID projektu do ktorego mam dodac to zadanie:", 0, structProjects.back().ID);
-        }
+        projectID = inputInt("Podaj ID projektu do ktorego mam dodac to zadanie: ", 0, structProjects.back().ID);
     }
     // dodanie zadania do projektu
     for (structureProjects &i: structProjects) {
@@ -117,17 +113,47 @@ void addTask(vector<taskStructure> &structure, vector<structureProjects> &struct
             i.taskList.push_back(ID);
         }
     }
-    strukt.name = inputString("Podaj nazwe zadania:");
-    strukt.description = inputString("Podaj opis:");
+    strukt.name = inputString("Podaj nazwe zadania: ");
+    strukt.description = inputString("Podaj opis: ");
     // strukt.priority = inputString("Podaj priorytet (niski / sredni / wysoki):");
     cout << "Mozliwe priorytety:\n1. Niski\n2. Sredni\n3. Wysoki" << endl;
-    strukt.priority = inputInt("Wybierz priorytet:", 1, 3);
-
+    strukt.priority = inputInt("Wybierz priorytet: ", 1, 3);
+    strukt.contributors = createVector(inputString("Podaj po przecinku ID czlonkow pracujacych nad tym zadaniem: "),
+                                       *",");
+    strukt.startDate = createDate(inputString("Podaj date rozpoczecia zadania [DD.MM.RRRR]: ") + ".");
+    strukt.endDate = createDate(inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]: ") + ".");
+    // sprawdzenie czy data zakonczenia tego zadania nie jest dalsza od daty zakonczenia projektu
+    for (structureProjects &i: structProjects) {
+        if (i.ID == projectID) {
+            while (true) {
+                if (strukt.endDate.year > i.endDate.year) {
+                    cout << "Zadanie nie moze konczyc sie pozniej niz sam projekt!" << endl;
+                } else if (strukt.endDate.month > i.endDate.month && strukt.endDate.year == i.endDate.year) {
+                    cout << "Zadanie nie moze konczyc sie pozniej niz sam projekt!" << endl;
+                } else if (strukt.endDate.day > i.endDate.day && strukt.endDate.month == i.endDate.month && strukt.
+                           endDate.year == i.endDate.year) {
+                    cout << "Zadanie nie moze konczyc sie pozniej niz sam projekt!" << endl;
+                           } else {
+                               break;
+                           }
+                cout << "Co chcesz z tym zrobic?\n1. Ustaw date zakonczenia projektu na " << strukt.endDate.day << "."
+                        << strukt.endDate.month << "." << strukt.endDate.year << endl;
+                cout << "2. Zmienic date zakonczenia zadania" << endl;
+                const int choice = inputInt("Wybierz opcje: ", 1, 2);
+                if (choice == 1) {
+                    i.endDate = strukt.endDate;
+                } else {
+                    strukt.endDate = createDate(
+                        inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]: ") + ".");
+                }
+            }
+        }
+    }
     // strukt.status = inputString("Podaj status (nie rozpoczete / w trakcie / zakonczone):");
     cout << "Mozliwe statusy zadania:\n1. Nie rozpoczete\n2. W trakcie\n3. Zakonczone" << endl;
-    strukt.status = inputInt("Wybierz stautus (1-3):", 1, 3);
+    strukt.status = inputInt("Wybierz stautus (1-3): ", 1, 3);
     strukt.dependencies = createVector(
-        inputString("Podaj po przecinku ID zadan ktore musza byc wykonane przed tym zadaniem:"), *",");
+        inputString("Podaj po przecinku ID zadan ktore musza byc wykonane przed tym zadaniem: "), *",");
     // sprawdzenie czy zostalo wprowadzone ID ktore nie istnieje
     const int largestIDinTasks = structure.back().ID;
     vector<int> IDtoRemove;
@@ -161,44 +187,14 @@ void addTask(vector<taskStructure> &structure, vector<structureProjects> &struct
             }
         }
     }
-    strukt.startDate = createDate(inputString("Podaj date rozpoczecia zadania [DD.MM.RRRR]:") + ".");
-    strukt.endDate = createDate(inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]:") + ".");
-    // sprawdzenie czy data zakonczenia tego zadania nie jest dalsza od daty zakonczenia projektu
-    for (structureProjects &i: structProjects) {
-        if (i.ID == projectID) {
-            while (true) {
-                if (strukt.endDate.year > i.endDate.year) {
-                    cout << "Zadanie nie moze konczyc sie pozniej niz sam projekt!" << endl;
-                } else if (strukt.endDate.month > i.endDate.month && strukt.endDate.year == i.endDate.year) {
-                    cout << "Zadanie nie moze konczyc sie pozniej niz sam projekt!" << endl;
-                } else if (strukt.endDate.day > i.endDate.day && strukt.endDate.month == i.endDate.month && strukt.
-                           endDate.year == i.endDate.year) {
-                    cout << "Zadanie nie moze konczyc sie pozniej niz sam projekt!" << endl;
-                } else {
-                    break;
-                }
-                cout << "Co chcesz z tym zrobic?\n1. Ustaw date zakonczenia projektu na " << strukt.endDate.day << "."
-                        << strukt.endDate.month << "." << strukt.endDate.year << endl;
-                cout << "2. Zmienic date zakonczenia zadania" << endl;
-                const int choice = inputInt("Wybierz opcje:", 1, 2);
-                if (choice == 1) {
-                    i.endDate = strukt.endDate;
-                } else {
-                    strukt.endDate = createDate(
-                        inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]:") + ".");
-                }
-            }
-        }
-    }
-    strukt.contributors = createVector(inputString("Podaj po przecinku ID czlonkow pracujacych nad tym zadaniem:"),
-                                       *",");
+    strukt.completionPercentage = 0;
     structure.push_back(strukt);
 }
 
 /*funkcja od usuwania zadan*/
 void removeTask(int ID, vector<taskStructure> &structure, vector<structureContributors> &structureContributors) {
     if (ID == -1) {
-        ID = inputInt("Podaj ID zadania do usuniecia:", 0, structure.back().ID);
+        ID = inputInt("Podaj ID zadania do usuniecia: ", 0, structure.back().ID);
     }
     for (const taskStructure &i: structure) {
         if (i.ID == ID) {
@@ -213,12 +209,14 @@ void removeTask(int ID, vector<taskStructure> &structure, vector<structureContri
                         for (int l = 0; l < j.tasksToDo.size(); l++) {
                             if (j.tasksToDo[l] == ID) {
                                 j.tasksToDo.erase(j.tasksToDo.begin() + l);
+                                break;
                             }
                         }
                     }
                 }
             }
             structure.erase(structure.begin() + ID);
+            break;
         }
     }
 }
@@ -242,7 +240,7 @@ void editTask(vector<taskStructure> &taskStructure) {
             "8. Zaleznosci\n"
             "9. Procent realizacji zadania"
             << endl;
-    switch (inputInt("Wybierz opcje:", 1, 9)) {
+    switch (inputInt("Wybierz opcje: ", 1, 9)) {
         case 1:
             taskStructure[ID].name = inputString("Podaj nowa nazwe: ");
             break;
@@ -251,11 +249,11 @@ void editTask(vector<taskStructure> &taskStructure) {
             break;
         case 3:
             cout << "Mozliwe priorytety:\n1. Niski\n2. Sredni\n3. Wysoki" << endl;
-            taskStructure[ID].priority = inputInt("Wybierz priorytet:", 1, 3);
+            taskStructure[ID].priority = inputInt("Wybierz priorytet: ", 1, 3);
             break;
         case 4:
             taskStructure[ID].contributors = createVector(
-                inputString("Podaj po przecinku ID czlonkow pracujacych nad tym zadaniem:"), *",");
+                inputString("Podaj po przecinku ID czlonkow pracujacych nad tym zadaniem: "), *",");
             break;
         case 5:
             taskStructure[ID].startDate =
@@ -263,10 +261,10 @@ void editTask(vector<taskStructure> &taskStructure) {
             break;
         case 6:
             taskStructure[ID].endDate = createDate(
-                inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]:") + ".");
+                inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]: ") + ".");
             break;
         case 7:
-            taskStructure[ID].status = inputInt("Wybierz stautus (1-3):", 1, 3);
+            taskStructure[ID].status = inputInt("Wybierz stautus (1-3): ", 1, 3);
             if (taskStructure[ID].status == 2) {
                 for (const int &i: taskStructure[ID].dependencies) {
                     if (taskStructure[i].ID == i && taskStructure[i].status == 2) {
@@ -280,7 +278,7 @@ void editTask(vector<taskStructure> &taskStructure) {
             break;
         case 8:
             taskStructure[ID].dependencies = createVector(
-                inputString("Podaj po przecinku ID zadan ktore musza byc wykonane przed tym zadaniem:"), *",");
+                inputString("Podaj po przecinku ID zadan ktore musza byc wykonane przed tym zadaniem: "), *",");
         // sprawdzenie czy zostalo wprowadzone ID ktore nie istnieje
             for (int i = 0; i < taskStructure[ID].dependencies.size(); i++) {
                 if (taskStructure[ID].dependencies[i] > largestIDinTasks) {

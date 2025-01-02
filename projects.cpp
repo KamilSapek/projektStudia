@@ -79,10 +79,11 @@ void addProject(vector<structureProjects> &structure, vector<taskStructure> &tas
         ID = structure.back().ID + 1;
     }
     strukt.ID = ID;
-    strukt.name = inputString("Podaj nazwe projektu:");
-    strukt.description = inputString("Podaj opis:");
-    strukt.startDate = createDate(inputString("Podaj date rozpoczecia [DD.MM.RRRR]:") + ".");
-    strukt.endDate = createDate(inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]:") + ".");
+    strukt.name = inputString("Podaj nazwe projektu: ");
+    strukt.description = inputString("Podaj opis: ");
+    strukt.startDate = createDate(inputString("Podaj date rozpoczecia [DD.MM.RRRR]: ") + ".");
+    strukt.endDate = createDate(inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]: ") + ".");
+    // sprawdzanie czy data zakonczenia nie jest rowna lub przed data rozpoczecia projektu
     while (true) {
         if (strukt.startDate.day == strukt.endDate.day && strukt.startDate.month == strukt.endDate.month && strukt.
             startDate.year == strukt.endDate.year) {
@@ -92,13 +93,13 @@ void addProject(vector<structureProjects> &structure, vector<taskStructure> &tas
         } else {
             break;
         }
-        strukt.endDate = createDate(inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]:"));
+        strukt.endDate = createDate(inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]: "));
     }
     // strukt.status = inputString("Podaj status projektu (np. „planowany,” „w trakcie,” „zakończony”)");
     cout << "Jaki jest obecny status projektu?\n1. Planowany\n2. W trakcie\n3. Zakonczony" << endl;
-    strukt.status = inputInt("Wybierz opcje:", 1, 3);
+    strukt.status = inputInt("Wybierz opcje: ", 1, 3);
     // strukt.taskList = createVector(inputString("Podaj po przecinku ID zadan podlegajacych pod ten projekt:"), *",");
-    const int amount = inputInt("Ile zadan podlega projektowi?:", 1, 2147483647);
+    const int amount = inputInt("Ile zadan podlega projektowi?: ", 1, 2147483647);
     vector<int> tasks;
     tasks.reserve(amount);
     for (int i = 0; i < amount; i++) {
@@ -110,17 +111,20 @@ void addProject(vector<structureProjects> &structure, vector<taskStructure> &tas
 
 void removeProject(vector<structureProjects> &structure, vector<taskStructure> &taskStructure,
                    vector<structureContributors> &structureContributors) {
-    string name = inputString("Podaj nazwe projektu:");
-    for (int i = 0; i < structure.size(); i++) {
-        if (structure[i].name == name) {
-            for (int &j: structure[i].taskList) {
+    const int ID = inputInt("Podaj ID projektu: ", 0, structure.back().ID);
+    // for (int i = 0; i < structure.size(); i++) {
+    for (auto i = structure.begin(); i != structure.end(); ++i) {
+        if (i -> ID == ID) {
+            for (const int &j: i -> taskList) {
                 for (const ::taskStructure &k: taskStructure) {
                     if (j == k.ID) {
                         removeTask(j, taskStructure, structureContributors);
+                        break;
                     }
                 }
             }
-            structure.erase(structure.begin() + i);
+            structure.erase(i);
+            break;
         }
     }
 }
@@ -130,10 +134,10 @@ void reportProejct(const vector<structureProjects> &structure, const vector<task
     for (const structureProjects &i: structure) {
         cout << "Nazwa: " << i.name << endl;
         cout << "Opis: " << i.description << endl;
-        cout << "Status: " << i.status << endl;
         cout << "Data rozpoczecia: " << i.startDate.day << "." << i.startDate.month << "." << i.startDate.year << endl;
         cout << "Szacowana data zakonczenia: " << i.endDate.day << "." << i.endDate.month << "." << i.endDate.year <<
                 endl;
+        cout << "Status: " << i.status << endl;
         cout << "ID przypisanych zadan: ";
         for (int j = 0; j < i.taskList.size(); j++) {
             if (j == i.taskList.size() - 1) {
@@ -171,7 +175,7 @@ void editProject(vector<structureProjects> &structure, vector<taskStructure> &ta
             structure[ID].description = inputString("Podaj opis projektu: ");
             break;
         case 3:
-            structure[ID].startDate = createDate(inputString("Podaj date rozpoczecia [DD.MM.RRRR]:") + ".");
+            structure[ID].startDate = createDate(inputString("Podaj date rozpoczecia [DD.MM.RRRR]: ") + ".");
             while (true) {
                 if (structure[ID].startDate.day == structure[ID].endDate.day && structure[ID].startDate.month ==
                     structure[ID].endDate.month && structure[ID].
@@ -182,11 +186,11 @@ void editProject(vector<structureProjects> &structure, vector<taskStructure> &ta
                 } else {
                     break;
                 }
-                structure[ID].endDate = createDate(inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]:"));
+                structure[ID].endDate = createDate(inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]: "));
             }
             break;
         case 4:
-            structure[ID].endDate = createDate(inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]:") + ".");
+            structure[ID].endDate = createDate(inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]: ") + ".");
             while (true) {
                 if (structure[ID].startDate.day == structure[ID].endDate.day && structure[ID].startDate.month ==
                     structure[ID].endDate.month && structure[ID].
@@ -197,15 +201,15 @@ void editProject(vector<structureProjects> &structure, vector<taskStructure> &ta
                 } else {
                     break;
                 }
-                structure[ID].endDate = createDate(inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]:"));
+                structure[ID].endDate = createDate(inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]: "));
             }
             break;
         case 5:
             cout << "Jaki jest obecny status projektu?\n1. Planowany\n2. W trakcie\n3. Zakonczony" << endl;
-            structure[ID].status = inputInt("Wybierz opcje:", 1, 3);
+            structure[ID].status = inputInt("Wybierz opcje: ", 1, 3);
             break;
         case 6:
-            amount = inputInt("Ile zadan podlega zadaniu?:", 1, 2147483647);
+            amount = inputInt("Ile zadan podlega zadaniu?: ", 1, 2147483647);
             tasks.reserve(amount);
             for (int i = 0; i < amount; i++) {
                 addTask(taskStruc, structure, ID, true);
