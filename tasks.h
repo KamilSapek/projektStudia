@@ -4,7 +4,7 @@
 #include <vector>
 using namespace std;
 
-void addTask(vector<taskStructure> &structure, vector<structureProjects> &structProjects, int projectID);
+int addTask(vector<taskStructure> &structure, vector<structureProjects> &structProjects, int projectID);
 
 void removeTask(int ID, vector<taskStructure> &structure, vector<structureContributors> &structureContributors,
                 vector<structureProjects> &structureProjects, const bool &fromProject);

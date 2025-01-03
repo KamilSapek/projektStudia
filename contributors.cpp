@@ -28,9 +28,15 @@ void readContributors(const string &name, vector<structureContributors> &structu
                             break;
                         case 2: strukt.surname = test;
                             break;
-                        case 3: strukt.tasksToDo = createVector(test, ',');
+                        case 3:
+                            if (test != "-1") {
+                                strukt.tasksToDo = createVector(test, ',');
+                            }
                             break;
-                        case 4: strukt.historyOfTasks = createVector(test, ',');
+                        case 4:
+                            if (test != "-1") {
+                                strukt.historyOfTasks = createVector(test, ',');
+                            }
                             break;
                     }
                     test = "";
@@ -50,14 +56,26 @@ void saveContributor(const string &name, vector<structureContributors> &structur
         cout << "Nie mozna otworzyc pliku" << endl;
     } else {
         string line;
-        for (const structureContributors &i: structure) {
-            line += to_string(i.ID) + ";";
-            line += i.name + ";";
-            line += i.surname + ";";
-            line += readVector(i.tasksToDo, *",") + ";";
-            line += readVector(i.historyOfTasks, *",") + "\n";
+        if (structure.empty()) {
             file << line;
-            line = "";
+        } else {
+            for (const structureContributors &i: structure) {
+                line += to_string(i.ID) + ";";
+                line += i.name + ";";
+                line += i.surname + ";";
+                if (i.tasksToDo.empty()) {
+                    line += "-1";
+                } else {
+                    line += readVector(i.tasksToDo, *",") + ";";
+                }
+                if (i.historyOfTasks.empty()) {
+                    line += "-1";
+                } else {
+                    line += readVector(i.historyOfTasks, *",") + "\n";
+                }
+                file << line;
+                line = "";
+            }
         }
     }
 }
@@ -101,6 +119,9 @@ void removeContributor(vector<structureContributors> &structure, vector<taskStru
             }
             structure.erase(i);
         }
+        if (structure.empty()) {
+            break;
+        }
         i->ID -= 1;
     }
 }
@@ -114,11 +135,15 @@ void reportContributor(const vector<structureContributors> &structure, const vec
     cout << "Imie: " << i.name << endl;
     cout << "Nazwisko: " << i.surname << endl;
     cout << "Zadania do zrobienia: ";
-    for (int j = 0; j < i.tasksToDo.size(); j++) {
-        if (j == i.tasksToDo.size() - 1) {
-            cout << taskStruc[i.tasksToDo[j]].name << endl;
-        } else {
-            cout << taskStruc[i.tasksToDo[j]].name << ", ";
+    if (i.tasksToDo.empty()) {
+        cout << "Nie ma zadnych przypisanych zadan" << endl;
+    } else {
+        for (int j = 0; j < i.tasksToDo.size(); j++) {
+            if (j == i.tasksToDo.size() - 1) {
+                cout << taskStruc[i.tasksToDo[j]].name << endl;
+            } else {
+                cout << taskStruc[i.tasksToDo[j]].name << ", ";
+            }
         }
     }
     cout << endl;

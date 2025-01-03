@@ -15,18 +15,36 @@ void projectsInterface(vector<structureProjects> &structureProjects, vector<task
         system("clear");
         // const int choice = interfaceAndChoice("PROJEKTY",
         // {"Dodaj projekt", "Usun projekt", "Edytuj projekt", "Menu glowne"});
-        cout << "PROJEKTY\n1. Dodaj projekt\n2. Usun projekt\n3. Edytuj projekt\n4. Harmonogram\n5. Raport\n6. Menu glowne" << endl;
+        cout <<
+                "PROJEKTY\n1. Dodaj projekt\n2. Usun projekt\n3. Edytuj projekt\n4. Harmonogram\n5. Raport\n6. Menu glowne"
+                << endl;
         const int choice = inputInt("Wybierz opcje: ", 1, 6);
         if (choice == 1) {
             addProject(structureProjects, taskStructure);
         } else if (choice == 2) {
-            removeProject(structureProjects, taskStructure, structureContributors);
+            if (!structureContributors.empty()) {
+                removeProject(structureProjects, taskStructure, structureContributors);
+            } else {
+                cout << "Obecnie nie istnieje zaden projekt" << endl;
+            }
         } else if (choice == 3) {
-            editProject(structureProjects, taskStructure);
+            if (!structureContributors.empty()) {
+                editProject(structureProjects, taskStructure);
+            } else {
+                cout << "Obecnie nie istnieje zaden projekt" << endl;
+            }
         } else if (choice == 4) {
-            scheme(structureProjects);
+            if (!structureContributors.empty()) {
+                scheme(structureProjects);
+            } else {
+                cout << "Obecnie nie istnieje zaden projekt" << endl;
+            }
         } else if (choice == 5) {
-            reportProejct(structureProjects, taskStructure);
+            if (!structureContributors.empty()) {
+                reportProejct(structureProjects, taskStructure);
+            } else {
+                cout << "Obecnie nie istnieje zaden projekt" << endl;
+            }
         } else if (choice == 6) {
             break;
         } else {
@@ -46,11 +64,23 @@ void tasksInterface(vector<taskStructure> &taskStructure, vector<structureContri
         if (choice == 1) {
             addTask(taskStructure, structureProjects, -1);
         } else if (choice == 2) {
-            removeTask(-1, taskStructure, structureContributors, structureProjects, false);
+            if (!taskStructure.empty()) {
+                removeTask(-1, taskStructure, structureContributors, structureProjects, false);
+            } else {
+                cout << "Obecnie nie istnieje zadne zadanie" << endl;
+            }
         } else if (choice == 3) {
-            editTask(taskStructure);
+            if (!taskStructure.empty()) {
+                editTask(taskStructure);
+            } else {
+                cout << "Obecnie nie istnieje zadne zadanie" << endl;
+            }
         } else if (choice == 4) {
-            reportTask(taskStructure, structureProjects, structureContributors);
+            if (!taskStructure.empty()) {
+                reportTask(taskStructure, structureProjects, structureContributors);
+            } else {
+                cout << "Obecnie nie istnieje zadne zadanie" << endl;
+            }
         } else if (choice == 5) {
             break;
         } else {
@@ -65,18 +95,36 @@ void contributorsInterface(vector<structureContributors> &structureContributors,
     // obsluga wyboru uzytkownika
     while (true) {
         system("clear");
-        cout << "CZLONKOWIE\n1. Dodaj czlonka\n2. Usun czlonka\n3. Edytuj czlonka\n4. Raport\n5. Obciazenie czlonka\n6. Menu glowne" << endl;
+        cout <<
+                "CZLONKOWIE\n1. Dodaj czlonka\n2. Usun czlonka\n3. Edytuj czlonka\n4. Raport\n5. Obciazenie czlonka\n6. Menu glowne"
+                << endl;
         const int choice = inputInt("Wybierz opcje: ", 1, 6);
         if (choice == 1) {
             addContributor(structureContributors, taskStructure);
         } else if (choice == 2) {
-            removeContributor(structureContributors, taskStructure);
+            if (!structureContributors.empty()) {
+                removeContributor(structureContributors, taskStructure);
+            } else {
+                cout << "Obecnie nie istnieje zaden czlonek" << endl;
+            }
         } else if (choice == 3) {
-            editContributor(structureContributors, taskStructure);
+            if (!structureContributors.empty()) {
+                editContributor(structureContributors, taskStructure);
+            } else {
+                cout << "Obecnie nie istnieje zaden czlonek" << endl;
+            }
         } else if (choice == 4) {
-            reportContributor(structureContributors, taskStructure);
+            if (!structureContributors.empty()) {
+                reportContributor(structureContributors, taskStructure);
+            } else {
+                cout << "Obecnie nie istnieje zaden czlonek" << endl;
+            }
         } else if (choice == 5) {
-            contributorLoad(structureContributors, taskStructure);
+            if (!structureContributors.empty()) {
+                contributorLoad(structureContributors, taskStructure);
+            } else {
+                cout << "Obecnie nie istnieje zaden czlonek" << endl;
+            }
         } else {
             cout << "Nie ma takiego wyboru!" << endl;
         }

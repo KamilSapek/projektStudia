@@ -91,7 +91,7 @@ void saveTasks(const string &name, vector<taskStructure> &structure) {
 /*funkcja od dodawania zadania
  * zwraca ID, gdyz jesli zostanie wywolana przez addProject to od razu ID doda sie do vectora zadan
  */
-void addTask(vector<taskStructure> &structure, vector<structureProjects> &structProjects, int projectID) {
+int addTask(vector<taskStructure> &structure, vector<structureProjects> &structProjects, int projectID) {
     taskStructure strukt;
     // ustawienie ID zadania
     int ID;
@@ -190,12 +190,17 @@ void addTask(vector<taskStructure> &structure, vector<structureProjects> &struct
     }
     strukt.completionPercentage = 0;
     structure.push_back(strukt);
+    return ID;
 }
 
 /*funkcja od usuwania zadan*/
 void removeTask(int ID, vector<taskStructure> &structure, vector<structureContributors> &structureContributors,
                 vector<structureProjects> &structureProjects, const bool &fromProject) {
     if (ID == -1) {
+        cout << "ID   Nazwa" << endl;
+        for (const auto &i: structure) {
+            cout << i.ID << "   " << i.name << endl;
+        }
         ID = inputInt("Podaj ID zadania do usuniecia: ", 0, structure.back().ID);
     }
     for (taskStructure &i: structure) {
@@ -218,6 +223,9 @@ void removeTask(int ID, vector<taskStructure> &structure, vector<structureContri
                 }
             }
             structure.erase(structure.begin() + ID);
+        }
+        if (structure.empty()) {
+            break;
         }
         i.ID -= 1;
     }

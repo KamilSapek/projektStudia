@@ -34,7 +34,10 @@ void readProjects(const string &name, vector<structureProjects> &structure) {
                             break;
                         case 5: strukt.status = stoi(test);
                             break;
-                        case 6: strukt.taskList = createVector(test, *",");
+                        case 6:
+                            if (test != "-1") {
+                                strukt.taskList = createVector(test, *",");
+                            }
                     }
                     test = "";
                     iterator++;
@@ -61,7 +64,11 @@ void saveProjects(const string &name, vector<structureProjects> &structure) {
                     + ";";
             line += to_string(i.endDate.day) + "." + to_string(i.endDate.month) + "." + to_string(i.endDate.year) + ";";
             line += to_string(i.status) + ";";
-            line += readVector(i.taskList, *",");
+            if (i.taskList.empty()) {
+                line += "-1";
+            } else {
+                line += readVector(i.taskList, *",");
+            }
             file << line << endl;;
             line = "";
         }
@@ -100,8 +107,12 @@ void addProject(vector<structureProjects> &structure, vector<taskStructure> &tas
     const int amount = inputInt("Ile zadan podlega projektowi (wpisz 0 aby pominac)?: ", 0, 2147483647);
     vector<int> tasks;
     tasks.reserve(amount);
-    for (int i = 0; i < amount; i++) {
-        addTask(taskStructure, structure, ID);
+    if (amount == 0) {
+        tasks.push_back(-1);
+    } else {
+        for (int i = 0; i < amount; i++) {
+            tasks.push_back(addTask(taskStructure, structure, ID));
+        }
     }
     strukt.taskList = tasks;
     structure.push_back(strukt);
@@ -126,6 +137,9 @@ void removeProject(vector<structureProjects> &structure, vector<taskStructure> &
                 }
             }
             structure.erase(i);
+        }
+        if (structure.empty()) {
+            break;
         }
         i->ID -= 1;
     }
@@ -154,25 +168,33 @@ void reportProejct(const vector<structureProjects> &structure, const vector<task
             cout << "Zakonczony" << endl;
             break;
     }
-    cout << "ID przypisanych zadan: ";
-    for (int j = 0; j < i.taskList.size(); j++) {
-        if (j == i.taskList.size() - 1) {
-            cout << taskStruc[i.taskList[j]].name << endl;
-        } else {
-            cout << taskStruc[i.taskList[j]].name << ", ";
+    if (i.taskList.empty()) {
+        cout << "Brak przypisanych zadan" << endl;
+    } else {
+        cout << "ID przypisanych zadan: ";
+        for (int j = 0; j < i.taskList.size(); j++) {
+            if (j == i.taskList.size() - 1) {
+                cout << taskStruc[i.taskList[j]].name << endl;
+            } else {
+                cout << taskStruc[i.taskList[j]].name << ", ";
+            }
         }
     }
     cout << "Szacowany najkrotszy mozliwy czas zrealizowania: " << i.endDate.day - i.startDate.day + (
         i.endDate.month - i.startDate.month) * 30 + (i.endDate.year - i.startDate.year) * 365 << " dni" << endl;
-    int sumPercentage = 0;
-    for (const int &j: i.taskList) {
-        for (const taskStructure &k: taskStruc) {
-            if (j == k.ID) {
-                sumPercentage += k.completionPercentage;
+    if (!i.taskList.empty()) {
+        int sumPercentage = 0;
+        for (const int &j: i.taskList) {
+            for (const taskStructure &k: taskStruc) {
+                if (j == k.ID) {
+                    sumPercentage += k.completionPercentage;
+                }
             }
         }
+        cout << "Status realizacji zadania: " << sumPercentage / i.taskList.size() << "%" << endl;
+    } else {
+        cout << "Status realizacji zadania: 0%" << endl;
     }
-    cout << "Status realizacji zadania: " << sumPercentage / i.taskList.size() << "%" << endl;
 }
 
 
