@@ -20,7 +20,7 @@ struct date {
 };
 
 struct taskStructure {
-    int ID;
+    int ID, projectID;
     short completionPercentage, status, priority;
     string name, description;
     vector<int> dependencies, contributors;

@@ -64,9 +64,9 @@ void saveContributor(const string &name, vector<structureContributors> &structur
 
 void addContributor(vector<structureContributors> &structure, vector<taskStructure> &taskStruc) {
     structureContributors strukt;
-    strukt.name = inputString("Podaj imie czlonka: ");
-    strukt.surname = inputString("Podaj nazwisko czlonka: ");
-    strukt.tasksToDo = createVector(inputString("Podaj po przecinku ID zadan do wykonania: "), *",");
+    strukt.name = inputString("Podaj imie czlonka: ", true);
+    strukt.surname = inputString("Podaj nazwisko czlonka: ", true);
+    strukt.tasksToDo = createVector(inputString("Podaj po przecinku ID zadan do wykonania: ", false), *",");
     for (taskStructure &i: taskStruc) {
         for (const int &g: strukt.tasksToDo) {
             if (i.ID == g) {
@@ -74,16 +74,21 @@ void addContributor(vector<structureContributors> &structure, vector<taskStructu
             }
         }
     }
-    strukt.historyOfTasks = createVector(inputString("Podaj po przecinku ID zadan ktore czlonek juz wykonal: "), *",");
+    strukt.historyOfTasks = createVector(inputString("Podaj po przecinku ID zadan ktore czlonek juz wykonal: ", false),
+                                         *",");
     structure.push_back(strukt);
 }
 
 void removeContributor(vector<structureContributors> &structure, vector<taskStructure> &taskStruc) {
+    cout << "ID   imie nazwisko" << endl;
+    for (const structureContributors &i: structure) {
+        cout << i.ID << "   " << i.name << " " << i.surname << endl;
+    }
     const int ID = inputInt("Podaj ID czlonka: ", 0, structure.back().ID);
-    for (int i = 0; i < structure.size(); i++) {
-        if (structure[i].ID == ID) {
+    for (auto i = structure.begin() + ID; i != structure.end(); ++i) {
+        if (i->ID == ID) {
             for (taskStructure &j: taskStruc) {
-                for (const int &k: structure[i].tasksToDo) {
+                for (const int &k: i->tasksToDo) {
                     if (j.ID == k) {
                         for (int g = 0; g < j.contributors.size(); g++) {
                             if (j.contributors[g] == ID) {
@@ -94,61 +99,50 @@ void removeContributor(vector<structureContributors> &structure, vector<taskStru
                     }
                 }
             }
-            structure.erase(structure.begin() + i);
-            break;
+            structure.erase(i);
         }
+        i->ID -= 1;
     }
-    // for (taskStructure &i: taskStruc) {
-    //     for (int g = 0; g < structure.size(); g++) {
-    //         if (ID == g) {
-    //             i.contributors.erase(i.contributors.begin() + g);
-    //         }
-    //     }
-    // }
 }
 
-void reportContributor(const vector<structureContributors> &structure) {
-    int ID;
-    cout << "Podaj ID czlonka:";
-    cin >> ID;
-    for (const structureContributors &i: structure) {
-        if (i.ID == ID) {
-            cout << "Imie: " << i.name << endl;
-            cout << "Nazwisko: " << i.surname << endl;
-            cout << "Zadania do zrobienia: ";
-            for (const int &g: i.tasksToDo) {
-                cout << g << ", ";
-            }
-            cout << "\nZadania ktore zrobil: ";
-            for (int g = 0; g < i.historyOfTasks.size(); g++) {
-                if (g == i.historyOfTasks.size()) {
-                    cout << i.historyOfTasks[g] << endl;
-                } else {
-                    cout << i.historyOfTasks[g] << ", ";
-                }
-            }
-            cout << endl;
+void reportContributor(const vector<structureContributors> &structure, const vector<taskStructure> &taskStruc) {
+    cout << "ID  imie nazwisko" << endl;
+    for (const auto &i: structure) {
+        cout << i.ID << "   " << i.name << " " << i.surname << endl;
+    }
+    const structureContributors i = structure[inputInt("Podaj ID czlonka: ", 0, structure.back().ID)];
+    cout << "Imie: " << i.name << endl;
+    cout << "Nazwisko: " << i.surname << endl;
+    cout << "Zadania do zrobienia: ";
+    for (int j = 0; j < i.tasksToDo.size(); j++) {
+        if (j == i.tasksToDo.size() - 1) {
+            cout << taskStruc[i.tasksToDo[j]].name << endl;
+        } else {
+            cout << taskStruc[i.tasksToDo[j]].name << ", ";
         }
     }
+    cout << endl;
 }
+
 
 void editContributor(vector<structureContributors> &structure, vector<taskStructure> &taskStruc) {
-    int ID = inputInt("Podaj ID czlonka: ", 0, 4);
-    while (ID < 0) {
-        cout << "ID nie moze byc mniejsze od 0!" << endl;
-        ID = inputInt("Podaj ID czlonka: ", 0, 4);
+    cout << "ID  imie nazwisko" << endl;
+    for (const auto &i: structure) {
+        cout << i.ID << "   " << i.name << " " << i.surname << endl;
     }
+    const int ID = inputInt("Podaj ID czlonka: ", 0, 4);
     cout << "Co chcesz zmienic?\nDostepne opcje:" << endl;
-    cout << "1. Imie\n2. Nazwisko\n3. Zadania do zrobienia\n4. Historia zrobionych zadan";
-    switch (inputInt("Wybierz opcje: ", 0, 4)) {
+    cout << "1. Imie\n2. Nazwisko\n3. Zadania do zrobienia\n4. Historia zrobionych zadan\n5. Wyjdz";
+    switch (inputInt("Wybierz opcje: ", 0, 5)) {
         case 1:
-            structure[ID].name = inputString("Podaj imie czlonka: ");
+            structure[ID].name = inputString("Podaj imie czlonka: ", true);
             break;
         case 2:
-            structure[ID].surname = inputString("Podaj nazwisko czlonka: ");
+            structure[ID].surname = inputString("Podaj nazwisko czlonka: ", true);
             break;
         case 3:
-            structure[ID].tasksToDo = createVector(inputString("Podaj po przecinku ID zadan do wykonania: "), *",");
+            structure[ID].tasksToDo = createVector(inputString("Podaj po przecinku ID zadan do wykonania: ", false),
+                                                   *",");
             for (taskStructure &i: taskStruc) {
                 for (const int &g: structure[ID].tasksToDo) {
                     if (i.ID == g) {
@@ -159,7 +153,9 @@ void editContributor(vector<structureContributors> &structure, vector<taskStruct
             break;
         case 4:
             structure[ID].historyOfTasks = createVector(
-                inputString("Podaj po przecinku ID zadan ktore czlonek juz wykonal: "), *",");
+                inputString("Podaj po przecinku ID zadan ktore czlonek juz wykonal: ", false), *",");
+            break;
+        case 5:
             break;
     }
 }

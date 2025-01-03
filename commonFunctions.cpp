@@ -32,18 +32,36 @@ string readVector(const std::vector<int> &vector, const char splitter) {
 }
 
 /*prosi uzytkownika o podanie stringa i sprawdza czy nie wystapil blad podczas tego lub czy cokolwiek wpisal*/
-string inputString(const string &text) {
+string inputString(const string &text, const bool &isRequired) {
     string toReturn;
-    cout << text << " ";
-    getline(cin, toReturn);
-    // dopoki istnieje blad podczas wpisywania stringa
-    while (toReturn.empty() || !cin) {
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        cout << "Ups! Cos poszlo nie tak. Sprobuj ponownie." << endl;
-        cout << text;
+    while (true) {
+        cout << text << " ";
         getline(cin, toReturn);
+        bool doesContainSeparator = false;
+        for (int i = 0; i < toReturn.length(); i++) {
+            if (toReturn.at(i) == ';') {
+                doesContainSeparator = true;
+                break;
+            }
+        }
+        if (doesContainSeparator) {
+            cout << "Wprowadzony tekst nie moze zawierac ';'" << endl;
+            continue;
+        }
+        if (isRequired && toReturn.empty()) {
+            cout << "Musisz wpisac jakis tekst!" << endl;
+            continue;
+        }
+        break;
+        // dopoki istnieje blad podczas wpisywania stringa
+        // if (toReturn.empty() || !cin) {
+        //     cin.clear();
+        //     cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        //     cout << "Ups! Cos poszlo nie tak. Sprobuj ponownie." << endl;
+        //     continue;
+        // }
     }
+
     return toReturn;
 }
 
@@ -54,15 +72,24 @@ int inputInt(const string &text, const int &minChoice, const int &maxChoice) {
     // dopoki wystepuje blad podczas podawania liczby
     while (true) {
         cout << text;
-        cin >> toReturn;
-        if (toReturn.size() > 1 || !isdigit(toReturn[0])) {
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Ups! Cos poszlo nie tak. Sprobuj ponownie.\nDopuszczalne wartsci 1 - " << maxChoice << endl;
+        getline(cin, toReturn);
+        bool isCorrect = true;
+        for (int i = 0; i < toReturn.size(); i++) {
+            if (!isdigit(toReturn.at(i))) {
+                isCorrect = false;
+                break;
+            }
+        }
+        if (!isCorrect) {
+            cout << "Wprowadzona wartosc nie jest liczba!" << endl;
             continue;
         }
-        cin.ignore();
+        if (toReturn.empty()) {
+            cout << "Musisz podac jakas liczbe!" << endl;
+            continue;
+        }
         ret = stoi(toReturn);
+        // cin.ignore();
         if (ret > maxChoice || ret < minChoice) {
             cout << "Mozesz podac liczby " << minChoice << " - " << maxChoice << "!" << endl;
         } else {
@@ -72,10 +99,25 @@ int inputInt(const string &text, const int &minChoice, const int &maxChoice) {
     return ret;
 }
 
-date createDate(const string &text) {
+bool isDate(const string &text) {
+    for (const char &c: text) {
+        if (!isdigit(c) && c != '.') {
+            return false;
+        }
+    }
+    return true;
+}
+
+date createDate(string text, const bool &readingFile) {
     date dateToReturn = {};
     int iterator = 0;
     string test;
+    bool isDateBool = isDate(text);
+    while (!isDateBool && !readingFile) {
+        cout << "Musisz podać date! " << endl;
+        text = inputString("Podaj date: ", true);
+        isDateBool = isDate(text);
+    }
     for (int i = 0; i < text.length(); i++) {
         if (text.at(i) == '.') {
             int number = stoi(test);
@@ -92,10 +134,10 @@ date createDate(const string &text) {
                         cout << "Miesiac musi znajdowac sie w przedziale 1 - 12" << endl;
                         number = inputInt("Podaj miesiac: ", 1, 12);
                     }
-                    dateToReturn.month = stoi(test);
+                    dateToReturn.month = number;
                     break;
                 case 2:
-                    dateToReturn.year = stoi(test);
+                    dateToReturn.year = number;
                     break;
             }
             iterator++;
