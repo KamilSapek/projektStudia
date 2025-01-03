@@ -167,7 +167,7 @@ void contributorLoad(const vector<structureContributors> &structureContributors,
         cout << i.ID << "   " << i.name << " " << i.surname << endl;
     }
     const int ID = inputInt("Podaj ID czlonka: ", 0, structureContributors.back().ID);
-    const struct structureContributors i = structureContributors[ID];
+    const struct structureContributors &i = structureContributors[ID];
     const int amountOfTasks = i.tasksToDo.size();
     date earliestDate = taskStruc[0].startDate, latestDate = taskStruc[0].endDate;
     for (const int &j: i.tasksToDo) {
