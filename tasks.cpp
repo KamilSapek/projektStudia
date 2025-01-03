@@ -1,6 +1,5 @@
 #include "tasks.h"
 #include "commonFunctions.h"
-
 #include <string>
 #include <vector>
 #include <fstream>

@@ -1,13 +1,8 @@
-//
-// Created by Kamil on 29/12/2024.
-//
-
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 #include <string>
 #include <vector>
 using namespace std;
-
 
 struct structureContributors {
     int ID;

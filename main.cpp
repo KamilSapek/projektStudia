@@ -1,11 +1,9 @@
 #include "commonFunctions.h"
-
-#include <iostream>
-
 #include "interface.h"
 #include "contributors.h"
 #include "projects.h"
 #include "tasks.h"
+#include <iostream>
 using namespace std;
 
 /*szuka parametru podanego w argumencie*/

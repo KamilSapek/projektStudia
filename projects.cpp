@@ -1,12 +1,10 @@
 #include "projects.h"
 #include "commonFunctions.h"
-
+#include "tasks.h"
 #include <iostream>
 #include <string>
 #include <vector>
 #include <fstream>
-
-#include "tasks.h"
 using namespace std;
 
 void readProjects(const string &name, vector<structureProjects> &structure) {
