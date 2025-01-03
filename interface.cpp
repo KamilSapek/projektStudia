@@ -65,8 +65,8 @@ void contributorsInterface(vector<structureContributors> &structureContributors,
     // obsluga wyboru uzytkownika
     while (true) {
         system("clear");
-        cout << "CZLONKOWIE\n1. Dodaj czlonka\n2. Usun czlonka\n3. Edytuj czlonka\n4. Raport\n5. Menu glowne" << endl;
-        const int choice = inputInt("Wybierz opcje: ", 1, 4);
+        cout << "CZLONKOWIE\n1. Dodaj czlonka\n2. Usun czlonka\n3. Edytuj czlonka\n4. Raport\n5. Obciazenie czlonka\n6. Menu glowne" << endl;
+        const int choice = inputInt("Wybierz opcje: ", 1, 6);
         if (choice == 1) {
             addContributor(structureContributors, taskStructure);
         } else if (choice == 2) {
@@ -76,7 +76,7 @@ void contributorsInterface(vector<structureContributors> &structureContributors,
         } else if (choice == 4) {
             reportContributor(structureContributors, taskStructure);
         } else if (choice == 5) {
-            break;
+            contributorLoad(structureContributors, taskStructure);
         } else {
             cout << "Nie ma takiego wyboru!" << endl;
         }

@@ -162,22 +162,22 @@ void editContributor(vector<structureContributors> &structure, vector<taskStruct
 
 void contributorLoad(const vector<structureContributors> &structureContributors,
                      const vector<taskStructure> &taskStruc) {
+    cout << "ID  imie nazwisko" << endl;
+    for (const auto &i: structureContributors) {
+        cout << i.ID << "   " << i.name << " " << i.surname << endl;
+    }
     const int ID = inputInt("Podaj ID czlonka: ", 0, structureContributors.back().ID);
-    int amountOfTasks = 0;
+    const struct structureContributors i = structureContributors[ID];
+    const int amountOfTasks = i.tasksToDo.size();
     date earliestDate = taskStruc[0].startDate, latestDate = taskStruc[0].endDate;
-    for (const struct structureContributors &i: structureContributors) {
-        if (i.ID == ID) {
-            amountOfTasks = i.tasksToDo.size();
-            for (const int &j: i.tasksToDo) {
-                for (const taskStructure &k: taskStruc) {
-                    if (k.ID == j) {
-                        if (isEarlierDate(k.startDate, earliestDate)) {
-                            earliestDate = k.startDate;
-                        }
-                        if (isLaterDate(k.endDate, latestDate)) {
-                            latestDate = k.endDate;
-                        }
-                    }
+    for (const int &j: i.tasksToDo) {
+        for (const taskStructure &k: taskStruc) {
+            if (k.ID == j) {
+                if (isEarlierDate(k.startDate, earliestDate)) {
+                    earliestDate = k.startDate;
+                }
+                if (isLaterDate(k.endDate, latestDate)) {
+                    latestDate = k.endDate;
                 }
             }
         }

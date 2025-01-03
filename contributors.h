@@ -17,5 +17,8 @@ void saveContributor(const string &name, vector<structureContributors> &structur
 
 void readContributors(const string &name, vector<structureContributors> &structure);
 
+void contributorLoad(const vector<structureContributors> &structureContributors,
+                     const vector<taskStructure> &taskStruc);
+
 
 #endif //CONTRIBUTORS_H

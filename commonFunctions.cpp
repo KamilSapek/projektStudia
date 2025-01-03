@@ -5,7 +5,7 @@
 using namespace std;
 
 /*tworzy wektor intow na podstawie podanego tekstu i znaku interpunkcyjnego*/
-vector<int> createVector(string data, char splitter) {
+vector<int> createVector(string data, const char splitter) {
     data += splitter;
     vector<int> vectorToReturn;
     string test;
@@ -21,7 +21,7 @@ vector<int> createVector(string data, char splitter) {
 }
 
 /*przetwarza wektor na string*/
-string readVector(const std::vector<int> &vector, const char splitter) {
+string readVector(const vector<int> &vector, const char splitter) {
     string stringToReturn;
     for (const int i: vector) {
         stringToReturn += to_string(i) + splitter;
