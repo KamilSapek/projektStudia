@@ -82,13 +82,17 @@ void saveContributor(const string &name, vector<structureContributors> &structur
 
 void addContributor(vector<structureContributors> &structure, vector<taskStructure> &taskStruc) {
     structureContributors strukt;
+    strukt.ID = structure.back().ID + 1;
     strukt.name = inputString("Podaj imie czlonka: ", true);
     strukt.surname = inputString("Podaj nazwisko czlonka: ", true);
+
     strukt.tasksToDo = createVector(inputString("Podaj po przecinku ID zadan do wykonania: ", false), *",");
-    for (taskStructure &i: taskStruc) {
-        for (const int &g: strukt.tasksToDo) {
-            if (i.ID == g) {
-                i.contributors.push_back(g);
+    if (!strukt.tasksToDo.empty()) {
+        for (taskStructure &i: taskStruc) {
+            for (const int &g: strukt.tasksToDo) {
+                if (i.ID == g) {
+                    i.contributors.push_back(g);
+                }
             }
         }
     }
@@ -146,7 +150,6 @@ void reportContributor(const vector<structureContributors> &structure, const vec
             }
         }
     }
-    cout << endl;
 }
 
 
@@ -168,13 +171,16 @@ void editContributor(vector<structureContributors> &structure, vector<taskStruct
         case 3:
             structure[ID].tasksToDo = createVector(inputString("Podaj po przecinku ID zadan do wykonania: ", false),
                                                    *",");
-            for (taskStructure &i: taskStruc) {
-                for (const int &g: structure[ID].tasksToDo) {
-                    if (i.ID == g) {
-                        i.contributors.push_back(g);
+            if (structure[ID].tasksToDo.empty()) {
+                for (taskStructure &i: taskStruc) {
+                    for (const int &g: structure[ID].tasksToDo) {
+                        if (i.ID == g) {
+                            i.contributors.push_back(g);
+                        }
                     }
                 }
             }
+
             break;
         case 4:
             structure[ID].historyOfTasks = createVector(

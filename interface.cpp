@@ -125,6 +125,8 @@ void contributorsInterface(vector<structureContributors> &structureContributors,
             } else {
                 cout << "Obecnie nie istnieje zaden czlonek" << endl;
             }
+        } else if (choice == 6) {
+            break;
         } else {
             cout << "Nie ma takiego wyboru!" << endl;
         }

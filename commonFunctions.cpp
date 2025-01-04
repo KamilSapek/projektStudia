@@ -6,6 +6,9 @@ using namespace std;
 
 /*tworzy wektor intow na podstawie podanego tekstu i znaku interpunkcyjnego*/
 vector<int> createVector(string data, const char splitter) {
+    if (data.empty()) {
+        return vector<int>();
+    }
     data += splitter;
     vector<int> vectorToReturn;
     string test;
@@ -108,6 +111,7 @@ bool isDate(const string &text) {
 }
 
 date createDate(string text, const bool &readingFile) {
+    text += ".";
     date dateToReturn = {};
     int iterator = 0;
     string test;
@@ -136,7 +140,11 @@ date createDate(string text, const bool &readingFile) {
                     dateToReturn.month = number;
                     break;
                 case 2:
-                    dateToReturn.year = number;
+                    while (test.length() != 4) {
+                        cout << "Rok musi byc 4 cyfrowy!" << endl;
+                        test = inputString("Podaj rok: ", true);
+                    }
+                    dateToReturn.year = stoi(test);
                     break;
             }
             iterator++;

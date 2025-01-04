@@ -34,9 +34,9 @@ void readTasks(const string &name, vector<taskStructure> &structure) {
                             break;
                         case 5: strukt.contributors = createVector(test, *",");
                             break;
-                        case 6: strukt.startDate = createDate(test + ".", true);
+                        case 6: strukt.startDate = createDate(test, true);
                             break;
-                        case 7: strukt.endDate = createDate(test + ".", true);
+                        case 7: strukt.endDate = createDate(test, true);
                             break;
                         case 8: strukt.status = stoi(test);
                             break;
@@ -120,8 +120,8 @@ int addTask(vector<taskStructure> &structure, vector<structureProjects> &structP
     strukt.contributors = createVector(
         inputString("Podaj po przecinku ID czlonkow pracujacych nad tym zadaniem: ", false),
         *",");
-    strukt.startDate = createDate(inputString("Podaj date rozpoczecia zadania [DD.MM.RRRR]: ", true) + ".", false);
-    strukt.endDate = createDate(inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]: ", true) + ".",
+    strukt.startDate = createDate(inputString("Podaj date rozpoczecia zadania [DD.MM.RRRR]: ", true), false);
+    strukt.endDate = createDate(inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]: ", true),
                                 false);
     // sprawdzenie czy data zakonczenia tego zadania nie jest dalsza od daty zakonczenia projektu
     for (structureProjects &i: structProjects) {
@@ -145,7 +145,7 @@ int addTask(vector<taskStructure> &structure, vector<structureProjects> &structP
                     i.endDate = strukt.endDate;
                 } else {
                     strukt.endDate = createDate(
-                        inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]: ", true) + ".", false);
+                        inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]: ", true), false);
                 }
             }
         }
@@ -331,11 +331,11 @@ void editTask(vector<taskStructure> &taskStructure) {
             break;
         case 5:
             taskStructure[ID].startDate =
-                    createDate(inputString("Podaj date rozpoczecia zadania [DD.MM.RRRR]: ", true) + ".", false);
+                    createDate(inputString("Podaj date rozpoczecia zadania [DD.MM.RRRR]: ", true), false);
             break;
         case 6:
             taskStructure[ID].endDate = createDate(
-                inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]: ", true) + ".", false);
+                inputString("Podaj szacowana date zakonczenia zadania [DD.MM.RRRR]: ", true), false);
             break;
         case 7:
             taskStructure[ID].status = inputInt("Wybierz stautus (1-3): ", 1, 3);

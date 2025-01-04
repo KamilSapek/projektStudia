@@ -28,9 +28,9 @@ void readProjects(const string &name, vector<structureProjects> &structure) {
                             break;
                         case 2: strukt.description = test;
                             break;
-                        case 3: strukt.startDate = createDate(test + ".", true);
+                        case 3: strukt.startDate = createDate(test, true);
                             break;
-                        case 4: strukt.endDate = createDate(test + ".", true);
+                        case 4: strukt.endDate = createDate(test, true);
                             break;
                         case 5: strukt.status = stoi(test);
                             break;
@@ -86,8 +86,8 @@ void addProject(vector<structureProjects> &structure, vector<taskStructure> &tas
     strukt.ID = ID;
     strukt.name = inputString("Podaj nazwe projektu: ", true);
     strukt.description = inputString("Podaj opis: ", true);
-    strukt.startDate = createDate(inputString("Podaj date rozpoczecia [DD.MM.RRRR]: ", true) + ".", false);
-    strukt.endDate = createDate(inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]: ", true) + ".", false);
+    strukt.startDate = createDate(inputString("Podaj date rozpoczecia [DD.MM.RRRR]: ", true), false);
+    strukt.endDate = createDate(inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]: ", true), false);
     // sprawdzanie czy data zakonczenia nie jest rowna lub przed data rozpoczecia projektu
     while (true) {
         if (strukt.startDate.day == strukt.endDate.day && strukt.startDate.month == strukt.endDate.month && strukt.
@@ -217,7 +217,7 @@ void editProject(vector<structureProjects> &structure, vector<taskStructure> &ta
             structure[ID].description = inputString("Podaj opis projektu: ", true);
             break;
         case 3:
-            structure[ID].startDate = createDate(inputString("Podaj date rozpoczecia [DD.MM.RRRR]: ", true) + ".",
+            structure[ID].startDate = createDate(inputString("Podaj date rozpoczecia [DD.MM.RRRR]: ", true),
                                                  false);
             while (true) {
                 if (structure[ID].startDate.day == structure[ID].endDate.day && structure[ID].startDate.month ==
@@ -235,7 +235,7 @@ void editProject(vector<structureProjects> &structure, vector<taskStructure> &ta
             break;
         case 4:
             structure[ID].endDate = createDate(
-                inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]: ", true) + ".",
+                inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]: ", true),
                 false);
             while (true) {
                 if (structure[ID].startDate.day == structure[ID].endDate.day && structure[ID].startDate.month ==
