@@ -12,7 +12,7 @@ void projectsInterface(vector<structureProjects> &structureProjects, vector<task
                        vector<structureContributors> structureContributors) {
     // obsluga wyboru uzytkownika
     while (true) {
-        system("clear");
+        system("cls");
         // const int choice = interfaceAndChoice("PROJEKTY",
         // {"Dodaj projekt", "Usun projekt", "Edytuj projekt", "Menu glowne"});
         cout <<
@@ -57,7 +57,7 @@ void projectsInterface(vector<structureProjects> &structureProjects, vector<task
 void tasksInterface(vector<taskStructure> &taskStructure, vector<structureContributors> &structureContributors,
                     vector<structureProjects> &structureProjects) {
     while (true) {
-        system("clear");
+        system("cls");
         cout << "ZADANIA\n1. Dodaj zadanie\n2. Usun zadanie\n3. Edytuj zadanie\n4. Raport\n5. Menu glowne" << endl;
         const int choice = inputInt("Wybierz opcje: ", 1, 5);
         // obsluga wyboru uzytkownika
@@ -94,7 +94,7 @@ void contributorsInterface(vector<structureContributors> &structureContributors,
                            vector<taskStructure> &taskStructure) {
     // obsluga wyboru uzytkownika
     while (true) {
-        system("clear");
+        system("cls");
         cout <<
                 "CZLONKOWIE\n1. Dodaj czlonka\n2. Usun czlonka\n3. Edytuj czlonka\n4. Raport\n5. Obciazenie czlonka\n6. Menu glowne"
                 << endl;
@@ -139,7 +139,7 @@ void mainMenu(vector<structureProjects> &structureProjects,
               vector<structureContributors> &structureContributors,
               const files &files) {
     while (true) {
-        system("clear");
+        system("cls");
         cout << "MENU GLOWNE\n1. Projekty\n2. Zadania\n3. Czlonkowie\n4. Koniec" << endl;
         const int choice = inputInt("Wybierz opcje: ", 1, 4);
         // obsluga wyboru uzytkownika

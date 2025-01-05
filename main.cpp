@@ -4,6 +4,7 @@
 #include "projects.h"
 #include "tasks.h"
 #include <iostream>
+#include <string.h>
 using namespace std;
 
 /*szuka parametru podanego w argumencie*/
