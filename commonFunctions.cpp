@@ -37,7 +37,6 @@ string readVector(const vector<int> &vector, const char splitter) {
 string inputString(const string &text, const bool &isRequired) {
     string toReturn;
     while (true) {
-        cout << text << " ";
         getline(cin, toReturn);
         bool doesContainSeparator = false;
         for (int i = 0; i < toReturn.length(); i++) {
@@ -73,7 +72,6 @@ int inputInt(const string &text, const int &minChoice, const int &maxChoice) {
     int ret;
     // dopoki wystepuje blad podczas podawania liczby
     while (true) {
-        cout << text;
         getline(cin, toReturn);
         bool isCorrect = true;
         for (int i = 0; i < toReturn.size(); i++) {
