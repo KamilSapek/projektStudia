@@ -5,6 +5,7 @@ using namespace std;
 
 void mainMenu(vector<structureProjects> &structureProjects,
               vector<taskStructure> &taskStructure,
-              vector<structureContributors> &structureContributors, const files &files);
+              vector<structureContributors> &structureContributors,
+              const files &files);
 
 #endif //INTERFACE_H

@@ -7,6 +7,7 @@
 #include <fstream>
 using namespace std;
 
+// odczytuje zapis projektow
 void readProjects(const string &name, vector<structureProjects> &structure) {
     cout << "Projects" << endl;
     ifstream file(name);
@@ -50,6 +51,7 @@ void readProjects(const string &name, vector<structureProjects> &structure) {
     }
 }
 
+// zapisuje dane do pliku
 void saveProjects(const string &name, vector<structureProjects> &structure) {
     ofstream file(name, ios::trunc);
     if (!file.is_open()) {
@@ -75,6 +77,7 @@ void saveProjects(const string &name, vector<structureProjects> &structure) {
     }
 }
 
+// dodaje projekt
 void addProject(vector<structureProjects> &structure, vector<taskStructure> &taskStructure) {
     structureProjects strukt;
     int ID;
@@ -118,6 +121,7 @@ void addProject(vector<structureProjects> &structure, vector<taskStructure> &tas
     structure.push_back(strukt);
 }
 
+// usuwa projekt
 void removeProject(vector<structureProjects> &structure, vector<taskStructure> &taskStructure,
                    vector<structureContributors> &structureContributors) {
     cout << "ID  nazwa" << endl;
@@ -145,6 +149,7 @@ void removeProject(vector<structureProjects> &structure, vector<taskStructure> &
     }
 }
 
+// pokazuje dane o projekcie
 void reportProejct(const vector<structureProjects> &structure, const vector<taskStructure> &taskStruc) {
     cout << "ID  nazwa" << endl;
     for (const auto &i: structure) {
@@ -197,7 +202,7 @@ void reportProejct(const vector<structureProjects> &structure, const vector<task
     }
 }
 
-
+// edytuje projekt
 void editProject(vector<structureProjects> &structure, vector<taskStructure> &taskStruc) {
     cout << "ID  nazwa" << endl;
     for (const auto &i: structure) {
@@ -267,6 +272,7 @@ void editProject(vector<structureProjects> &structure, vector<taskStructure> &ta
     }
 }
 
+// generuje harmonogram projektow
 void scheme(const vector<structureProjects> &structure) {
     cout << "HARMONOGRAM PROJEKTOW" << endl;
     for (const structureProjects &i: structure) {

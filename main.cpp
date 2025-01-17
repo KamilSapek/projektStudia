@@ -40,7 +40,7 @@ int main(const int argc, char *argv[]) {
         vector<structureProjects> structureProjects;
         vector<taskStructure> taskStructure;
         vector<structureContributors> structureContributors;
-
+        // odczytywanie nazw plikow
         readProjects(files.projectsFile, structureProjects);
         readTasks(files.tasksFile, taskStructure);
         readContributors(files.contributorsFile, structureContributors);
