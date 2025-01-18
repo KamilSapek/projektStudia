@@ -4,7 +4,7 @@
 #include <vector>
 using namespace std;
 
-/*tworzy wektor intow na podstawie podanego tekstu i znaku interpunkcyjnego*/
+// tworzy wektor intow na podstawie podanego tekstu i znaku interpunkcyjnego
 vector<int> createVector(string data, const char splitter) {
     if (data.empty()) {
         return vector<int>();
@@ -23,20 +23,24 @@ vector<int> createVector(string data, const char splitter) {
     return vectorToReturn;
 }
 
-/*przetwarza wektor na string*/
+// przetwarza wektor na string
 string readVector(const vector<int> &vector, const char splitter) {
-    string stringToReturn;
-    for (const int i: vector) {
-        stringToReturn += to_string(i) + splitter;
+    if (!vector.empty()) {
+        string stringToReturn;
+        for (const int i: vector) {
+            stringToReturn += to_string(i) + splitter;
+        }
+        stringToReturn.pop_back();
+        return stringToReturn;
     }
-    stringToReturn.pop_back();
-    return stringToReturn;
+    return "-1";
 }
 
-/*prosi uzytkownika o podanie stringa i sprawdza czy nie wystapil blad podczas tego lub czy cokolwiek wpisal*/
+// prosi uzytkownika o podanie stringa i sprawdza czy nie wystapil blad podczas tego lub czy cokolwiek wpisal
 string inputString(const string &text, const bool &isRequired) {
     string toReturn;
     while (true) {
+        cout << text;
         getline(cin, toReturn);
         bool doesContainSeparator = false;
         for (int i = 0; i < toReturn.length(); i++) {
@@ -54,24 +58,17 @@ string inputString(const string &text, const bool &isRequired) {
             continue;
         }
         break;
-        // dopoki istnieje blad podczas wpisywania stringa
-        // if (toReturn.empty() || !cin) {
-        //     cin.clear();
-        //     cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        //     cout << "Ups! Cos poszlo nie tak. Sprobuj ponownie." << endl;
-        //     continue;
-        // }
     }
-
     return toReturn;
 }
 
-/*prosi uzytkownika o podanie inta i sprawdza czy nie wystapil blad podczas tego lub czy cokolwiek wpisal*/
+// prosi uzytkownika o podanie inta i sprawdza czy nie wystapil blad podczas tego lub czy cokolwiek wpisal
 int inputInt(const string &text, const int &minChoice, const int &maxChoice) {
     string toReturn;
     int ret;
     // dopoki wystepuje blad podczas podawania liczby
     while (true) {
+        cout << text;
         getline(cin, toReturn);
         bool isCorrect = true;
         for (int i = 0; i < toReturn.size(); i++) {
@@ -89,7 +86,6 @@ int inputInt(const string &text, const int &minChoice, const int &maxChoice) {
             continue;
         }
         ret = stoi(toReturn);
-        // cin.ignore();
         if (ret > maxChoice || ret < minChoice) {
             cout << "Mozesz podac liczby " << minChoice << " - " << maxChoice << "!" << endl;
         } else {
@@ -99,6 +95,7 @@ int inputInt(const string &text, const int &minChoice, const int &maxChoice) {
     return ret;
 }
 
+// sprawdza czy podany string jest data
 bool isDate(const string &text) {
     for (const char &c: text) {
         if (!isdigit(c) && c != '.') {
@@ -108,6 +105,7 @@ bool isDate(const string &text) {
     return true;
 }
 
+// odczytuje dane ze stringa i wpisuje je do struktury date ktora zwraca
 date createDate(string text, const bool &readingFile) {
     text += ".";
     date dateToReturn = {};
@@ -154,6 +152,7 @@ date createDate(string text, const bool &readingFile) {
     return dateToReturn;
 }
 
+// sprawdza czy date1 jest przed date2
 bool isEarlierDate(const date &date1, const date &date2) {
     if (date1.year < date2.year) {
         return true;
@@ -167,6 +166,7 @@ bool isEarlierDate(const date &date1, const date &date2) {
     return false;
 }
 
+// sprawdza czy date1 jest po date2
 bool isLaterDate(const date &date1, const date &date2) {
     if (date1.year > date2.year) {
         return true;

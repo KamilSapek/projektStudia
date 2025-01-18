@@ -7,12 +7,11 @@
 #include <iostream>
 using namespace std;
 
-/*interfejs projekty*/
+// interfejs projekty
 void projectsInterface(vector<structureProjects> &structureProjects, vector<taskStructure> &taskStructure,
                        vector<structureContributors> structureContributors) {
     // obsluga wyboru uzytkownika
     while (true) {
-        system("cls");
         // const int choice = interfaceAndChoice("PROJEKTY",
         // {"Dodaj projekt", "Usun projekt", "Edytuj projekt", "Menu glowne"});
         cout <<
@@ -40,7 +39,7 @@ void projectsInterface(vector<structureProjects> &structureProjects, vector<task
                 cout << "Obecnie nie istnieje zaden projekt" << endl;
             }
         } else if (choice == 5) {
-            if (!structureContributors.empty()) {
+            if (!structureProjects.empty()) {
                 reportProejct(structureProjects, taskStructure);
             } else {
                 cout << "Obecnie nie istnieje zaden projekt" << endl;
@@ -53,11 +52,10 @@ void projectsInterface(vector<structureProjects> &structureProjects, vector<task
     }
 }
 
-/*interfejs zadania*/
+// interfejs zadania
 void tasksInterface(vector<taskStructure> &taskStructure, vector<structureContributors> &structureContributors,
                     vector<structureProjects> &structureProjects) {
     while (true) {
-        system("cls");
         cout << "ZADANIA\n1. Dodaj zadanie\n2. Usun zadanie\n3. Edytuj zadanie\n4. Raport\n5. Menu glowne" << endl;
         const int choice = inputInt("Wybierz opcje: ", 1, 5);
         // obsluga wyboru uzytkownika
@@ -89,12 +87,11 @@ void tasksInterface(vector<taskStructure> &taskStructure, vector<structureContri
     }
 }
 
-/*interfejs czlonkowie*/
+// interfejs czlonkowie
 void contributorsInterface(vector<structureContributors> &structureContributors,
                            vector<taskStructure> &taskStructure) {
     // obsluga wyboru uzytkownika
     while (true) {
-        system("cls");
         cout <<
                 "CZLONKOWIE\n1. Dodaj czlonka\n2. Usun czlonka\n3. Edytuj czlonka\n4. Raport\n5. Obciazenie czlonka\n6. Menu glowne"
                 << endl;
@@ -133,7 +130,7 @@ void contributorsInterface(vector<structureContributors> &structureContributors,
     }
 }
 
-/*menu glowne*/
+// menu glowne
 void mainMenu(vector<structureProjects> &structureProjects,
               vector<taskStructure> &taskStructure,
               vector<structureContributors> &structureContributors,

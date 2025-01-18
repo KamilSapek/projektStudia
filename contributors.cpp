@@ -7,6 +7,7 @@
 #include <fstream>
 using namespace std;
 
+// odczytuje dane z pliku dla czlonkow
 void readContributors(const string &name, vector<structureContributors> &structure) {
     cout << "Contributors" << endl;
     ifstream file(name);
@@ -50,6 +51,7 @@ void readContributors(const string &name, vector<structureContributors> &structu
     }
 }
 
+// zapisuje dane do pliku dla czlonkow
 void saveContributor(const string &name, vector<structureContributors> &structure) {
     ofstream file(name, ios::trunc);
     if (!file.is_open()) {
@@ -64,7 +66,7 @@ void saveContributor(const string &name, vector<structureContributors> &structur
                 line += i.name + ";";
                 line += i.surname + ";";
                 if (i.tasksToDo.empty()) {
-                    line += "-1";
+                    line += "-1;";
                 } else {
                     line += readVector(i.tasksToDo, *",") + ";";
                 }
@@ -80,9 +82,15 @@ void saveContributor(const string &name, vector<structureContributors> &structur
     }
 }
 
+// dodaje czlonka
 void addContributor(vector<structureContributors> &structure, vector<taskStructure> &taskStruc) {
     structureContributors strukt;
-    strukt.ID = structure.back().ID + 1;
+    if (structure.empty()) {
+        strukt.ID = 0;
+    } else {
+        strukt.ID = structure.back().ID + 1;
+
+    }
     strukt.name = inputString("Podaj imie czlonka: ", true);
     strukt.surname = inputString("Podaj nazwisko czlonka: ", true);
 
@@ -101,12 +109,23 @@ void addContributor(vector<structureContributors> &structure, vector<taskStructu
     structure.push_back(strukt);
 }
 
-void removeContributor(vector<structureContributors> &structure, vector<taskStructure> &taskStruc) {
-    cout << "ID   imie nazwisko" << endl;
-    for (const structureContributors &i: structure) {
-        cout << i.ID << "   " << i.name << " " << i.surname << endl;
+int contributorList(const vector<structureContributors> &structure) {
+    int ID = 0;
+    if (structure.size() == 1) {
+        cout << "Istnieje tylko jeden czlonek" << endl;
+    } else {
+        cout << "ID   imie nazwisko" << endl;
+        for (const structureContributors &i: structure) {
+            cout << i.ID << "   " << i.name << " " << i.surname << endl;
+        }
+        ID = inputInt("Podaj ID czlonka: ", 0, structure.back().ID);
     }
-    const int ID = inputInt("Podaj ID czlonka: ", 0, structure.back().ID);
+    return ID;
+}
+
+// usuwa czlonka
+void removeContributor(vector<structureContributors> &structure, vector<taskStructure> &taskStruc) {
+    const int ID = contributorList(structure);
     for (auto i = structure.begin() + ID; i != structure.end(); ++i) {
         if (i->ID == ID) {
             for (taskStructure &j: taskStruc) {
@@ -130,12 +149,10 @@ void removeContributor(vector<structureContributors> &structure, vector<taskStru
     }
 }
 
+// wypisuje dane o czlonku
 void reportContributor(const vector<structureContributors> &structure, const vector<taskStructure> &taskStruc) {
-    cout << "ID  imie nazwisko" << endl;
-    for (const auto &i: structure) {
-        cout << i.ID << "   " << i.name << " " << i.surname << endl;
-    }
-    const structureContributors i = structure[inputInt("Podaj ID czlonka: ", 0, structure.back().ID)];
+    const int ID = contributorList(structure);
+    const structureContributors i = structure[ID];
     cout << "Imie: " << i.name << endl;
     cout << "Nazwisko: " << i.surname << endl;
     cout << "Zadania do zrobienia: ";
@@ -152,13 +169,9 @@ void reportContributor(const vector<structureContributors> &structure, const vec
     }
 }
 
-
+// edytuje czlonka
 void editContributor(vector<structureContributors> &structure, vector<taskStructure> &taskStruc) {
-    cout << "ID  imie nazwisko" << endl;
-    for (const auto &i: structure) {
-        cout << i.ID << "   " << i.name << " " << i.surname << endl;
-    }
-    const int ID = inputInt("Podaj ID czlonka: ", 0, 4);
+    const int ID = contributorList(structure);
     cout << "Co chcesz zmienic?\nDostepne opcje:" << endl;
     cout << "1. Imie\n2. Nazwisko\n3. Zadania do zrobienia\n4. Historia zrobionych zadan\n5. Wyjdz";
     switch (inputInt("Wybierz opcje: ", 0, 5)) {
@@ -191,13 +204,10 @@ void editContributor(vector<structureContributors> &structure, vector<taskStruct
     }
 }
 
+// wyswietla obciazenie wybranego czlonka
 void contributorLoad(const vector<structureContributors> &structureContributors,
                      const vector<taskStructure> &taskStruc) {
-    cout << "ID  imie nazwisko" << endl;
-    for (const auto &i: structureContributors) {
-        cout << i.ID << "   " << i.name << " " << i.surname << endl;
-    }
-    const int ID = inputInt("Podaj ID czlonka: ", 0, structureContributors.back().ID);
+    const int ID = contributorList(structureContributors);
     const struct structureContributors &i = structureContributors[ID];
     const int amountOfTasks = i.tasksToDo.size();
     date earliestDate = taskStruc[0].startDate, latestDate = taskStruc[0].endDate;

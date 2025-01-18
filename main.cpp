@@ -18,7 +18,7 @@ string findFileName(const int &argc, char *argv[], const char *param) {
 }
 
 int main(const int argc, char *argv[]) {
-    /*sprawdzanie parametrow*/
+    // sprawdzanie parametrow
     if (argc == 1) {
         cout << "Nie podales zadnego parametru" << endl;
         cout << "Do poprawnego korzystania z programu, musisz uzyc parametrow\n"
@@ -44,7 +44,7 @@ int main(const int argc, char *argv[]) {
         readProjects(files.projectsFile, structureProjects);
         readTasks(files.tasksFile, taskStructure);
         readContributors(files.contributorsFile, structureContributors);
-        /*uruchomienie interfejsu*/
+        // uruchomienie interfejsu
         mainMenu(structureProjects, taskStructure, structureContributors, files);
         return 0;
     }

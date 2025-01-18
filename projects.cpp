@@ -38,6 +38,8 @@ void readProjects(const string &name, vector<structureProjects> &structure) {
                         case 6:
                             if (test != "-1") {
                                 strukt.taskList = createVector(test, *",");
+                            } else {
+                                strukt.taskList.push_back(-1);
                             }
                     }
                     test = "";
@@ -121,14 +123,24 @@ void addProject(vector<structureProjects> &structure, vector<taskStructure> &tas
     structure.push_back(strukt);
 }
 
+int projectList(const vector<structureProjects> &structure) {
+    int ID = 0;
+    if (structure.size() == 1) {
+        cout << "Istnieje tylko jeden projekt" << endl;
+    } else {
+        cout << "ID  nazwa" << endl;
+        for (const auto &i: structure) {
+            cout << i.ID << "   " << i.name << endl;
+        }
+        ID = inputInt("Podaj ID projektu: ", 0, structure.back().ID);
+    }
+    return ID;
+}
+
 // usuwa projekt
 void removeProject(vector<structureProjects> &structure, vector<taskStructure> &taskStructure,
                    vector<structureContributors> &structureContributors) {
-    cout << "ID  nazwa" << endl;
-    for (const auto &i: structure) {
-        cout << i.ID << "   " << i.name << endl;
-    }
-    const int ID = inputInt("Podaj ID projektu: ", 0, structure.back().ID);
+    const int ID = projectList(structure);
     // for (int i = 0; i < structure.size(); i++) {
     for (auto i = structure.begin() + ID; i != structure.end(); ++i) {
         if (i->ID == ID) {
@@ -151,11 +163,8 @@ void removeProject(vector<structureProjects> &structure, vector<taskStructure> &
 
 // pokazuje dane o projekcie
 void reportProejct(const vector<structureProjects> &structure, const vector<taskStructure> &taskStruc) {
-    cout << "ID  nazwa" << endl;
-    for (const auto &i: structure) {
-        cout << i.ID << "   " << i.name << endl;
-    }
-    const structureProjects i = structure[inputInt("Podaj ID projektu: ", 0, structure.back().ID)];
+    const int ID = projectList(structure);
+    const structureProjects i = structure[ID];
     cout << "Nazwa: " << i.name << endl;
     cout << "Opis: " << i.description << endl;
     cout << "Data rozpoczecia: " << i.startDate.day << "." << i.startDate.month << "." << i.startDate.year << endl;
@@ -173,7 +182,7 @@ void reportProejct(const vector<structureProjects> &structure, const vector<task
             cout << "Zakonczony" << endl;
             break;
     }
-    if (i.taskList.empty()) {
+    if (i.taskList[0] == -1) {
         cout << "Brak przypisanych zadan" << endl;
     } else {
         cout << "ID przypisanych zadan: ";
@@ -204,11 +213,7 @@ void reportProejct(const vector<structureProjects> &structure, const vector<task
 
 // edytuje projekt
 void editProject(vector<structureProjects> &structure, vector<taskStructure> &taskStruc) {
-    cout << "ID  nazwa" << endl;
-    for (const auto &i: structure) {
-        cout << i.ID << "   " << i.name << endl;
-    }
-    const int ID = inputInt("Podaj ID projektu: ", 0, structure.back().ID);
+    const int ID = projectList(structure);
     int amount;
     vector<int> tasks;
     cout <<
