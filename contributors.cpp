@@ -109,6 +109,7 @@ void addContributor(vector<structureContributors> &structure, vector<taskStructu
     structure.push_back(strukt);
 }
 
+// wyswietla liste czlonkow i prosi o wybranie jednego z nich
 int contributorList(const vector<structureContributors> &structure) {
     int ID = 0;
     if (structure.size() == 1) {

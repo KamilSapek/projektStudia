@@ -6,7 +6,7 @@
 #include <iostream>
 using namespace std;
 
-// funkcja ktora odczytuje dane z pliku
+// odczytuje dane z pliku czlonkow
 void readTasks(const string &name, vector<taskStructure> &structure) {
     cout << "Tasks" << endl;
     ifstream file(name);
@@ -56,7 +56,7 @@ void readTasks(const string &name, vector<taskStructure> &structure) {
     }
 }
 
-// funkcja ktora zapisuje strukture do pliku
+// zapisuje strukture czlonkow do odpowiedniego pliku
 void saveTasks(const string &name, vector<taskStructure> &structure) {
     // ofstream file(name, std::ios::in | std::ios::out | ios::app);
     ofstream file(name, ios::trunc);
@@ -107,7 +107,6 @@ int addTask(vector<taskStructure> &structure, vector<structureProjects> &structP
     }
     strukt.name = inputString("Podaj nazwe zadania: ", true);
     strukt.description = inputString("Podaj opis: ", true);
-    // strukt.priority = inputString("Podaj priorytet (niski / sredni / wysoki):");
     cout << "Mozliwe priorytety:\n1. Niski\n2. Sredni\n3. Wysoki" << endl;
     strukt.priority = inputInt("Wybierz priorytet: ", 1, 3);
     strukt.contributors = createVector(

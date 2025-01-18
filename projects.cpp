@@ -105,10 +105,8 @@ void addProject(vector<structureProjects> &structure, vector<taskStructure> &tas
         }
         strukt.endDate = createDate(inputString("Podaj planowana date zakonczenia [DD.MM.RRRR]: ", true), false);
     }
-    // strukt.status = inputString("Podaj status projektu (np. „planowany,” „w trakcie,” „zakończony”)");
     cout << "Jaki jest obecny status projektu?\n1. Planowany\n2. W trakcie\n3. Zakonczony" << endl;
     strukt.status = inputInt("Wybierz opcje: ", 1, 3);
-    // strukt.taskList = createVector(inputString("Podaj po przecinku ID zadan podlegajacych pod ten projekt:"), *",");
     const int amount = inputInt("Ile zadan podlega projektowi (wpisz 0 aby pominac)?: ", 0, 2147483647);
     vector<int> tasks;
     tasks.reserve(amount);
@@ -141,7 +139,6 @@ int projectList(const vector<structureProjects> &structure) {
 void removeProject(vector<structureProjects> &structure, vector<taskStructure> &taskStructure,
                    vector<structureContributors> &structureContributors) {
     const int ID = projectList(structure);
-    // for (int i = 0; i < structure.size(); i++) {
     for (auto i = structure.begin() + ID; i != structure.end(); ++i) {
         if (i->ID == ID) {
             for (const int &j: i->taskList) {
