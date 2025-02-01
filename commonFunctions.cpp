@@ -139,6 +139,18 @@ date createDate(string text, const bool &readingFile) {
                     while (test.length() != 4) {
                         cout << "Rok musi byc 4 cyfrowy!" << endl;
                         test = inputString("Podaj rok: ", true);
+                        while (stoi(test) < 1) {
+                            cout << "Rok nie moze byc mniejszy od 1!" << endl;
+                            test = inputString("Podaj rok: ", true);
+                        }
+                    }
+                    while (stoi(test) < 1) {
+                        cout << "Rok nie moze byc mniejszy od 1!" << endl;
+                        test = inputString("Podaj rok: ", true);
+                        while (test.length() != 4) {
+                            cout << "Rok musi byc 4 cyfrowy!" << endl;
+                            test = inputString("Podaj rok: ", true);
+                        }
                     }
                     dateToReturn.year = stoi(test);
                     break;
