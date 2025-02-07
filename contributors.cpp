@@ -1,3 +1,4 @@
+/**@file*/
 #include "contributors.h"
 #include "commonFunctions.h"
 
@@ -7,7 +8,7 @@
 #include <fstream>
 using namespace std;
 
-// odczytuje dane z pliku dla czlonkow
+/// odczytuje dane z pliku dla czlonkow
 void readContributors(const string &name, vector<structureContributors> &structure) {
     cout << "Contributors" << endl;
     ifstream file(name);
@@ -51,7 +52,7 @@ void readContributors(const string &name, vector<structureContributors> &structu
     }
 }
 
-// zapisuje dane do pliku dla czlonkow
+/// zapisuje dane do pliku dla czlonkow
 void saveContributor(const string &name, vector<structureContributors> &structure) {
     ofstream file(name, ios::trunc);
     if (!file.is_open()) {
@@ -82,7 +83,7 @@ void saveContributor(const string &name, vector<structureContributors> &structur
     }
 }
 
-// dodaje czlonka
+/// dodaje czlonka
 void addContributor(vector<structureContributors> &structure, vector<taskStructure> &taskStruc) {
     structureContributors strukt;
     if (structure.empty()) {
@@ -109,7 +110,7 @@ void addContributor(vector<structureContributors> &structure, vector<taskStructu
     structure.push_back(strukt);
 }
 
-// wyswietla liste czlonkow i prosi o wybranie jednego z nich
+/// wyswietla liste czlonkow i prosi o wybranie jednego z nich
 int contributorList(const vector<structureContributors> &structure) {
     int ID = 0;
     if (structure.size() == 1) {
@@ -124,7 +125,7 @@ int contributorList(const vector<structureContributors> &structure) {
     return ID;
 }
 
-// usuwa czlonka
+/// usuwa czlonka
 void removeContributor(vector<structureContributors> &structure, vector<taskStructure> &taskStruc) {
     const int ID = contributorList(structure);
     for (auto i = structure.begin() + ID; i != structure.end(); ++i) {
@@ -150,7 +151,7 @@ void removeContributor(vector<structureContributors> &structure, vector<taskStru
     }
 }
 
-// wypisuje dane o czlonku
+/// wypisuje dane o czlonku
 void reportContributor(const vector<structureContributors> &structure, const vector<taskStructure> &taskStruc) {
     const int ID = contributorList(structure);
     const structureContributors i = structure[ID];
@@ -170,7 +171,7 @@ void reportContributor(const vector<structureContributors> &structure, const vec
     }
 }
 
-// edytuje czlonka
+/// edytuje czlonka
 void editContributor(vector<structureContributors> &structure, vector<taskStructure> &taskStruc) {
     const int ID = contributorList(structure);
     cout << "Co chcesz zmienic?\nDostepne opcje:" << endl;
@@ -205,7 +206,7 @@ void editContributor(vector<structureContributors> &structure, vector<taskStruct
     }
 }
 
-// wyswietla obciazenie wybranego czlonka
+/// wyswietla obciazenie wybranego czlonka
 void contributorLoad(const vector<structureContributors> &structureContributors,
                      const vector<taskStructure> &taskStruc) {
     const int ID = contributorList(structureContributors);

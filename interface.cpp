@@ -1,3 +1,4 @@
+/**@file*/
 #include "interface.h"
 #include "tasks.h"
 #include "projects.h"
@@ -7,7 +8,7 @@
 #include <iostream>
 using namespace std;
 
-// interfejs projekty
+/// interfejs projekty
 void projectsInterface(vector<structureProjects> &structureProjects, vector<taskStructure> &taskStructure,
                        vector<structureContributors> structureContributors) {
     // obsluga wyboru uzytkownika
@@ -52,7 +53,7 @@ void projectsInterface(vector<structureProjects> &structureProjects, vector<task
     }
 }
 
-// interfejs zadania
+/// interfejs zadania
 void tasksInterface(vector<taskStructure> &taskStructure, vector<structureContributors> &structureContributors,
                     vector<structureProjects> &structureProjects) {
     while (true) {
@@ -87,7 +88,7 @@ void tasksInterface(vector<taskStructure> &taskStructure, vector<structureContri
     }
 }
 
-// interfejs czlonkowie
+/// interfejs czlonkowie
 void contributorsInterface(vector<structureContributors> &structureContributors,
                            vector<taskStructure> &taskStructure) {
     // obsluga wyboru uzytkownika
@@ -130,7 +131,7 @@ void contributorsInterface(vector<structureContributors> &structureContributors,
     }
 }
 
-// menu glowne
+/// menu glowne
 void mainMenu(vector<structureProjects> &structureProjects,
               vector<taskStructure> &taskStructure,
               vector<structureContributors> &structureContributors,

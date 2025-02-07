@@ -1,3 +1,4 @@
+/**@file*/
 #include "projects.h"
 #include "commonFunctions.h"
 #include "tasks.h"
@@ -7,7 +8,7 @@
 #include <fstream>
 using namespace std;
 
-// odczytuje zapis projektow
+/// odczytuje zapis projektow
 void readProjects(const string &name, vector<structureProjects> &structure) {
     cout << "Projects" << endl;
     ifstream file(name);
@@ -53,7 +54,7 @@ void readProjects(const string &name, vector<structureProjects> &structure) {
     }
 }
 
-// zapisuje dane do pliku
+/// zapisuje dane do pliku
 void saveProjects(const string &name, vector<structureProjects> &structure) {
     ofstream file(name, ios::trunc);
     if (!file.is_open()) {
@@ -79,7 +80,7 @@ void saveProjects(const string &name, vector<structureProjects> &structure) {
     }
 }
 
-// dodaje projekt
+/// dodaje projekt
 void addProject(vector<structureProjects> &structure, vector<taskStructure> &taskStructure) {
     structureProjects strukt;
     int ID;
@@ -121,6 +122,7 @@ void addProject(vector<structureProjects> &structure, vector<taskStructure> &tas
     structure.push_back(strukt);
 }
 
+/// wyswietla obecna liste projektow
 int projectList(const vector<structureProjects> &structure) {
     int ID = 0;
     if (structure.size() == 1) {
@@ -135,7 +137,7 @@ int projectList(const vector<structureProjects> &structure) {
     return ID;
 }
 
-// usuwa projekt
+/// usuwa projekt
 void removeProject(vector<structureProjects> &structure, vector<taskStructure> &taskStructure,
                    vector<structureContributors> &structureContributors) {
     const int ID = projectList(structure);
@@ -158,7 +160,7 @@ void removeProject(vector<structureProjects> &structure, vector<taskStructure> &
     }
 }
 
-// pokazuje dane o projekcie
+/// pokazuje dane o projekcie
 void reportProejct(const vector<structureProjects> &structure, const vector<taskStructure> &taskStruc) {
     const int ID = projectList(structure);
     const structureProjects i = structure[ID];
@@ -208,7 +210,7 @@ void reportProejct(const vector<structureProjects> &structure, const vector<task
     }
 }
 
-// edytuje projekt
+/// edytuje projekt
 void editProject(vector<structureProjects> &structure, vector<taskStructure> &taskStruc) {
     const int ID = projectList(structure);
     int amount;
@@ -274,7 +276,7 @@ void editProject(vector<structureProjects> &structure, vector<taskStructure> &ta
     }
 }
 
-// generuje harmonogram projektow
+/// generuje harmonogram projektow
 void scheme(const vector<structureProjects> &structure) {
     cout << "HARMONOGRAM PROJEKTOW" << endl;
     for (const structureProjects &i: structure) {

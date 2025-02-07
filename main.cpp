@@ -1,3 +1,4 @@
+/**@file*/
 #include "commonFunctions.h"
 #include "interface.h"
 #include "contributors.h"
@@ -7,7 +8,7 @@
 #include <string.h>
 using namespace std;
 
-/*szuka parametru podanego w argumencie*/
+/// szuka parametru podanego w argumencie
 string findFileName(const int &argc, char *argv[], const char *param) {
     for (int i = 1; i < argc; i++) {
         if (strcmp(argv[i], param) == 0) {
@@ -17,6 +18,7 @@ string findFileName(const int &argc, char *argv[], const char *param) {
     return "";
 }
 
+/// glowna funkcja
 int main(const int argc, char *argv[]) {
     // sprawdzanie parametrow
     if (argc == 1) {

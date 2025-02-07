@@ -1,3 +1,4 @@
+/**@file*/
 #include "tasks.h"
 #include "commonFunctions.h"
 #include <string>
@@ -6,7 +7,7 @@
 #include <iostream>
 using namespace std;
 
-// odczytuje dane z pliku czlonkow
+/// odczytuje dane z pliku czlonkow
 void readTasks(const string &name, vector<taskStructure> &structure) {
     cout << "Tasks" << endl;
     ifstream file(name);
@@ -56,7 +57,7 @@ void readTasks(const string &name, vector<taskStructure> &structure) {
     }
 }
 
-// zapisuje strukture czlonkow do odpowiedniego pliku
+/// zapisuje strukture czlonkow do odpowiedniego pliku
 void saveTasks(const string &name, vector<taskStructure> &structure) {
     // ofstream file(name, std::ios::in | std::ios::out | ios::app);
     ofstream file(name, ios::trunc);
@@ -83,7 +84,7 @@ void saveTasks(const string &name, vector<taskStructure> &structure) {
     }
 }
 
-// funkcja od dodawania zadania zwraca ID, gdyz jesli zostanie wywolana przez addProject to od razu ID doda sie do vectora zadan
+/// funkcja od dodawania zadania zwraca ID, gdyz jesli zostanie wywolana przez addProject to od razu ID doda sie do vectora zadan
 int addTask(vector<taskStructure> &structure, vector<structureProjects> &structProjects, int projectID) {
     taskStructure strukt;
     // ustawienie ID zadania
@@ -225,7 +226,7 @@ int addTask(vector<taskStructure> &structure, vector<structureProjects> &structP
     return ID;
 }
 
-// wyswietla liste istniejacych zadan i prosi o wybor jednego z nich
+/// wyswietla liste istniejacych zadan i prosi o wybor jednego z nich
 int taskList(const vector<taskStructure> &structure) {
     int ID = 0;
     if (structure.size() == 1) {
@@ -240,7 +241,7 @@ int taskList(const vector<taskStructure> &structure) {
     return ID;
 }
 
-// funkcja od usuwania zadan
+/// funkcja od usuwania zadan
 void removeTask(int ID, vector<taskStructure> &structure, vector<structureContributors> &structureContributors,
                 vector<structureProjects> &structureProjects, const bool &fromProject) {
     if (ID == -1) {
@@ -281,7 +282,7 @@ void removeTask(int ID, vector<taskStructure> &structure, vector<structureContri
     }
 }
 
-// wypisuje dane o zadaniu
+/// wypisuje dane o zadaniu
 void reportTask(const vector<taskStructure> &structure, const vector<structureProjects> &structureProjects,
                 const vector<structureContributors> &structureContributors) {
     const int ID = taskList(structure);
@@ -346,7 +347,7 @@ void reportTask(const vector<taskStructure> &structure, const vector<structurePr
     }
 }
 
-// edytuje zadanie
+/// edytuje zadanie
 void editTask(vector<taskStructure> &taskStructure) {
     const int ID = taskList(taskStructure);
     const int largestIDinTasks = taskStructure.back().ID;

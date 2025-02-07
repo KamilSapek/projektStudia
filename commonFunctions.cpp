@@ -1,10 +1,11 @@
+/**@file*/
 #include "commonFunctions.h"
 #include "tasks.h"
 #include <iostream>
 #include <vector>
 using namespace std;
 
-// tworzy wektor intow na podstawie podanego tekstu i znaku interpunkcyjnego
+/// tworzy wektor intow na podstawie podanego tekstu i znaku interpunkcyjnego
 vector<int> createVector(string data, const char splitter) {
     if (data.empty()) {
         return vector<int>();
@@ -23,7 +24,7 @@ vector<int> createVector(string data, const char splitter) {
     return vectorToReturn;
 }
 
-// przetwarza wektor na string
+/// przetwarza wektor na string
 string readVector(const vector<int> &vector, const char splitter) {
     if (!vector.empty()) {
         string stringToReturn;
@@ -36,7 +37,7 @@ string readVector(const vector<int> &vector, const char splitter) {
     return "-1";
 }
 
-// prosi uzytkownika o podanie stringa i sprawdza czy nie wystapil blad podczas tego lub czy cokolwiek wpisal
+/// prosi uzytkownika o podanie stringa i sprawdza czy nie wystapil blad podczas tego lub czy cokolwiek wpisal
 string inputString(const string &text, const bool &isRequired) {
     string toReturn;
     while (true) {
@@ -62,7 +63,7 @@ string inputString(const string &text, const bool &isRequired) {
     return toReturn;
 }
 
-// prosi uzytkownika o podanie inta i sprawdza czy nie wystapil blad podczas tego lub czy cokolwiek wpisal
+/// prosi uzytkownika o podanie inta i sprawdza czy nie wystapil blad podczas tego lub czy cokolwiek wpisal
 int inputInt(const string &text, const int &minChoice, const int &maxChoice) {
     string toReturn;
     int ret;
@@ -95,7 +96,7 @@ int inputInt(const string &text, const int &minChoice, const int &maxChoice) {
     return ret;
 }
 
-// sprawdza czy podany string jest data
+/// sprawdza czy podany string jest data
 bool isDate(const string &text) {
     for (const char &c: text) {
         if (!isdigit(c) && c != '.') {
@@ -105,7 +106,7 @@ bool isDate(const string &text) {
     return true;
 }
 
-// odczytuje dane ze stringa i wpisuje je do struktury date ktora zwraca
+/// odczytuje dane ze stringa i wpisuje je do struktury date ktora zwraca
 date createDate(string text, const bool &readingFile) {
     text += ".";
     date dateToReturn = {};
@@ -164,7 +165,7 @@ date createDate(string text, const bool &readingFile) {
     return dateToReturn;
 }
 
-// sprawdza czy date1 jest przed date2
+/// sprawdza czy date1 jest przed date2
 bool isEarlierDate(const date &date1, const date &date2) {
     if (date1.year < date2.year) {
         return true;
@@ -178,7 +179,7 @@ bool isEarlierDate(const date &date1, const date &date2) {
     return false;
 }
 
-// sprawdza czy date1 jest po date2
+/// sprawdza czy date1 jest po date2
 bool isLaterDate(const date &date1, const date &date2) {
     if (date1.year > date2.year) {
         return true;
